@@ -1,7 +1,11 @@
-import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import Link from "next/link";
+import HoverPreviewLink, {
+  type HoverPreviewContent,
+} from "./components/HoverPreviewLink";
 import { getAllProjects } from "./lib/projects";
+import { PROJECT_TAGS } from "./lib/tags";
 import Socials from "./components/Socials";
 
 export const metadata: Metadata = {
@@ -9,7 +13,24 @@ export const metadata: Metadata = {
   description: "Software engineer and builder",
 };
 
+const hyperlinkPreviews: Record<string, HoverPreviewContent> = {
+  "https://github.com/atharva-again/samvaad": {
+    title: "Samvaad",
+    description:
+      "A voice-first learning platform that turns dense documents into conversational study sessions.",
+    image: "/samvaad-hero.png",
+  },
+  "https://web.mitsgwalior.in/": {
+    title: "MITS Gwalior",
+    description:
+      "Madhav Institute of Technology & Science is a NAAC A++ deemed university in Gwalior, MP, India",
+    image: "/mits-hero.png",
+  },
+};
+
 export default function Home() {
+  const projects = getAllProjects();
+
   return (
     <main className="min-h-screen bg-white dark:bg-black">
       <div className="mx-auto max-w-4xl px-6 py-16">
@@ -24,14 +45,13 @@ export default function Home() {
             <br />
             <br />
             At the moment, I am working on{" "}
-            <a
+            <HoverPreviewLink
               href="https://github.com/atharva-again/samvaad"
-              className="underline"
-              target="_blank"
-              rel="noopener noreferrer"
+              className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
+              preview={hyperlinkPreviews["https://github.com/atharva-again/samvaad"]}
             >
               Samvaad
-            </a>
+            </HoverPreviewLink>
             , a voice-first learning platform.
             <br />
             <br />
@@ -72,27 +92,15 @@ export default function Home() {
               </p>
 
               <div className="mt-4 flex flex-wrap gap-3">
-                <span className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
-                  React
-                </span>
-                <span className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
-                  Next.js
-                </span>
-                <span className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
-                  TypeScript
-                </span>
-                <span className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
-                  Python
-                </span>
-                <span className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
-                  GenAI
-                </span>
-                <span className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
-                  ASR
-                </span>
-                <span className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
-                  TTS
-                </span>
+                {PROJECT_TAGS.map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/projects?tags=${encodeURIComponent(tag)}`}
+                    className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer"
+                  >
+                    {tag}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
@@ -120,14 +128,13 @@ export default function Home() {
                 finetune and quantify large ASR and TTS models trained on Indic
                 languages to be used in Samvaad. Apart from this, I am also a
                 third-year student at{" "}
-                <a
+                <HoverPreviewLink
                   href="https://web.mitsgwalior.in/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline"
+                  className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
+                  preview={hyperlinkPreviews["https://web.mitsgwalior.in/"]}
                 >
                   MITS Gwalior
-                </a>{" "}
+                </HoverPreviewLink>{" "}
                 studying AI and Robotics.
               </p>
             </div>
@@ -149,7 +156,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-8">
-            {getAllProjects().map((project) => (
+            {projects.map((project) => (
               <div
                 key={project.id}
                 className="flex flex-col md:flex-row gap-4 items-start"

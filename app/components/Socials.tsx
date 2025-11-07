@@ -1,11 +1,12 @@
 import React from "react";
 import { Github, Linkedin } from "lucide-react";
 import { SiX, SiMedium } from "react-icons/si";
+import HoverPreviewLink, { type HoverPreviewContent } from "./HoverPreviewLink";
 
 type SocialLinks = {
   github?: string;
   linkedin?: string;
-  x?: string; // formerly Twitter
+  x?: string; 
   medium?: string;
 };
 
@@ -15,13 +16,7 @@ type Props = {
   iconSize?: number;
 };
 
-/**
- * Renders a row of social icon links.
- *
- * Notes:
- * - Only renders an icon if the corresponding link is provided.
- * - Uses inline SVG icons (minimal, dependency free).
- */
+
 export default function Socials({
   links = {},
   className = "",
@@ -30,54 +25,73 @@ export default function Socials({
   const commonButtonClasses =
     "inline-flex items-center justify-center rounded-md p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800";
 
+  const socialPreviews: Record<string, HoverPreviewContent> = {
+    "https://github.com/atharva-again": {
+      title: "GitHub",
+      description: "Explore my open-source projects and code contributions.",
+      image: "/github-hero.png",
+    },
+    "https://www.linkedin.com/in/atharva-again": {
+      title: "LinkedIn",
+      description: "I don't really like LinkedIn but just putting it out there.",
+      image: "/linkedin-hero.png",
+    },
+    "https://x.com/atharva_again": {
+      title: "X", 
+      description: "For my random thoughts and projects, tech or otherwise.",
+      image: "/x-hero.png",
+    },
+    "https://medium.com/@atharva-again": {
+      title: "Medium",
+      description: "I try to write at least one article per project.",
+      image: "/medium-hero.png",
+    },
+  };
+
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       {links.github ? (
-        <a
+        <HoverPreviewLink
           href={links.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
+          preview={socialPreviews[links.github]}
           className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
+          external
         >
           <Github size={iconSize} aria-hidden="true" />
-        </a>
+        </HoverPreviewLink>
       ) : null}
 
       {links.linkedin ? (
-        <a
+        <HoverPreviewLink
           href={links.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
+          preview={socialPreviews[links.linkedin]}
           className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
+          external
         >
           <Linkedin size={iconSize} aria-hidden="true" />
-        </a>
+        </HoverPreviewLink>
       ) : null}
 
       {links.x ? (
-        <a
+        <HoverPreviewLink
           href={links.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="X"
+          preview={socialPreviews[links.x]}
           className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
+          external
         >
           <SiX size={iconSize} aria-hidden="true" />
-        </a>
+        </HoverPreviewLink>
       ) : null}
 
       {links.medium ? (
-        <a
+        <HoverPreviewLink
           href={links.medium}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Medium"
+          preview={socialPreviews[links.medium]}
           className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
+          external
         >
           <SiMedium size={iconSize} aria-hidden="true" />
-        </a>
+        </HoverPreviewLink>
       ) : null}
     </div>
   );
