@@ -63,18 +63,18 @@ export default function SearchableListClient({
   const router = useRouter();
   const pathname = usePathname();
 
-    // initialize from URL when component mounts or URL changes (if sync requested)
+  // initialize from URL when component mounts (only once)
   useEffect(() => {
-    if (!syncWithQuery) return;
+    if (!syncWithQuery || mounted.current) return;
     const q = searchParams.get("q") ?? "";
     const tagsParam = searchParams.get("tags") ?? "";
     const tags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
     setQuery(q);
     setDebouncedQuery(q);
     setActiveTags(tags);
-    // mark mounted so later URL updates don't re-initialize
+    // mark mounted so we don't re-initialize
     mounted.current = true;
-  }, [searchParams, syncWithQuery]);
+  }, [syncWithQuery]); // Only depend on syncWithQuery, not searchParams
 
   // debounce the query for filtering
   useEffect(() => {
@@ -85,16 +85,19 @@ export default function SearchableListClient({
   // update URL when debouncedQuery or activeTags changes (if syncWithQuery)
   useEffect(() => {
     if (!syncWithQuery || !mounted.current) return;
-    // don't replace URL on first render if it already matches (mounted guard)
-    // we still update so deep-linked params are maintained
+
     const params = new URLSearchParams();
     if (debouncedQuery) params.set("q", debouncedQuery);
     if (activeTags.length > 0) params.set("tags", activeTags.join(","));
     const str = params.toString();
-    const url = str ? `${pathname}?${str}` : pathname;
-    // Use Next.js router to update URL without triggering navigation
-    router.replace(url, { scroll: false });
-  }, [debouncedQuery, activeTags, syncWithQuery, router, pathname]);
+    const newUrl = str ? `${pathname}?${str}` : pathname;
+
+    // Only update URL if it actually changed
+    const currentUrl = window.location.pathname + window.location.search;
+    if (currentUrl !== newUrl) {
+      router.replace(newUrl, { scroll: false });
+    }
+  }, [debouncedQuery, activeTags, syncWithQuery]);
 
   // compute tag counts and ordered tag list
   const { tagCounts, uniqueTags } = useMemo(() => {
@@ -134,7 +137,11 @@ export default function SearchableListClient({
     setDebouncedQuery("");
     setActiveTags([]);
     if (syncWithQuery) {
-      router.replace(pathname, { scroll: false });
+      const newUrl = pathname;
+      const currentUrl = window.location.pathname + window.location.search;
+      if (currentUrl !== newUrl) {
+        router.replace(newUrl, { scroll: false });
+      }
     }
   };
 

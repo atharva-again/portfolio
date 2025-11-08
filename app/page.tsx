@@ -7,6 +7,7 @@ import HoverPreviewLink, {
 import { getAllProjects } from "./lib/projects";
 import { PROJECT_TAGS } from "./lib/tags";
 import Socials from "./components/Socials";
+import { CONTACT } from "./lib/contact";
 
 export const metadata: Metadata = {
   title: "Atharva Verma",
@@ -49,6 +50,7 @@ export default function Home() {
               href="https://github.com/atharva-again/samvaad"
               className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
               preview={hyperlinkPreviews["https://github.com/atharva-again/samvaad"]}
+              placement={["side-right", "below"]}
             >
               Samvaad
             </HoverPreviewLink>
@@ -63,16 +65,7 @@ export default function Home() {
           </p>
 
           <div className="mt-6">
-            <Socials
-              links={{
-                github: "https://github.com/atharva-again",
-                linkedin: "https://www.linkedin.com/in/atharva-again",
-                x: "https://x.com/atharva_again",
-                medium: "https://medium.com/@atharva-again",
-              }}
-              className="mt-2"
-              iconSize={18}
-            />
+            <Socials links={CONTACT} className="mt-2" iconSize={18} />
           </div>
         </section>
 
@@ -132,6 +125,7 @@ export default function Home() {
                   href="https://web.mitsgwalior.in/"
                   className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
                   preview={hyperlinkPreviews["https://web.mitsgwalior.in/"]}
+                  placement={["above", "below"]}
                 >
                   MITS Gwalior
                 </HoverPreviewLink>{" "}

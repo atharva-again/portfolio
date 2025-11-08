@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { TbClipboard, TbClipboardCheck } from "react-icons/tb";
 
 const PAGE_LOAD_TIME = Date.now();
 
@@ -14,12 +15,16 @@ type HoverPreviewContent = {
   image?: string;
 };
 
+type PlacementOption = "above" | "below" | "side-left" | "side-right";
+
 type HoverPreviewLinkProps = {
   href: string;
   children: ReactNode;
   preview: HoverPreviewContent;
   className?: string;
   external?: boolean;
+  placement?: [PlacementOption] | [PlacementOption, PlacementOption];
+  forcePlacement?: boolean;
 };
 
 type Point = { x: number; y: number };
@@ -38,6 +43,8 @@ const HoverPreviewLink = ({
   preview,
   className,
   external,
+  placement = ["above", "below"],
+  forcePlacement = false,
 }: HoverPreviewLinkProps) => {
   const containerRef = useRef<HTMLSpanElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -47,6 +54,7 @@ const HoverPreviewLink = ({
   const [canHover, setCanHover] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [previewPosition, setPreviewPosition] = useState<Point>({ x: 0, y: 0 });
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -89,6 +97,12 @@ const HoverPreviewLink = ({
     if (!canHover) return;
     clearDeactivationTimeout();
     rectRef.current = containerRef.current?.getBoundingClientRect() ?? null;
+    // compute preview position once, anchored to the element (not the cursor)
+    if (rectRef.current) {
+      const anchorX = rectRef.current.left + rectRef.current.width / 2;
+      const anchorY = rectRef.current.top + rectRef.current.height / 2;
+      computeAndSetPosition(anchorX, anchorY);
+    }
     setIsActive(true);
   };
 
@@ -102,39 +116,67 @@ const HoverPreviewLink = ({
 
   const handlePointerMove = (event: ReactPointerEvent<HTMLSpanElement>) => {
     if (!canHover) return;
+    // Don't reposition on pointer move; position is computed once on enter and anchored to the element.
+    // Still update cached rect for potential layout changes.
+    const rect = containerRef.current?.getBoundingClientRect() ?? null;
+    if (rect) rectRef.current = rect;
+  };
 
-    if (rafRef.current !== null) {
-      cancelAnimationFrame(rafRef.current);
+  // Compute preview position based on an anchor point (usually element center) and set it.
+  const computeAndSetPosition = (anchorX: number, anchorY: number) => {
+    const offset = 30;
+    const verticalGap = 100;
+    const horizontalGap = 50;
+    const margin = 16;
+    const screenWidth = typeof window !== "undefined" ? window.innerWidth : 0;
+    const screenHeight = typeof window !== "undefined" ? window.innerHeight : 0;
+
+    const fitsInViewport = (x: number, y: number): boolean => {
+      return (
+        x >= margin &&
+        y >= margin &&
+        x + PREVIEW_BOUNDS.width <= screenWidth - margin &&
+        y + PREVIEW_BOUNDS.height <= screenHeight - margin
+      );
+    };
+
+    const calculatePosition = (placementType: PlacementOption): Point => {
+      switch (placementType) {
+        case "above":
+          return { x: anchorX - PREVIEW_BOUNDS.width / 2, y: anchorY - PREVIEW_BOUNDS.height - verticalGap };
+        case "below":
+          return { x: anchorX - PREVIEW_BOUNDS.width / 2, y: anchorY + offset };
+        case "side-left":
+          return { x: anchorX - PREVIEW_BOUNDS.width - horizontalGap, y: anchorY - PREVIEW_BOUNDS.height / 2 };
+        case "side-right":
+          return { x: anchorX + horizontalGap, y: anchorY - PREVIEW_BOUNDS.height / 2 };
+      }
+    };
+
+    // If forcePlacement is set, place using the first preference exactly (no viewport fit check).
+    if (forcePlacement) {
+      const pos = calculatePosition(placement[0]);
+      setPreviewPosition({ x: pos.x, y: pos.y });
+      return;
     }
 
-    const { clientX, clientY } = event;
-
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef.current = null;
-      const rect = rectRef.current ?? containerRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      rectRef.current = rect;
-
-      if (typeof window === "undefined") {
-        return;
+    let bestPosition: Point | null = null;
+    for (const placementOption of placement) {
+      const pos = calculatePosition(placementOption);
+      if (fitsInViewport(pos.x, pos.y)) {
+        bestPosition = pos;
+        break;
       }
+    }
 
-      const offset = 24;
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-      let nextX = clientX + offset;
-      let nextY = clientY + offset;
+    if (!bestPosition) {
+      bestPosition = calculatePosition(placement[0]);
+    }
 
-      if (nextX + PREVIEW_BOUNDS.width > screenWidth - 16) {
-        nextX = clientX - PREVIEW_BOUNDS.width - offset;
-      }
+    const nextX = Math.max(margin, Math.min(bestPosition.x, screenWidth - PREVIEW_BOUNDS.width - margin));
+    const nextY = Math.max(margin, Math.min(bestPosition.y, screenHeight - PREVIEW_BOUNDS.height - margin));
 
-      if (nextY + PREVIEW_BOUNDS.height > screenHeight - 16) {
-        nextY = clientY - PREVIEW_BOUNDS.height - offset;
-      }
-
-      setPreviewPosition({ x: Math.max(16, nextX), y: Math.max(16, nextY) });
-    });
+    setPreviewPosition({ x: nextX, y: nextY });
   };
 
   const handlePreviewEnter = () => {
@@ -164,7 +206,32 @@ const HoverPreviewLink = ({
   );
 
   const previewImage = preview.image ?? DEFAULT_IMAGE;
+  // Next.js throws when a local image path contains an unconfigured query string.
+  // Avoid appending a cache-busting query param for local paths (starting with '/').
+  const imageSrc = previewImage.startsWith("/")
+    ? previewImage
+    : `${previewImage}?t=${PAGE_LOAD_TIME}`;
 
+  const isMailto = href.startsWith("mailto:");
+  const mailAddress = isMailto ? href.replace(/^mailto:/, "") : null;
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    // prevent clicking the preview anchor from navigating
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!mailAddress || typeof navigator === "undefined" || !navigator.clipboard) return;
+
+    navigator.clipboard
+      .writeText(mailAddress)
+      .then(() => {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1400);
+      })
+      .catch(() => {
+        // ignore failures silently
+      });
+  };
   const anchor = isExternal ? (
     <a
       href={href}
@@ -206,22 +273,39 @@ const HoverPreviewLink = ({
             onPointerEnter={handlePreviewEnter}
             onPointerLeave={handlePreviewLeave}
           >
-            <div className="relative aspect-[3/2] w-full overflow-hidden">
-              <Image
-                src={`${previewImage}?t=${PAGE_LOAD_TIME}`}
-                alt={preview.title}
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 240px, 80vw"
-              />
-            </div>
-            <div className="space-y-1.5 p-4">
-              <div className="text-sm font-semibold leading-tight text-zinc-900 dark:text-zinc-100">
-                {preview.title}
+            {!isMailto ? (
+              <div className="relative aspect-[3/2] w-full overflow-hidden">
+                <Image
+                  src={imageSrc}
+                  alt={preview.title}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 240px, 80vw"
+                />
               </div>
+            ) : null}
+            <div className="space-y-1.5 p-4">
               <div className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
                 {preview.description}
               </div>
+
+              {isMailto && mailAddress ? (
+                <div className="mt-2 text-xs text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
+                  <span className="break-all">{mailAddress}</span>
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    aria-label={`Copy email ${mailAddress}`}
+                    className="inline-flex items-center justify-center p-1 rounded text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                  >
+                    {copied ? (
+                      <TbClipboardCheck size={14} aria-hidden="true" />
+                    ) : (
+                      <TbClipboard size={14} aria-hidden="true" />
+                    )}
+                  </button>
+                </div>
+              ) : null}
             </div>
           </a>
         ) : (
@@ -235,22 +319,40 @@ const HoverPreviewLink = ({
             onPointerEnter={handlePreviewEnter}
             onPointerLeave={handlePreviewLeave}
           >
-            <div className="relative aspect-[3/2] w-full overflow-hidden">
-              <Image
-                src={`${previewImage}?t=${PAGE_LOAD_TIME}`}
-                alt={preview.title}
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 240px, 80vw"
-              />
-            </div>
-            <div className="space-y-1.5 p-4">
-              <div className="text-sm font-semibold leading-tight text-zinc-900 dark:text-zinc-100">
-                {preview.title}
+            {!isMailto ? (
+              <div className="relative aspect-[3/2] w-full overflow-hidden">
+                <Image
+                  src={imageSrc}
+                  alt={preview.title}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 240px, 80vw"
+                />
               </div>
+            ) : null}
+            <div className="space-y-1.5 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-sm font-semibold leading-tight text-zinc-900 dark:text-zinc-100">
+                  {preview.title}
+                </div>
+                {isMailto && mailAddress ? (
+                  <button
+                    onClick={handleCopyEmail}
+                    aria-label={`Copy email ${mailAddress}`}
+                    className="text-xs px-2 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                  >
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                ) : null}
+              </div>
+
               <div className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
                 {preview.description}
               </div>
+
+              {isMailto && mailAddress ? (
+                <div className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">{mailAddress}</div>
+              ) : null}
             </div>
           </Link>
         ),

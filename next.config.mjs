@@ -1,17 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Use 'use: "swc"' is now the default for Next.js 14 and often omitted.
   images: {
-    localPatterns: [
-      {
-        pathname: '/**',
-      },
-      {
-        pathname: '/**',
-        search: '?t=*',
-      },
-    ],
+    // Only configure domains if you are loading images from external websites
     remotePatterns: [
-      // Add allowed remote image sources here if needed
+      // Example: If you load images from example.com
+      // {
+      //   protocol: 'https',
+      //   hostname: 'example.com',
+      // },
     ],
   },
 };

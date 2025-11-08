@@ -1,6 +1,5 @@
 import React from "react";
-import { Github, Linkedin } from "lucide-react";
-import { SiX, SiMedium } from "react-icons/si";
+import { SiGithub, SiLinkedin, SiX, SiMedium, SiGmail } from "react-icons/si";
 import HoverPreviewLink, { type HoverPreviewContent } from "./HoverPreviewLink";
 
 type SocialLinks = {
@@ -8,12 +7,14 @@ type SocialLinks = {
   linkedin?: string;
   x?: string; 
   medium?: string;
+  email?: string;
 };
 
 type Props = {
   links?: SocialLinks;
   className?: string;
   iconSize?: number;
+  forceEmailPlacement?: boolean;
 };
 
 
@@ -21,6 +22,7 @@ export default function Socials({
   links = {},
   className = "",
   iconSize = 18,
+  forceEmailPlacement = false,
 }: Props) {
   const commonButtonClasses =
     "inline-flex items-center justify-center rounded-md p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800";
@@ -46,19 +48,24 @@ export default function Socials({
       description: "I try to write at least one article per project.",
       image: "/medium-hero.png",
     },
+    "mailto:atharva.verma18@gmail.com": {
+      title: "Email",
+      description: "I keep my inboxes clean (not kidding).",
+    },
   };
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       {links.github ? (
-        <HoverPreviewLink
-          href={links.github}
-          preview={socialPreviews[links.github]}
-          className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
-          external
-        >
-          <Github size={iconSize} aria-hidden="true" />
-        </HoverPreviewLink>
+          <HoverPreviewLink
+            href={links.github}
+            preview={socialPreviews[links.github]}
+            className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
+            external
+            placement={["above", "below"]}
+          >
+            <SiGithub size={iconSize} aria-hidden="true" />
+          </HoverPreviewLink>
       ) : null}
 
       {links.linkedin ? (
@@ -67,8 +74,9 @@ export default function Socials({
           preview={socialPreviews[links.linkedin]}
           className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
           external
+          placement={["above", "below"]}
         >
-          <Linkedin size={iconSize} aria-hidden="true" />
+          <SiLinkedin size={iconSize} aria-hidden="true" />
         </HoverPreviewLink>
       ) : null}
 
@@ -78,6 +86,7 @@ export default function Socials({
           preview={socialPreviews[links.x]}
           className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
           external
+          placement={["above", "below"]}
         >
           <SiX size={iconSize} aria-hidden="true" />
         </HoverPreviewLink>
@@ -89,10 +98,24 @@ export default function Socials({
           preview={socialPreviews[links.medium]}
           className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
           external
+          placement={["above", "below"]}
         >
           <SiMedium size={iconSize} aria-hidden="true" />
         </HoverPreviewLink>
       ) : null}
+      {links.email ? (
+        <HoverPreviewLink
+          href={`mailto:${links.email}`}
+          preview={socialPreviews[`mailto:${links.email}`]}
+          className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
+          external
+          placement={["below"]}
+          forcePlacement={forceEmailPlacement}
+        >
+          <SiGmail size={iconSize} aria-hidden="true" />
+        </HoverPreviewLink>
+      ) : null}
+
     </div>
   );
 }
