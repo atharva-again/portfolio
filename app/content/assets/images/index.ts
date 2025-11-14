@@ -21,3 +21,5 @@ export { default as q2 } from './q-2.png';
 export { default as q3 } from './q-3.png';
 
 export { default as portfolioHero } from './portfolio-hero.png';
+
+export { default as pinkSneaker} from './pink-sneaker.png'

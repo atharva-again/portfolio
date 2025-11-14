@@ -164,7 +164,8 @@ const MobilePanel = ({ project }: { project: Project }) => {
                 transform: "translateY(0)",
               }
             : {
-                transform: "translateY(120%) scale(0.95)",
+                // animate from the top instead of from bottom; final position unchanged
+                transform: "translateY(-120%) scale(0.95)",
                 opacity: 0,
                 pointerEvents: "none",
               }
@@ -180,7 +181,7 @@ const MobilePanel = ({ project }: { project: Project }) => {
         aria-label={isOpen ? "Hide project info" : "Show project info"}
         aria-expanded={isOpen}
         className={cx(
-          "fixed top-1/5 -translate-y-1/2 right-4 z-50 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-lg outline-none ring-2 ring-zinc-700 transition-all duration-300",
+          "fixed top-1/3 -translate-y-1/2 right-4 z-50 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-lg outline-none ring-2 ring-zinc-700 transition-all duration-300",
           isFloating ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
       >

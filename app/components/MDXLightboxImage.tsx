@@ -2,29 +2,34 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import type { StaticImageData } from "next/image";
 import { useLightbox } from "./LightboxProvider";
 
-interface ProjectHeroImageProps {
-  src: string | StaticImageData;
-  alt: string;
+interface MDXLightboxImageProps {
+  src: string | any;
+  alt?: string;
+  className?: string;
+  [key: string]: any;
 }
 
-export default function ProjectHeroImage({ src, alt }: ProjectHeroImageProps) {
+export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { openLightboxAtId, registerImage, unregisterImage } = useLightbox();
   const idRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const id = registerImage({ src, alt });
+    // register on mount
+    const id = registerImage({ src, alt: alt || "" });
     idRef.current = id;
     return () => {
+      // unregister on unmount
       if (idRef.current !== null) unregisterImage(idRef.current);
     };
   }, [src, alt, registerImage, unregisterImage]);
 
   const handleClick = () => {
-    if (idRef.current !== null) openLightboxAtId(idRef.current);
+    if (idRef.current !== null) {
+      openLightboxAtId(idRef.current);
+    }
   };
 
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -36,25 +41,20 @@ export default function ProjectHeroImage({ src, alt }: ProjectHeroImageProps) {
   };
 
   return (
-    <div
-      className="mb-12 relative group"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-    >
+    <div className="relative w-full my-6 group" onMouseMove={handleMouseMove} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
       {isLoading && (
-        <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" style={{ height: '500px' }} />
+        <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse aspect-video" />
       )}
       <Image
         src={src}
-        alt={alt}
+        alt={alt || ""}
         width={800}
-        height={500}
-        className="w-full h-auto rounded-lg object-cover cursor-pointer hover:opacity-90 transition-opacity"
-        priority
+        height={450}
+        className={`w-full h-auto rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity ${className || ""}`}
         quality={100}
         onLoad={() => setIsLoading(false)}
         onClick={handleClick}
+        {...props}
       />
       {/* Cursor-following tooltip for pointer devices (hidden on small/touch) */}
       <div

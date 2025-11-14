@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import BackToTop from "./components/BackToTop";
 import Footer from "./components/Footer";
+import { LightboxProvider } from "./components/LightboxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        {children}
-        <Footer />
-        <BackToTop />
+        <LightboxProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <BackToTop />
+        </LightboxProvider>
       </body>
     </html>
   );

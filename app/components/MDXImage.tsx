@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useLightbox } from "./LightboxProvider";
 
 interface MDXImageProps {
   src?: string;
@@ -15,19 +16,28 @@ const merge = (...values: Array<string | undefined>) =>
 
 export function MDXImage({ src, alt, className, ...props }: MDXImageProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const { openLightbox } = useLightbox();
+
+  const handleClick = () => {
+    if (src) {
+      openLightbox([{ src, alt: alt || "" }]);
+    }
+  };
 
   return (
-    <div className="relative w-full h-64 md:h-96 my-6">
+    <div className="relative w-full my-6">
       {isLoading && (
-        <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" />
+        <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse aspect-video" />
       )}
       <Image
         src={src || ""}
         alt={alt || ""}
-        fill
-        className={merge("object-cover rounded-lg shadow-md", className)}
+        width={800}
+        height={450}
+        className={merge("w-full h-auto rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity", className)}
         quality={100}
         onLoad={() => setIsLoading(false)}
+        onClick={handleClick}
         {...props}
       />
     </div>

@@ -49,7 +49,7 @@ export default function Home() {
             At the moment, I am working on{" "}
             <HoverPreviewLink
               href="https://github.com/atharva-again/samvaad"
-              className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
+              className="underline decoration-pink-500 decoration-2 underline-offset-4 transition-colors hover:text-pink-600 dark:hover:text-pink-300"
               preview={hyperlinkPreviews["https://github.com/atharva-again/samvaad"]}
               placement={["side-right", "below"]}
             >
@@ -124,7 +124,7 @@ export default function Home() {
                 third-year student at{" "}
                 <HoverPreviewLink
                   href="https://web.mitsgwalior.in/"
-                  className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
+                  className="underline decoration-pink-500 decoration-2 underline-offset-4 transition-colors hover:text-pink-600 dark:hover:text-pink-300"
                   preview={hyperlinkPreviews["https://web.mitsgwalior.in/"]}
                   placement={["above", "below"]}
                 >

@@ -16,9 +16,11 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
     setLoadedImages(prev => new Set(prev).add(projectId));
   };
 
+  const featuredProjects = projects.filter(p => p.featured);
+
   return (
     <div className="space-y-8">
-      {projects.filter(p => p.featured).map((project) => {
+      {featuredProjects.map((project) => {
         const isLoaded = loadedImages.has(project.id);
         
         return (
