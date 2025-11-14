@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Socials from "./Socials";
 import { CONTACT } from "../lib/contact";
+import { ATHARVA_ASCII_ART } from "../lib/ascii";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -69,10 +70,13 @@ export default function Footer() {
         </div>
       </div>
       {/* Huge decorative name at the bottom of the footer */}
-      <div className="mt-8 flex justify-center">
-        <div className="pointer-events-none select-none text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[11rem] font-extrabold leading-none text-zinc-900 dark:text-white opacity-6">
-          atharva
-        </div>
+      <div className="mt-8 flex justify-center overflow-hidden px-6">
+        <pre
+          aria-hidden="true"
+          className="pointer-events-none select-none whitespace-pre font-mono text-[0.4rem] leading-none text-zinc-900 dark:text-white opacity-40 sm:text-[0.6rem] md:text-sm lg:text-base"
+        >
+          {ATHARVA_ASCII_ART}
+        </pre>
       </div>
     </footer>
   );

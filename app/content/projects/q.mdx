@@ -1,0 +1,79 @@
+import Image from 'next/image';
+import {q1, q2, q3} from '../assets/images';
+
+# Why q?
+
+Since I shifted to linux, I have been using and enjoying the
+terminal more. I disliked opening ChatGPT or Gemini for quick queries.
+
+Sometimes, I was in the middle of coding or writing something, 
+and had a quick query. Opening a browser, going to the site,
+waiting for it to load, typing the query, and then getting the answer
+took too much time and broke the flow. 
+
+Therefore, I built q. A simple, minimalistic, and fast
+terminal tool that allows you to query LLMs from the terminal itself.
+
+# What's Unique About This?
+
+**It works on Linux, MacOS, and Windows out of the box.**
+
+However, I am sure this is not a novel idea, or a task too hard to complete.
+To be honest, I didn't even search if something like this existed.
+
+I just wanted to learn something new and this seemed like the perfect 
+problem for me to take.
+
+# Architecture (why I made the choices i made)
+
+I wanted to make this project not just for myself, but for others who might 
+have the same problem as me. Now, for others to adapt it, I had to make sure
+that the friction was as low as possible.
+
+The best way was to make it a single binary that can be downloaded and run 
+without downloading dependencies, setting up environments, etc.
+
+Therefore, I chose Go for this project. It **compiles to a single binary**,
+has good support for HTTP requests, and has libraries for almost everything like
+spinners, terminal UIs, etc.
+
+# Problems Faced
+
+For the most part, it was smooth sailing. However, I did face some challenges:
+
+- Learning Go, GoReleaser, Bash, and Powershell from scratch.
+- Syntax and logical errors in the installation scripts.
+- Improving latency and making some opinionated features.
+
+# Learnings
+
+Initially, this project started as a simple Bash script.
+But, I quickly realised that Bash couldn't handle rendering spinners,
+markdowns, etc.
+
+Therefore, I decided to learn Go and build the project in it. Alongside,
+I also learned **Bash and Powershell, GoReleaser**, and how to automate 
+releases on GitHub.
+
+# Future Vision
+
+## Immediate Plans
+
+- Add support for more providers and models.
+- Add support for streaming responses.
+
+
+## Long-term Plans
+
+- Add support for interactive querying (going back and forth on the same topic).
+- Add support for conversation history.
+
+# Some Screenshots
+
+---
+
+<Image src={q1} alt="A screenshot of q help section." />
+---
+<Image src={q2} alt="A screenshot of q query." />
+---
+<Image src={q3} alt="A screenshot showing a q query." />

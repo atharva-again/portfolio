@@ -52,7 +52,7 @@ export default function ProjectsContent({ projects }: ProjectsContentProps) {
             getTags: (p) => (p.tags ?? []).filter(tag => PROJECT_TAGS.some(t => t.toLowerCase() === tag.toLowerCase())),
             getImage: (p) => p.heroImage,
           }}
-          placeholder="Search projects or tags..."
+          placeholder="Search projects..."
           syncWithQuery
         />
       </section>

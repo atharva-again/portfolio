@@ -1,6 +1,7 @@
 import React from "react";
 import { SiGithub, SiLinkedin, SiX, SiMedium, SiGmail } from "react-icons/si";
 import HoverPreviewLink, { type HoverPreviewContent } from "./HoverPreviewLink";
+import { githubHero, linkedinHero, xHero, mediumHero } from "../content/assets/images";
 
 type SocialLinks = {
   github?: string;
@@ -31,22 +32,22 @@ export default function Socials({
     "https://github.com/atharva-again": {
       title: "GitHub",
       description: "Explore my open-source projects and code contributions.",
-      image: "/github-hero.png",
+      image: githubHero,
     },
     "https://www.linkedin.com/in/atharva-again": {
       title: "LinkedIn",
       description: "I don't really like LinkedIn but just putting it out there.",
-      image: "/linkedin-hero.png",
+      image: linkedinHero,
     },
     "https://x.com/atharva_again": {
       title: "X", 
       description: "For my random thoughts and projects, tech or otherwise.",
-      image: "/x-hero.png",
+      image: xHero,
     },
     "https://medium.com/@atharva-again": {
       title: "Medium",
       description: "I try to write at least one article per project.",
-      image: "/medium-hero.png",
+      image: mediumHero,
     },
     "mailto:atharva.verma18@gmail.com": {
       title: "Email",

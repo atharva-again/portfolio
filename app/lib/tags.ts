@@ -6,6 +6,19 @@ export const PROJECT_TAGS = [
   "GenAI",
   "ASR",
   "TTS",
+  "NLP",
+  "React",
+  "Next.js",
+  "JS/TS",
+  "Go",
+  "Bash",
+  "Powershell",
+] as const;
+
+export const FEATURED_PROJECT_TAGS = [
+  "Python",
+  "NLP",
+  "GenAI",
   "React",
   "Next.js",
   "JS/TS",

@@ -9,12 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.0.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/mdx": "^2.0.13",
     "fuse.js": "^7.1.0",
     "lucide-react": "^0.552.0",
     "next": "16.0.1",
+    "next-mdx-remote": "^5.0.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

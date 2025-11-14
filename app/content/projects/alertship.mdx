@@ -1,0 +1,72 @@
+import Image from 'next/image';
+import {alertship1, alertship2, alertship3, alertship4} from '../assets/images';
+
+# Problem Statement
+
+Electricity and water outages in local neighborhoods often leave residents 
+uninformed about the situation and recovery efforts. There is a need for a 
+reliable system that allows people to check real-time outages and get timely alerts 
+and updates from local authorities.
+
+Moreover, a super app is needed for communities and neighborhoods
+to check information like AQI, real-time outage information and alerts
+for upcoming ones, and other community-related notifications.
+
+# Solution
+
+I initially tought of AlertShip as a crowdsourced platform (like Where Is My
+Train) where users could report the outages they are facing and check for
+outage reports submitted by others. I made a web app to demonstrate this idea.
+
+Later, I realized that it is only a matter of time before local authorities
+start sending outage alerts and updates to residents in affected areas. So, I 
+pivoted the idea to making AlertShip into a super app with all community-related
+information at one place.
+
+I even interagted CPCB's air quality data API to show real-time AQI information
+for the user's location, but later scrapped it due to time constraints.
+
+# Features
+
+- Auth using Google or Email/Password
+- Check real-time electricity and water outage information for your area 
+    in a map or list view
+- Save your frequent addresses like Home, Office, Study for quick access
+    from the user dashboard
+- Get notified of upcoming scheduled outages in your area
+- Report outages faced by you to help others in your community
+- View outage reports submitted by other users in your area
+
+# Architecture
+
+The architecture is pretty simple.
+
+- Frontend: React.js for building the user interface.
+- Backend: Firebase for real-time database and authentication.
+- Hosting: Vercel Hosting for deploying the web app.
+- Next.js for server-side rendering and routing.
+- Google Maps API for accurate user location detection.
+- Nominatim API for reverse geocoding to get human-readable addresses.
+
+# Learnings
+
+This was my first rode into web dev. I made desings in Figma to imagine how
+the web app would look. Worked with React, Next.js, and Firebase first time 
+to make AlertShip a reality.
+
+# Future Vision
+
+Though this project is archived now, I would love to get back to it in future
+and build it into a full-fledged super app for communities and neighborhoods.
+
+# Some Screenshots
+
+---
+
+<Image src={alertship1} alt="An image showing a screenshot of welcome to samvaad screen from the Samvaad CLI." />
+---
+<Image src={alertship2} alt="An image showing a screenshot of Samvaad CLI in use." />
+---
+<Image src={alertship3} alt="An image showing a screenshot of Samvaad CLI with a voice conversation." />
+---
+<Image src={alertship4} alt="An image showing a screenshot of Samvaad CLI with a voice conversation." />

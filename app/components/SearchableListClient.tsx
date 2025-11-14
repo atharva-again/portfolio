@@ -58,6 +58,7 @@ export default function SearchableListClient({
   const [query, setQuery] = useState<string>("");
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [loadedImages, setLoadedImages] = useState<Map<string, boolean>>(new Map());
   const mounted = useRef(false);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -224,7 +225,9 @@ export default function SearchableListClient({
         {filtered.length === 0 ? (
           <div className="text-zinc-600 dark:text-zinc-400">No results.</div>
         ) : (
-          filtered.map((it) => (
+          filtered.map((it) => {
+            const isLoaded = loadedImages.get(it.id) ?? false;
+            return (
             <article key={it.id} className="group">
               {it.href ? (
                 <Link href={it.href} className="block">
@@ -336,9 +339,11 @@ export default function SearchableListClient({
                 </div>
               )}
             </article>
-          ))
-        )}
-      </div>
+          );
+        })
+      )
+    }
+    </div>
     </section>
   );
 }

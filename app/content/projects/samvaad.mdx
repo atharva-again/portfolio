@@ -1,0 +1,94 @@
+import Image from 'next/image';
+import {samvaad1, samvaad2, samvaad3} from '../assets/images';
+
+# Problem Statement
+
+We have all been in situations where even after reading and uploading docs 
+to LLMs and querying, some topics just don't click. In that position, we 
+often switch to asking friends, colleagues, or peers, who can explain things
+via voice-dialogues, and in our own native language.
+
+However, not everyone has access to such a support system at all times, 
+and traditional search doesn't fill the gap.
+
+# Solution
+
+To address this problem, I built Samvaad, a (primarily) voice-based conversational AI
+system that ingests documents (PDFs, Docs, etc.) and allows users to have dialogues
+with them, in their native tongue.
+
+# What's Unique About This?
+
+You might think, what's special about this? Just get API keys that handle
+chunking, embedding, storage, ASR, TTS, and generation for you, and 
+everything is set.
+
+But that's not the case here. I have deliberately tried to only use OSS lightweight
+models that can be run on even low-end hardware with no GPUs.
+
+# Architecture
+
+1. **Document Parsing and Chunking**: I have used [`Docling`](https://github.com/docling-project/docling) to parse and chunk various
+    document formats.
+2. **Embedding**: For generating chunk and query embeddings, I used the q4 version of
+    [`onnx-community/embeddinggemma-300m-ONNX`](https://huggingface.co/onnx-community/embeddinggemma-300m-ONNX) model.
+3. **Vector Storage**: I used `ChromaDB` to store the chunk embeddings and perform similarity search.
+4. **ASR**: For Automatic Speech Recognition, I used the [`Systran/faster-whisper-small`](https://huggingface.co/Systran/faster-whisper-small) model.
+5. **TTS**: For Text-to-Speech, I used the q8 version of [`Systran/faster-whisper-small`](https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX) model.
+6. **LLM**: For response generation, I used Gemini API.
+7. **Reranking**: Used [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model to 
+    rerank retrieved chunks to improve response accuracy.
+8. **Searching ALgorithm**: Used BM25 in combination with semantic search to 
+    improve retrieval quality.
+
+Note: No LangChain, LlamaIndex, or any such framework is used here. Everything
+is built from scratch to keep it lightweight and efficient.
+
+# Problems Faced
+
+- During very initial development, I was using `BAAI/bge-m3` for embeddings.
+    It took too much time to ingest documents. I then switched to `onnx-community/embeddinggemma-300m-ONNX`,
+    which reduced ingestion time by a third.
+- I have a resource constrained setup, therefore, running models efficiently
+  was a challenge, which I overcame by quantization and using ONNX versions.
+- For any voice interaction, latency is a key factor, and optimizing
+  the pipeline to reduce end-to-end latency was tough. It's still not good enough
+  to be called real-time, and I am working on it.
+- Since my number one objective is to use open-source models, finding
+  the right models that balance performance, accuracy, and latency was a challenge.
+- The LLMs return answer in markdown. Rendering markdown in TTS while ensuring
+  correct pronunciation of code snippets, special characters, etc. was tricky.
+
+# Learnings
+
+Before starting this project, I only knew what RAG stands for.
+
+Since I started Samvaad, I learned:
+
+- How to design and orchestrate a RAG system for specific problems.
+- How to optimize a RAG system for high recall and accuracy. 
+- How to right tests and evals.
+- How to find the right models for different tasks.
+- How to work with ASR and TTS.
+
+# Future Vision
+
+## Immediate Plans
+
+- Build a frontend and deploy it so anyone, anywhere can use it.
+- Optimize the pipeline to reduce latency. 
+- Add support for more Indic languages.
+
+## Long-term Plans
+
+- Build mobile apps for Android and iOS.
+
+# Some Screenshots
+
+---
+
+<Image src={samvaad1} alt="An image showing a screenshot of welcome to samvaad screen from the Samvaad CLI." />
+---
+<Image src={samvaad2} alt="An image showing a screenshot of Samvaad CLI in use." />
+---
+<Image src={samvaad3} alt="An image showing a screenshot of Samvaad CLI with a voice conversation." />

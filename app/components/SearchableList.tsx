@@ -1,5 +1,6 @@
 import React from "react";
 import SearchableListClient from "./SearchableListClient";
+import type { StaticImageData } from "next/image";
 
 /**
  * Server wrapper for the client search component.
@@ -27,7 +28,7 @@ export type Accessors<T> = {
   getHref?: (item: T) => string | undefined;
   getDate?: (item: T) => string | undefined;
   getTags?: (item: T) => string[] | undefined;
-  getImage?: (item: T) => string | undefined;
+  getImage?: (item: T) => string | StaticImageData | undefined;
 };
 
 /* Plain serializable shape passed to the client */
@@ -38,6 +39,7 @@ export type PlainItem = {
   href?: string | null;
   date?: string | null;
   tags: string[];
+  image?: string | StaticImageData | null;
   // allow extra fields if you want, but keep them serializable
   [key: string]: any;
 };

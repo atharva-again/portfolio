@@ -5,9 +5,10 @@ import HoverPreviewLink, {
   type HoverPreviewContent,
 } from "./components/HoverPreviewLink";
 import { getAllProjects } from "./lib/projects";
-import { PROJECT_TAGS } from "./lib/tags";
+import { FEATURED_PROJECT_TAGS } from "./lib/tags";
 import Socials from "./components/Socials";
 import { CONTACT } from "./lib/contact";
+import { samvaadHero, mitsHero, qHero } from "./content/assets/images";
 
 export const metadata: Metadata = {
   title: "Atharva Verma",
@@ -19,13 +20,13 @@ const hyperlinkPreviews: Record<string, HoverPreviewContent> = {
     title: "Samvaad",
     description:
       "A voice-first learning platform that turns dense documents into conversational study sessions.",
-    image: "/samvaad-hero.png",
+    image: samvaadHero,
   },
   "https://web.mitsgwalior.in/": {
     title: "MITS Gwalior",
     description:
       "Madhav Institute of Technology & Science is a NAAC A++ deemed university in Gwalior, MP, India",
-    image: "/mits-hero.png",
+    image: mitsHero,
   },
 };
 
@@ -85,7 +86,7 @@ export default function Home() {
               </p>
 
               <div className="mt-4 flex flex-wrap gap-3">
-                {PROJECT_TAGS.map((tag) => (
+                {FEATURED_PROJECT_TAGS.map((tag) => (
                   <Link
                     key={tag}
                     href={`/projects?tags=${encodeURIComponent(tag)}`}
@@ -150,7 +151,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-8">
-            {projects.map((project) => (
+            {projects.filter(p => p.featured).map((project) => (
               <div
                 key={project.id}
                 className="flex flex-col md:flex-row gap-4 items-start"

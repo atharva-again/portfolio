@@ -1,6 +1,8 @@
+import createMDX from '@next/mdx'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Use 'use: "swc"' is now the default for Next.js 14 and often omitted.
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   images: {
     // Only configure domains if you are loading images from external websites
     remotePatterns: [
@@ -13,4 +15,12 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  extension: /\.(md|mdx)$/,
+  options: {
+    remarkPlugins: ['remark-gfm'],
+    rehypePlugins: [],
+  },
+})
+
+export default withMDX(nextConfig);

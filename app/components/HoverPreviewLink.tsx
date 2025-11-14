@@ -1,18 +1,19 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import type { StaticImageData } from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { TbClipboard, TbClipboardCheck } from "react-icons/tb";
+import Image from "next/image";
+import Link from "next/link";
 
 const PAGE_LOAD_TIME = Date.now();
 
 type HoverPreviewContent = {
   title: string;
   description: string;
-  image?: string;
+  image?: string | StaticImageData;
 };
 
 type PlacementOption = "above" | "below" | "side-left" | "side-right";
@@ -208,9 +209,11 @@ const HoverPreviewLink = ({
   const previewImage = preview.image ?? DEFAULT_IMAGE;
   // Next.js throws when a local image path contains an unconfigured query string.
   // Avoid appending a cache-busting query param for local paths (starting with '/').
-  const imageSrc = previewImage.startsWith("/")
-    ? previewImage
-    : `${previewImage}?t=${PAGE_LOAD_TIME}`;
+  const imageSrc = typeof previewImage === 'string'
+    ? (previewImage.startsWith("/")
+        ? previewImage
+        : `${previewImage}?t=${PAGE_LOAD_TIME}`)
+    : previewImage.src;
 
   const isMailto = href.startsWith("mailto:");
   const mailAddress = isMailto ? href.replace(/^mailto:/, "") : null;
