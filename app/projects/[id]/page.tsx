@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProject, PROJECTS } from "../../lib/projects";
 import { contentMap } from "../../content/projects/content";
 import ProjectInfoPanel from "../../components/ProjectInfoPanel";
+import ProjectHeroImage from "../../components/ProjectHeroImage";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -68,17 +68,10 @@ export default async function ProjectPage({ params }: Props) {
           {/* Main Content */}
           <div className="md:col-span-2">
             {project.heroImage && (
-              <div className="mb-12">
-                <Image
-                  src={project.heroImage}
-                  alt={project.title}
-                  width={800}
-                  height={500}
-                  className="w-full h-auto rounded-lg object-cover"
-                  priority
-                  quality={100}
-                />
-              </div>
+              <ProjectHeroImage
+                src={project.heroImage}
+                alt={project.title}
+              />
             )}
 
             <ProjectInfoPanel project={project} variant="mobile" />

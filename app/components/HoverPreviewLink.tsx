@@ -56,6 +56,7 @@ const HoverPreviewLink = ({
   const [isActive, setIsActive] = useState(false);
   const [previewPosition, setPreviewPosition] = useState<Point>({ x: 0, y: 0 });
   const [copied, setCopied] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -278,12 +279,17 @@ const HoverPreviewLink = ({
           >
             {!isMailto ? (
               <div className="relative aspect-[3/2] w-full overflow-hidden">
+                {!imageLoaded && (
+                  <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
+                )}
                 <Image
                   src={imageSrc}
                   alt={preview.title}
                   fill
                   className="object-cover"
                   sizes="(min-width: 768px) 240px, 80vw"
+                  quality={100}
+                  onLoad={() => setImageLoaded(true)}
                 />
               </div>
             ) : null}
@@ -324,12 +330,17 @@ const HoverPreviewLink = ({
           >
             {!isMailto ? (
               <div className="relative aspect-[3/2] w-full overflow-hidden">
+                {!imageLoaded && (
+                  <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
+                )}
                 <Image
                   src={imageSrc}
                   alt={preview.title}
                   fill
                   className="object-cover"
                   sizes="(min-width: 768px) 240px, 80vw"
+                  quality={100}
+                  onLoad={() => setImageLoaded(true)}
                 />
               </div>
             ) : null}

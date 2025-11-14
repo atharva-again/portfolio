@@ -1,5 +1,5 @@
 import type { MDXComponents } from "mdx/types";
-import Image from "next/image";
+import { MDXImage } from "@/app/components/MDXImage";
 
 const merge = (...values: Array<string | undefined>) =>
   values.filter(Boolean).join(" ");
@@ -117,18 +117,7 @@ const components: MDXComponents = {
       )}
     />
   ),
-  img: ({ src, alt, className, ...props }) => (
-    <div className="relative w-full h-64 md:h-96 my-6">
-      <Image
-        src={src}
-        alt={alt || ""}
-        fill
-        className={merge("object-cover rounded-lg shadow-md", className)}
-        quality={100}
-        {...props}
-      />
-    </div>
-  ),
+  img: (props) => <MDXImage {...props} />,
   video: ({ className, ...props }) => (
     <video
       {...props}

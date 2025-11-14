@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import HoverPreviewLink, {
@@ -9,6 +8,7 @@ import { FEATURED_PROJECT_TAGS } from "./lib/tags";
 import Socials from "./components/Socials";
 import { CONTACT } from "./lib/contact";
 import { samvaadHero, mitsHero, qHero } from "./content/assets/images";
+import FeaturedProjects from "./components/FeaturedProjects";
 
 export const metadata: Metadata = {
   title: "Atharva Verma",
@@ -150,36 +150,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="space-y-8">
-            {projects.filter(p => p.featured).map((project) => (
-              <div
-                key={project.id}
-                className="flex flex-col md:flex-row gap-4 items-start"
-              >
-                {project.heroImage && (
-                  <div className="relative w-full md:w-24 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
-                    <Image
-                      src={project.heroImage}
-                      alt={project.title}
-                      fill
-                      sizes="(min-width: 768px) 6rem, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <div className="flex-1 mt-2 md:mt-0">
-                  <Link href={`/projects/${project.id}`} className="block">
-                    <div className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
-                      {project.title}
-                    </div>
-                    <p className="text-zinc-600 dark:text-zinc-400 mt-1">
-                      {project.description}
-                    </p>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+          <FeaturedProjects projects={projects} />
         </section>
 
         <section>

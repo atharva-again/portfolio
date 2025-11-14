@@ -58,7 +58,7 @@ export default function SearchableListClient({
   const [query, setQuery] = useState<string>("");
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const [activeTags, setActiveTags] = useState<string[]>([]);
-  const [loadedImages, setLoadedImages] = useState<Map<string, boolean>>(new Map());
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const mounted = useRef(false);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -226,7 +226,11 @@ export default function SearchableListClient({
           <div className="text-zinc-600 dark:text-zinc-400">No results.</div>
         ) : (
           filtered.map((it) => {
-            const isLoaded = loadedImages.get(it.id) ?? false;
+            const isLoaded = loadedImages.has(it.id);
+            const handleImageLoad = () => {
+              setLoadedImages(prev => new Set(prev).add(it.id));
+            };
+            
             return (
             <article key={it.id} className="group">
               {it.href ? (
@@ -234,12 +238,17 @@ export default function SearchableListClient({
                   <div className="flex flex-col md:flex-row gap-4">
                     {it.image && (
                       <div className="relative w-full md:w-40 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+                        {!isLoaded && (
+                          <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse rounded-lg" />
+                        )}
                         <Image
                           src={it.image}
                           alt={it.title ?? ""}
                           fill
                           sizes="(min-width: 768px) 10rem, 100vw"
                           className="object-contain"
+                          quality={100}
+                          onLoad={handleImageLoad}
                         />
                       </div>
                     )}
@@ -297,12 +306,17 @@ export default function SearchableListClient({
                   <div className="flex flex-col md:flex-row gap-4">
                     {it.image && (
                       <div className="relative w-full md:w-40 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+                        {!isLoaded && (
+                          <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse rounded-lg" />
+                        )}
                         <Image
                           src={it.image}
                           alt={it.title ?? ""}
                           fill
                           sizes="(min-width: 768px) 10rem, 100vw"
                           className="object-contain"
+                          quality={100}
+                          onLoad={handleImageLoad}
                         />
                       </div>
                     )}
