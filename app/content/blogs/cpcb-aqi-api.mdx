@@ -1,0 +1,102 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import {cpcb1, cpcb2, cpcb3, cpcb4, cpcb5} from '../assets/images';
+
+I recently worked on a project that needed latest AQI data to show to the users. Searched on the internet and came across CPCB’s free API that posts hourly AQI updates from various stations all over India. Perfect for my project and it costed me nothing!
+
+Before I started working with it, I needed two things: the API key and a thorough understanding of the response data.
+
+# Step 1: Getting the API Key
+
+This step is fairly simple. Go to [this](https://www.data.gov.in/) website, register for an account, find the listing for the CPCB AQI API [here](https://www.data.gov.in/resource/real-time-air-quality-index-various-locations#api), and obtain your API key.
+
+*PS 1: data.gov.in is Government of India’s official platform to find data related to _almost_ anything.*
+
+*PS 2: Really great to see proper SSO implemented on the platform. You can signup using DigiLocker, etc.*
+
+# Step 2: Understanding The Data
+
+If you download the data from [here](https://www.data.gov.in/catalog/real-time-air-quality-index) (in csv, json, or xml) or preview it, you can check the data has these columns, respectively: Country, State, City, Station, Last Update, Latitude, Longitude, Pollutant Id, Pollutant Min, Pollutant Max, Pollutant Avg. These are the same filters you can use to fetch relevant data from the API.
+
+<MDXLightboxImage src={cpcb1} alt="Preview of The Data Shared Through The API" width={400} height={225} />
+
+
+Most of the filter/column names are self-explanatory. Here is a brief description about the ones that are not:
+
+1.  **Station**: The name of the AQI reporting station.
+2.  **Latitude**: Latitude of the reporting station.
+3.  **Longitude**: Longitude of the reporting station.
+4.  **Last Update**: Date and time of
+ the last/latest pollutant report.
+5.  **Pollutant Id**: Name of the pollutant (PM2.5, PM10, CO, etc.) that is reported.
+6.  **Avg, Max, and Min Pollutant Level**: The individual avg, max, and min AQI sub-indices of respective pollutants. **Keep in mind that these are not given in concentration units like mg/m3 or ug/m3**.
+
+# Optional: How CPCB calculates AQI from pollutant concentrations
+
+*   AQI can only be calculated if there is concentration data present for **minimum three pollutants,** and **one of them must be PM2.5 or PM10**.
+*   First, an AQI sub-index is calculated for each pollutant (in a particular station) using this formula: ​
+
+<MDXLightboxImage src={cpcb2} alt="AQI Sub-index Calculation Formula" width={400} height={225} />
+
+Where,
+
+*   Then, the maximum sub-index out of all pollutants (reported for that station) is selected as the AQI (of that station).
+*   The pollutant with the maximum AQI sub-index is called the _dominant_ or _prominent_ pollutant and has the most effect.
+*   CPCB uses these _eight_ pollutants to calculate AQI: PM2.5, PM10, Nitrogen dioxide (NO₂), Sulphur dioxide (SO₂), Carbon monoxide (CO), ozone (O₃), Ammonia (NH₃), and Lead (Pb). It is not necessary that every station reports all of these pollutants.
+*   Out of all the six, only OZONE(O3) and CO2 use last _8-hour_ average, max, and min values. Rest of them use last _24-hour_ avg, max, and min values.
+*   Only CO2 is reported in _mg/m3_ unit. Rest are reported in _ug/m3_.
+*   The AQI categories and color codes used by CPCB are:
+
+```
+| AQI Range | Category / Remark | Color (CPCB) | Hex Code   | Health / Impact Description                                          |
+|-----------|-------------------|--------------|------------|----------------------------------------------------------------------|
+| 0   – 50  | Good              | Green        | #00B050  | Minimal impact                                                       |
+| 51  – 100 | Satisfactory      | Light Green  | #92D050  | Minor breathing discomfort to sensitive people                       |
+| 101 – 200 | Moderate          | Yellow       | #FFFF00  | Breathing discomfort to people with lungs, asthma, heart diseases    |
+| 201 – 300 | Poor              | Orange       | #FF9900  | Breathing discomfort to most people on prolonged exposure            |
+| 301 – 400 | Very Poor         | Red          | #FF0000  | Respiratory illness on prolonged exposure                            |
+| 401 – 500 | Severe            | Maroon       | #800000  | Affects healthy people, serious health impacts for vulnerable groups |
+```
+
+# How To Work With The AQI API
+
+### Finding AQI of each station:
+
+You can use this command to filter all the values reported by a station, given that you know its name:
+
+```
+curl -X GET "https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?api-key=[api_key]&format=json&filters[station]=Station_Name&limit=1"
+```
+Then, find the avg value of all the pollutants reported by that station → select the max value out of them.
+
+<MDXLightboxImage src={cpcb3} alt="Finding AQI of a particular station." width={400} height={225} />
+
+### Finding AQI of a city:
+
+*   Find all the stations in that city
+
+```
+curl -X GET "https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?api-key=[api_key]&format=json&filters[city]=City_Name&limit=50"
+```
+
+*   Calculate AQI for each station → find station with max AQI → that will be the overall AQI of the city.
+
+<MDXLightboxImage src={cpcb4} alt="An image demonstrating how to find AQI of a city." width={400} height={225} />
+
+### (Optional) Finding AQI near the user:
+
+Find the location coordinates of the user → find the user’s city → find all stations in the city and obtain their latitude and longitude → use Haversine formula to find the nearest station to the user → find AQI of that station and display it.
+
+<MDXLightboxImage src={cpcb5} alt="An image demonstrating steps involved in finding AQI near the user's location." width={400} height={225} />
+
+# Conclusion
+
+As far as I know, there is no mention of rate-limits for the API usage, but it’s better to assume there are and use the API accordingly. You can also always cache the results since the updates are hourly. In short, use all the best practices you will for a paid API.
+
+# Footnotes
+
+Some important information and links that I think you might find useful:
+
+1.  Official excel sheet shared by CPCB which is used to calculate AQI from pollution concentration values: [https://cpcb.nic.in/upload/national-air-quality-index/AQI-Calculator.xls](https://cpcb.nic.in/upload/national-air-quality-index/AQI-Calculator.xls)
+2.  Official CPCB website to check AQI: [https://airquality.cpcb.gov.in/AQI_India/](https://airquality.cpcb.gov.in/AQI_India/)
+3.  The Indian NAQI (National Air Quality Index) uses different terminologies than what USA, Europe, and other countries use.
+4.  Other _slightly_ important stuff: [https://cpcb.nic.in/National-Air-Quality-Index/](https://cpcb.nic.in/National-Air-Quality-Index/)

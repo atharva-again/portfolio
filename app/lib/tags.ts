@@ -13,25 +13,21 @@ export const PROJECT_TAGS = [
   "Go",
   "Bash",
   "Powershell",
+  "Web Dev",
 ] as const;
 
 export const FEATURED_PROJECT_TAGS = [
-  "Python",
+  "Web Dev",
   "NLP",
   "GenAI",
+  "Python",
   "React",
   "Next.js",
   "JS/TS",
 ] as const;
 
 export const BLOG_TAGS = [
-  "intro",
-  "about",
-  "tech",
-  "notes",
-  "dev",
-  "misc",
-  "ideas",
+  "Tech",
 ] as const;
 
 export type ProjectTag = typeof PROJECT_TAGS[number];

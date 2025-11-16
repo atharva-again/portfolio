@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useRef, useCallback } from "react";
+import { createContext, useContext, useState, ReactNode, useRef, useCallback, useEffect } from "react";
 import ImageLightbox from "./ImageLightbox";
 import type { StaticImageData } from "next/image";
 
@@ -81,6 +81,27 @@ export function LightboxProvider({ children }: LightboxProviderProps) {
   const goToPrev = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+
+  // Handle browser back navigation when lightbox is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePopState = () => {
+      // Close the lightbox when user tries to go back
+      closeLightbox();
+      // Push the state back to prevent actual navigation
+      window.history.pushState(null, '', window.location.href);
+    };
+
+    // Push a state to enable back navigation to close lightbox
+    window.history.pushState({ lightbox: true }, '', window.location.href);
+    
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isOpen]);
 
   return (
     <LightboxContext.Provider

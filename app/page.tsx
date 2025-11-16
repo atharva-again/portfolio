@@ -49,7 +49,7 @@ export default function Home() {
             At the moment, I am working on{" "}
             <HoverPreviewLink
               href="https://github.com/atharva-again/samvaad"
-              className="underline decoration-pink-500 decoration-2 underline-offset-4 transition-colors hover:text-pink-600 dark:hover:text-pink-300"
+              className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
               preview={hyperlinkPreviews["https://github.com/atharva-again/samvaad"]}
               placement={["side-right", "below"]}
             >
@@ -124,7 +124,7 @@ export default function Home() {
                 third-year student at{" "}
                 <HoverPreviewLink
                   href="https://web.mitsgwalior.in/"
-                  className="underline decoration-pink-500 decoration-2 underline-offset-4 transition-colors hover:text-pink-600 dark:hover:text-pink-300"
+                  className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
                   preview={hyperlinkPreviews["https://web.mitsgwalior.in/"]}
                   placement={["above", "below"]}
                 >
@@ -157,7 +157,7 @@ export default function Home() {
           <div className="flex items-baseline justify-between mb-8">
             <h2 className="text-2xl font-semibold">Recent Writing</h2>
             <Link
-              href="/blog"
+              href="/blogs"
               className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
             >
               View all →
@@ -166,7 +166,7 @@ export default function Home() {
           <div className="space-y-8">
             <div>
               <Link
-                href="/blog/welcome"
+                href="/blogs/welcome"
                 className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
               >
                 Welcome
@@ -177,7 +177,7 @@ export default function Home() {
             </div>
             <div>
               <Link
-                href="/blog/tech-notes"
+                href="/blogs/tech-notes"
                 className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
               >
                 Tech Notes

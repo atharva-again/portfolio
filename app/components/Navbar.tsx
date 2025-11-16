@@ -22,10 +22,10 @@ export default function Navbar() {
             Projects
           </Link>
           <Link
-            href="/blog"
+            href="/blogs"
             className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
           >
-            Blog
+            Blogs
           </Link>
           <Link
             href="/misc"

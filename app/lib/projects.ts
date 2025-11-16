@@ -3,7 +3,7 @@ import { samvaadHero, alertshipHero, portfolioHero, qHero } from '../content/ass
 
 export type LinkItem = {
   url: string;
-  type: "repo" | "demo" | "docs";
+  type: "repo" | "demo" | "docs" | "medium";
 };
 
 export type Project = {
@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
       { url: "https://alertship.vercel.app/", type: "demo" },
     ],
     heroImage: alertshipHero,
-    tags: ["React", "Next.js", "JS/TS"],
+    tags: ["Web Dev", "React", "Next.js", "JS/TS"],
     status: "archived",
     featured: false,
     contentFile: "alertship.mdx",
@@ -87,7 +87,7 @@ export const PROJECTS: Project[] = [
       { url: "https://atharvaverma.dev/", type: "demo" },
     ],
     heroImage: portfolioHero,
-    tags: ["React", "Next.js", "JS/TS"],
+    tags: ["Web Dev", "React", "Next.js", "JS/TS"],
     status: "active",
     featured: false,
     contentFile: "portfolio.mdx",

@@ -41,7 +41,7 @@ export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxI
   };
 
   return (
-    <div className="relative w-full my-6 group" onMouseMove={handleMouseMove} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
+    <div className="relative w-full my-6 group flex justify-center" onMouseMove={handleMouseMove} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
       {isLoading && (
         <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse aspect-video" />
       )}
@@ -50,7 +50,7 @@ export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxI
         alt={alt || ""}
         width={800}
         height={450}
-        className={`w-full h-auto rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity ${className || ""}`}
+        className={`w-auto h-auto rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity ${className || ""}`}
         quality={100}
         onLoad={() => setIsLoading(false)}
         onClick={handleClick}
@@ -64,7 +64,7 @@ export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxI
         }`}
         style={{ left: tooltipPos.x, top: tooltipPos.y, transform: 'translate(-50%, -120%)' }}
       >
-        Click to open
+        Click to enlarge
       </div>
     </div>
   );

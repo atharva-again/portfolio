@@ -23,3 +23,10 @@ export { default as q3 } from './q-3.png';
 export { default as portfolioHero } from './portfolio-hero.png';
 
 export { default as pinkSneaker} from './pink-sneaker.png'
+
+export { default as cpcbHero} from './cpcb-hero.png'
+export { default as cpcb1} from './cpcb-1.png'
+export { default as cpcb2} from './cpcb-2.png'
+export { default as cpcb3} from './cpcb-3.png'
+export { default as cpcb4} from './cpcb-4.png'
+export { default as cpcb5} from './cpcb-5.png'

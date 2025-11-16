@@ -33,6 +33,7 @@ export default function ImageLightbox({
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchCurrentX, setTouchCurrentX] = useState<number | null>(null);
   const [isSwiping, setIsSwiping] = useState(false);
+  const [isEdgeSwipe, setIsEdgeSwipe] = useState(false);
   // Visual feedback when navigation is triggered via button/strip/keyboard
   const [pressedSide, setPressedSide] = useState<'left' | 'right' | null>(null);
   const pressedTimerRef = useRef<number | null>(null);
@@ -106,12 +107,22 @@ export default function ImageLightbox({
     setTouchStartX(e.touches[0].clientX);
     setTouchCurrentX(e.touches[0].clientX);
     setIsSwiping(true);
+    // Detect left edge touch for back gesture
+    if (e.touches[0].clientX < 20) {
+      setIsEdgeSwipe(true);
+    } else {
+      setIsEdgeSwipe(false);
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!touchStartY || touchStartX === null) return;
     setTouchCurrentY(e.touches[0].clientY);
     setTouchCurrentX(e.touches[0].clientX);
+    // Prevent browser back gesture if it's an edge swipe
+    if (isEdgeSwipe) {
+      e.preventDefault();
+    }
   };
 
   const handleTouchEnd = () => {
@@ -122,6 +133,7 @@ export default function ImageLightbox({
       setTouchCurrentY(null);
       setTouchStartX(null);
       setTouchCurrentX(null);
+      setIsEdgeSwipe(false);
       return;
     }
 
@@ -134,8 +146,12 @@ export default function ImageLightbox({
     const horizontalThreshold = 50; // px to consider a horizontal swipe
     const verticalThreshold = 100; // px to consider a vertical swipe (close)
 
+    // Handle edge swipe for back gesture
+    if (isEdgeSwipe && deltaX > horizontalThreshold) {
+      onClose();
+    }
     // If horizontal-dominant and exceeds threshold, navigate
-    if (absX > absY * 1.2 && absX > horizontalThreshold) {
+    else if (absX > absY * 1.2 && absX > horizontalThreshold) {
       // swipe left (negative deltaX) -> next
       if (deltaX < 0) {
         // visual feedback
@@ -160,6 +176,7 @@ export default function ImageLightbox({
     setTouchStartX(null);
     setTouchCurrentX(null);
     setIsSwiping(false);
+    setIsEdgeSwipe(false);
   };
 
   // Wheel handler for desktop two-finger horizontal scroll navigation
@@ -210,6 +227,9 @@ export default function ImageLightbox({
 
   const currentImage = images[currentIndex];
   const hasMultiple = images.length > 1;
+  const reservedVerticalSpace = hasMultiple ? 220 : 160; // space for controls/counters
+  const containerMaxHeight = `calc(100vh - ${reservedVerticalSpace}px)`;
+  const containerWidth = 'min(1600px, 100vw)';
 
   // Safety check - don't render if no valid image
   if (!currentImage || !images.length) {
@@ -296,9 +316,9 @@ export default function ImageLightbox({
         tabIndex={-1}
       />
 
-      {/* Desktop image counter - absolute at bottom center (restore original placement) */}
+      {/* Desktop image counter */}
       {hasMultiple && (
-        <div className="hidden sm:block absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/50 text-white text-sm">
+        <div className="hidden sm:block absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/50 text-white text-sm z-10">
           {currentIndex + 1} / {images.length}
         </div>
       )}
@@ -315,28 +335,34 @@ export default function ImageLightbox({
         />
         {/* Image container */}
         <div
-          className={`relative max-w-[90vw] max-h-[85vh] transition-transform duration-300 ${
+          className={`relative max-h-[90vh] transition-transform duration-300 ${
             animationDirection === 'in' ? 'scale-100' : 'scale-95'
-          }`}
-          onClick={(e) => e.stopPropagation()}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          } ${hasMultiple ? 'pb-12' : ''}`}
           style={{
+            width: containerWidth,
+            maxWidth: '100vw',
+            maxHeight: containerMaxHeight,
+            paddingBottom: hasMultiple ? '3rem' : undefined,
             transform: isSwiping
               ? `translateY(${swipeProgress * 50}px) scale(${1 - swipeProgress * 0.1})`
               : animationDirection === 'in' ? 'scale(1)' : 'scale(0.95)',
             opacity: isSwiping ? 1 - swipeProgress * 0.3 : 1,
           }}
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <Image
             src={currentImage.src}
             alt={currentImage.alt}
-            width={1200}
-            height={800}
-            className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-2xl"
+            width={1600}
+            height={1200}
+            className="w-full h-auto object-contain rounded-lg shadow-2xl"
             quality={100}
             priority
+            style={{ maxHeight: containerMaxHeight }}
+            sizes="(min-width: 1024px) 70vw, 100vw"
           />
         </div>
 
@@ -349,81 +375,80 @@ export default function ImageLightbox({
           onTouchEnd={handleTouchEnd}
         />
 
-        {/* Image counter (mobile) */}
-        {hasMultiple && (
-          <div className="sm:hidden mt-3 px-3 py-1 rounded-full bg-black/50 text-white text-sm">
-            {currentIndex + 1} / {images.length}
-          </div>
-        )}
-
   {/* Mobile navigation buttons: fixed position near the bottom on small screens */}
   <div className="absolute left-1/2 -translate-x-1/2 bottom-12 flex gap-4 justify-center sm:hidden z-20">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              window.clearTimeout(pressedTimerRef.current ?? undefined);
-              setPressedSide('left');
-              pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
-              onPrev?.();
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              setPressedSide('left');
-            }}
-            onMouseUp={() => {
-              window.clearTimeout(pressedTimerRef.current ?? undefined);
-              pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation();
-              setPressedSide('left');
-            }}
-            onTouchEnd={() => {
-              window.clearTimeout(pressedTimerRef.current ?? undefined);
-              pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
-            }}
-            className={`px-4 py-2 rounded-full text-white transition-all duration-150 shadow-lg backdrop-blur-sm ${
-              pressedSide === 'left' ? 'scale-95 bg-black/80' : 'bg-black/60 hover:bg-black/80'
-            }`}
-            aria-label="Previous image"
-            disabled={!hasMultiple}
-          >
-            <ChevronLeft size={20} />
-          </button>
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        window.clearTimeout(pressedTimerRef.current ?? undefined);
+        setPressedSide('left');
+        pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
+        onPrev?.();
+      }}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        setPressedSide('left');
+      }}
+      onMouseUp={() => {
+        window.clearTimeout(pressedTimerRef.current ?? undefined);
+        pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
+      }}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+        setPressedSide('left');
+      }}
+      onTouchEnd={() => {
+        window.clearTimeout(pressedTimerRef.current ?? undefined);
+        pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
+      }}
+      className={`px-4 py-2 rounded-full text-white transition-all duration-150 shadow-lg backdrop-blur-sm ${
+        pressedSide === 'left' ? 'scale-95 bg-black/80' : 'bg-black/60 hover:bg-black/80'
+      }`}
+      aria-label="Previous image"
+      disabled={!hasMultiple}
+    >
+      <ChevronLeft size={20} />
+    </button>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              window.clearTimeout(pressedTimerRef.current ?? undefined);
-              setPressedSide('right');
-              pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
-              onNext?.();
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              setPressedSide('right');
-            }}
-            onMouseUp={() => {
-              window.clearTimeout(pressedTimerRef.current ?? undefined);
-              pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation();
-              setPressedSide('right');
-            }}
-            onTouchEnd={() => {
-              window.clearTimeout(pressedTimerRef.current ?? undefined);
-              pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
-            }}
-            className={`px-4 py-2 rounded-full text-white transition-all duration-150 shadow-lg backdrop-blur-sm ${
-              pressedSide === 'right' ? 'scale-95 bg-black/80' : 'bg-black/60 hover:bg-black/80'
-            }`}
-            aria-label="Next image"
-            disabled={!hasMultiple}
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+    {hasMultiple && (
+      <div className="px-3 py-2 rounded-full bg-black/50 text-white text-sm flex items-center">
+        {currentIndex + 1} / {images.length}
+      </div>
+    )}
+
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        window.clearTimeout(pressedTimerRef.current ?? undefined);
+        setPressedSide('right');
+        pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
+        onNext?.();
+      }}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        setPressedSide('right');
+      }}
+      onMouseUp={() => {
+        window.clearTimeout(pressedTimerRef.current ?? undefined);
+        pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
+      }}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+        setPressedSide('right');
+      }}
+      onTouchEnd={() => {
+        window.clearTimeout(pressedTimerRef.current ?? undefined);
+        pressedTimerRef.current = window.setTimeout(() => setPressedSide(null), 140);
+      }}
+      className={`px-4 py-2 rounded-full text-white transition-all duration-150 shadow-lg backdrop-blur-sm ${
+        pressedSide === 'right' ? 'scale-95 bg-black/80' : 'bg-black/60 hover:bg-black/80'
+      }`}
+      aria-label="Next image"
+      disabled={!hasMultiple}
+    >
+      <ChevronRight size={20} />
+    </button>
+  </div>
       </div>
     </div>,
     document.body

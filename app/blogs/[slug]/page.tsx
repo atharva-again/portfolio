@@ -1,49 +1,48 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProject, PROJECTS } from "../../lib/projects";
-import { contentMap } from "../../content/projects/content";
-import { ProjectInfoPanel } from "../../components/InfoPanel";
+import { getBlog, BLOGS } from "../../lib/blogs";
+import { contentMap } from "../../content/blogs/content";
+import { BlogInfoPanel } from "../../components/InfoPanel";
 import HeroImage from "../../components/HeroImage";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
-  const project = getProject(id);
-  if (!project) {
+  const { slug } = await params;
+  const blog = getBlog(slug);
+  if (!blog) {
     return {
-      title: "Project",
-      description: "Project not found",
+      title: "Post",
+      description: "Post not found",
     };
   }
 
   return {
-    title: `${project.title} — Projects • Atharva Verma`,
-    description: project.description,
+    title: `${blog.title} — Blog • Atharva Verma`,
+    description: blog.description,
   };
 }
 
 export function generateStaticParams() {
-  return PROJECTS.map((project) => ({
-    id: project.id,
+  return BLOGS.map((blog) => ({
+    slug: blog.slug,
   }));
 }
 
 export const dynamicParams = false;
 
-export default async function ProjectPage({ params }: Props) {
-  const { id } = await params;
-  const project = getProject(id);
+export default async function BlogPage({ params }: Props) {
+  const { slug } = await params;
+  const blog = getBlog(slug);
 
-  if (!project) {
+  if (!blog) {
     notFound();
   }
 
-  const contentKey = project.contentFile?.replace('.mdx', '') || id;
-  const Content = contentMap[contentKey as keyof typeof contentMap];
+  const Content = contentMap[slug as keyof typeof contentMap];
 
   if (!Content) {
     notFound();
@@ -54,28 +53,26 @@ export default async function ProjectPage({ params }: Props) {
       <div className="mx-auto max-w-6xl px-6 py-24">
         <header className="mb-12">
           <Link
-            href="/projects"
+            href="/blogs"
             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
           >
-            ← Back to projects
+            ← Back to blogs
           </Link>
           <h1 className="mt-6 text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            {project.title}
+            {blog.title}
           </h1>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-12">
           {/* Main Content */}
           <div className="md:col-span-2">
-            {project.heroImage && (
+            {blog.heroImage && (
               <HeroImage
-                src={project.heroImage}
-                alt={project.title}
+                src={blog.heroImage}
+                alt={blog.title}
               />
             )}
-
-            <ProjectInfoPanel project={project} variant="mobile" />
-
+            <BlogInfoPanel blog={blog} variant="mobile" />
             <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-semibold prose-headings:text-zinc-900 dark:prose-headings:text-zinc-100">
               <Content />
             </div>
@@ -83,7 +80,7 @@ export default async function ProjectPage({ params }: Props) {
 
           {/* Sidebar */}
           <aside className="md:col-span-1 mt-12 md:mt-0 hidden md:block">
-            <ProjectInfoPanel project={project} className="sticky top-24" />
+            <BlogInfoPanel blog={blog} className="sticky top-24" />
           </aside>
         </div>
       </div>

@@ -47,9 +47,10 @@ export default function BlogContent({ blogs }: BlogContentProps) {
             getId: (p) => p.slug,
             getTitle: (p) => p.title,
             getDescription: (p) => p.description,
-            getHref: (p) => `/blog/${p.slug}`,
+            getHref: (p) => `/blogs/${p.slug}`,
             getDate: (p) => p.date,
             getTags: (p) => (p.tags ?? []).filter(tag => BLOG_TAGS.some(t => t.toLowerCase() === tag.toLowerCase())),
+            getImage: (p) => p.heroImage,
           }}
           placeholder="Search posts or tags..."
           syncWithQuery

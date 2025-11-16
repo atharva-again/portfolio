@@ -1,27 +1,7 @@
+import type { StaticImageData } from 'next/image';
 import { BLOG_TAGS } from "./tags";
+import { cpcbHero } from '../content/assets/images';
 
-/**
- * portfolio/app/lib/blogs.ts
- *
- * Canonical blog data and helpers, including a small built-in fuzzy search
- * implementation (no external dependencies). The fuzzy search is intentionally
- * lightweight but effective for small collections of posts.
- *
- * - Exported items:
- *   - type Blog
- *   - BLOGS (array)
- *   - getAllBlogs()
- *   - getBlog(slug)
- *   - getAllBlogTags()
- *   - getBlogTagCounts()
- *   - fuzzySearchBlogs(query, options) -> Blog[]
- *   - fuzzySearchBlogsWithScores(query, options) -> { blog, score }[]
- *
- * Notes:
- * - The fuzzy search works across title, description and tags with weights.
- * - It uses a subsequence-match scoring algorithm with bonuses for consecutive
- *   matches and prefix matches. Results are returned sorted by score desc.
- */
 
 export type Blog = {
   slug: string;
@@ -29,29 +9,21 @@ export type Blog = {
   description: string;
   date: string;
   tags?: string[];
+  heroImage?: string | StaticImageData;
+  links?: { type: string; url: string }[];
 };
 
 export const BLOGS: Blog[] = [
   {
-    slug: "welcome",
-    title: "Welcome",
-    description: "A short welcome post and introduction to this blog.",
-    date: "Jan 2025",
-    tags: ["intro", "about"],
-  },
-  {
-    slug: "tech-notes",
-    title: "Tech Notes",
-    description: "Quick notes and learnings from building projects.",
-    date: "Feb 2025",
-    tags: ["tech", "notes", "dev"],
-  },
-  {
-    slug: "misc-thoughts",
-    title: "Misc Thoughts",
-    description: "Miscellaneous ideas and short-form writing.",
-    date: "Mar 2025",
-    tags: ["misc", "ideas"],
+    slug: "cpcb-aqi-api",
+    title: "CPCB’s AQI API: Everything You Need To Know",
+    description: "Central Pollution Control Board (CPCB) provides a free API to access real-time AQI data from various stations across India. This guide explains how to use it.",
+    heroImage: cpcbHero,
+    date: "Sep 2025",
+    tags: ["Tech"],
+    links: [
+      { type: "medium", url: "https://medium.com/@atharva-again/cpcbs-aqi-api-everything-you-need-to-know-41f5eff85c5a" },
+    ],
   },
 ];
 

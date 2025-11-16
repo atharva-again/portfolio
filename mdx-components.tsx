@@ -117,7 +117,7 @@ const components: MDXComponents = {
       )}
     />
   ),
-  img: (props) => <MDXImage {...props} />,
+  img: (props) => <div className="my-6"><MDXImage {...props} /></div>,
   video: ({ className, ...props }) => (
     <video
       {...props}
