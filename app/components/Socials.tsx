@@ -46,7 +46,7 @@ export default function Socials({
     },
     "https://medium.com/@atharva-again": {
       title: "Medium",
-      description: "I try to write at least one article per project.",
+      description: "Have been writing less than I'd like to.",
       image: mediumHero,
     },
     "mailto:atharva.verma18@gmail.com": {

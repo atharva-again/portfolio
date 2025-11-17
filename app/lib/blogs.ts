@@ -11,6 +11,7 @@ export type Blog = {
   tags?: string[];
   heroImage?: string | StaticImageData;
   links?: { type: string; url: string }[];
+  featured?: boolean;
 };
 
 export const BLOGS: Blog[] = [
@@ -24,6 +25,7 @@ export const BLOGS: Blog[] = [
     links: [
       { type: "medium", url: "https://medium.com/@atharva-again/cpcbs-aqi-api-everything-you-need-to-know-41f5eff85c5a" },
     ],
+    featured: true,
   },
 ];
 
@@ -34,6 +36,10 @@ export function getAllBlogs(): Blog[] {
 
 export function getBlog(slug: string): Blog | undefined {
   return BLOGS.find((p) => p.slug === slug);
+}
+
+export function getFeaturedBlogs(): Blog[] {
+  return BLOGS.filter((b) => b.featured);
 }
 
 /** Tag helpers */

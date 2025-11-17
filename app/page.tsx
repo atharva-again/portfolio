@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import HoverPreviewLink, {
   type HoverPreviewContent,
 } from "./components/HoverPreviewLink";
 import { getAllProjects } from "./lib/projects";
+import { getFeaturedBlogs } from "./lib/blogs";
 import { FEATURED_PROJECT_TAGS } from "./lib/tags";
 import Socials from "./components/Socials";
 import { CONTACT } from "./lib/contact";
@@ -32,6 +34,7 @@ const hyperlinkPreviews: Record<string, HoverPreviewContent> = {
 
 export default function Home() {
   const projects = getAllProjects();
+  const featuredBlogs = getFeaturedBlogs();
 
   return (
     <main className="min-h-screen bg-white dark:bg-black">
@@ -155,7 +158,7 @@ export default function Home() {
 
         <section>
           <div className="flex items-baseline justify-between mb-8">
-            <h2 className="text-2xl font-semibold">Recent Writing</h2>
+            <h2 className="text-2xl font-semibold">Featured Writing</h2>
             <Link
               href="/blogs"
               className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
@@ -164,28 +167,37 @@ export default function Home() {
             </Link>
           </div>
           <div className="space-y-8">
-            <div>
-              <Link
-                href="/blogs/welcome"
-                className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-              >
-                Welcome
-              </Link>
-              <p className="text-zinc-600 dark:text-zinc-400 mt-1">
-                A short welcome post and introduction to this blog.
-              </p>
-            </div>
-            <div>
-              <Link
-                href="/blogs/tech-notes"
-                className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-              >
-                Tech Notes
-              </Link>
-              <p className="text-zinc-600 dark:text-zinc-400 mt-1">
-                Quick notes and learnings from building projects.
-              </p>
-            </div>
+            {featuredBlogs.map((blog) => (
+              <div key={blog.slug}>
+                <Link
+                  href={`/blogs/${blog.slug}`}
+                  className="block"
+                >
+                  <div className="flex flex-col md:flex-row gap-4 items-start">
+                    {blog.heroImage && (
+                      <div className="relative w-full md:w-24 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+                        <Image
+                          src={blog.heroImage}
+                          alt={blog.title}
+                          fill
+                          sizes="(min-width: 768px) 6rem, 100vw"
+                          className="object-cover"
+                          quality={100}
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1 mt-2 md:mt-0">
+                      <div className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
+                        {blog.title}
+                      </div>
+                      <p className="text-zinc-600 dark:text-zinc-400 mt-1">
+                        {blog.description}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))}
           </div>
         </section>
       </div>

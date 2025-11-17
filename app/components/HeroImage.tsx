@@ -40,20 +40,19 @@ export default function HeroImage({ src, alt, enableLightbox = true }: HeroImage
 
   return (
     <div
-      className="mb-12 relative group"
+      className="mb-12 relative group aspect-[3/2]"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
       {isLoading && (
-        <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" style={{ height: '500px' }} />
+        <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" />
       )}
       <Image
         src={src}
         alt={alt}
-        width={800}
-        height={500}
-        className={`w-full h-auto rounded-lg object-cover transition-opacity ${enableLightbox ? 'cursor-pointer hover:opacity-90' : ''}`}
+        fill
+        className={`w-full h-full rounded-lg object-cover transition-opacity ${enableLightbox ? 'cursor-pointer hover:opacity-90' : ''}`}
         priority
         quality={100}
         onLoad={() => setIsLoading(false)}
@@ -68,7 +67,7 @@ export default function HeroImage({ src, alt, enableLightbox = true }: HeroImage
           }`}
           style={{ left: tooltipPos.x, top: tooltipPos.y, transform: 'translate(-50%, -120%)' }}
         >
-          Click to open
+          Click to enlarge
         </div>
       )}
     </div>
