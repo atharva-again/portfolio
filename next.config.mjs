@@ -5,17 +5,8 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   images: {
     // Only configure domains if you are loading images from external websites
-    remotePatterns: [
-      // Example: If you load images from example.com
-      // {
-      //   protocol: 'https',
-      //   hostname: 'example.com',
-      // },
-      {
-        protocol: 'https',
-        hostname: 'miro.medium.com',
-      },
-    ],
+    qualities: [100, 75],
+
   },
 };
 

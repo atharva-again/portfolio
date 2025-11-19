@@ -27,12 +27,6 @@ export default function Navbar() {
           >
             Blogs
           </Link>
-          <Link
-            href="/misc"
-            className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
-          >
-            Misc
-          </Link>
         </div>
       </div>
     </nav>

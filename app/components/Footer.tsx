@@ -47,14 +47,6 @@ export default function Footer() {
                   Blog
                 </Link>
             </li>
-            <li>
-              <Link
-                href="/misc"
-                className="text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
-              >
-                Misc
-              </Link>
-            </li>
           </ul>
         </div>
 
