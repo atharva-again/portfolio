@@ -1,5 +1,6 @@
 import React from "react";
-import { SiGithub, SiLinkedin, SiX, SiMedium, SiGmail } from "react-icons/si";
+import { FaLinkedin } from "react-icons/fa";
+import { SiGithub, SiX, SiMedium, SiGmail } from "react-icons/si";
 import HoverPreviewLink, { type HoverPreviewContent } from "./HoverPreviewLink";
 import { githubHero, linkedinHero, xHero, mediumHero } from "../content/assets/images";
 
@@ -77,7 +78,7 @@ export default function Socials({
           external
           placement={["above", "below"]}
         >
-          <SiLinkedin size={iconSize} aria-hidden="true" />
+          <FaLinkedin size={iconSize} aria-hidden="true" />
         </HoverPreviewLink>
       ) : null}
 
