@@ -33,18 +33,13 @@ export default function HeroImage({ src, alt, enableLightbox = true }: HeroImage
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+  const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
     setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
   return (
-    <div
-      className="mb-12 relative group aspect-[4/3]"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-    >
+    <div className="mb-12 relative group aspect-[4/3]">
       {isLoading && (
         <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" />
       )}
@@ -61,6 +56,9 @@ export default function HeroImage({ src, alt, enableLightbox = true }: HeroImage
           setIsLoading(false);
         }}
         onClick={handleClick}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
       />
       {/* Cursor-following tooltip for pointer devices (hidden on small/touch) */}
       {enableLightbox && (

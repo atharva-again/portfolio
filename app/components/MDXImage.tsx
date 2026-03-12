@@ -1,15 +1,14 @@
-
 "use client";
 
 import Image from "next/image";
+import type { ImageProps } from "next/image";
 import { useLightbox } from "./LightboxProvider";
 
-interface MDXImageProps {
+type MDXImageProps = Omit<ImageProps, "src" | "alt" | "className"> & {
   src?: string;
   alt?: string;
   className?: string;
-  [key: string]: any;
-}
+};
 
 const merge = (...values: Array<string | undefined>) =>
   values.filter(Boolean).join(" ");

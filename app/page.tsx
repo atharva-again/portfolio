@@ -9,7 +9,7 @@ import { getFeaturedBlogs } from "./lib/blogs";
 import { FEATURED_PROJECT_TAGS } from "./lib/tags";
 import Socials from "./components/Socials";
 import { CONTACT } from "./lib/contact";
-import { samvaadHero, mitsHero, qHero } from "./content/assets/images";
+import { samvaadHero, mitsHero } from "./content/assets/images";
 import FeaturedProjects from "./components/FeaturedProjects";
 
 export const metadata: Metadata = {

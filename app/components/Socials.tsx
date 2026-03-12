@@ -1,4 +1,3 @@
-import React from "react";
 import { FaLinkedin } from "react-icons/fa";
 import { SiGithub, SiX, SiMedium, SiGmail } from "react-icons/si";
 import HoverPreviewLink, { type HoverPreviewContent } from "./HoverPreviewLink";

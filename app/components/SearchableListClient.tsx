@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -35,18 +36,22 @@ function highlightParts(text: string, query: string): React.ReactNode {
   if (!q) return text;
   const re = new RegExp(`(${escapeRegExp(q)})`, "ig");
   const parts = text.split(re);
-  return parts.map((part, i) =>
-    re.test(part) ? (
+  let cursor = 0;
+  return parts.map((part) => {
+    const key = `${cursor}-${part}`;
+    cursor += part.length;
+    const isMatch = part.toLowerCase() === q.toLowerCase();
+    return isMatch ? (
       <mark
-        key={i}
+        key={key}
         className="bg-yellow-50 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100 rounded px-0.5"
       >
         {part}
       </mark>
     ) : (
-      <span key={i}>{part}</span>
-    )
-  );
+      <span key={key}>{part}</span>
+    );
+  });
 }
 
 export default function SearchableListClient({
@@ -75,7 +80,7 @@ export default function SearchableListClient({
     setActiveTags(tags);
     // mark mounted so we don't re-initialize
     mounted.current = true;
-  }, [syncWithQuery]); // Only depend on syncWithQuery, not searchParams
+  }, [syncWithQuery, searchParams]);
 
   // debounce the query for filtering
   useEffect(() => {
@@ -98,7 +103,7 @@ export default function SearchableListClient({
     if (currentUrl !== newUrl) {
       router.replace(newUrl, { scroll: false });
     }
-  }, [debouncedQuery, activeTags, syncWithQuery]);
+  }, [debouncedQuery, activeTags, syncWithQuery, pathname, router]);
 
   // compute tag counts and ordered tag list
   const { tagCounts, uniqueTags } = useMemo(() => {
@@ -133,19 +138,6 @@ export default function SearchableListClient({
     return results.map((result) => result.item);
   }, [items, debouncedQuery, activeTags]);
 
-  const reset = () => {
-    setQuery("");
-    setDebouncedQuery("");
-    setActiveTags([]);
-    if (syncWithQuery) {
-      const newUrl = pathname;
-      const currentUrl = window.location.pathname + window.location.search;
-      if (currentUrl !== newUrl) {
-        router.replace(newUrl, { scroll: false });
-      }
-    }
-  };
-
   const onTagClick = (t: string) => {
     setActiveTags((prev) => 
       prev.includes(t) 
@@ -172,6 +164,7 @@ export default function SearchableListClient({
           />
           {query && (
             <button
+              type="button"
               onClick={() => setQuery("")}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 flex items-center justify-center text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 cursor-pointer rounded"
               aria-label="Clear search"
@@ -186,6 +179,7 @@ export default function SearchableListClient({
       {uniqueTags.length > 0 && (
         <div className="mb-6 flex flex-wrap gap-2">
           <button
+            type="button"
             onClick={() => setActiveTags([])}
             className={`text-sm px-2 py-1 rounded-md border cursor-pointer transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900 ${
               activeTags.length === 0
@@ -203,6 +197,7 @@ export default function SearchableListClient({
             const active = activeTags.includes(t);
             return (
               <button
+                type="button"
                 key={t}
                 onClick={() => onTagClick(t)}
                 className={`flex items-center gap-2 text-sm px-2 py-1 rounded-md border transition-colors cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900 ${
@@ -257,8 +252,7 @@ export default function SearchableListClient({
                         <div className="flex-1">
                           <h3 className="text-lg font-medium group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
                             {debouncedQuery ? (
-                              // highlight matched parts in title
-                              <>{highlightParts(it.title ?? "", debouncedQuery)}</>
+                              highlightParts(it.title ?? "", debouncedQuery)
                             ) : (
                               it.title
                             )}
@@ -266,7 +260,7 @@ export default function SearchableListClient({
                           {(it.description ?? "") !== "" && (
                             <p className="text-zinc-600 dark:text-zinc-400 mt-2">
                               {debouncedQuery ? (
-                                <>{highlightParts(it.description ?? "", debouncedQuery)}</>
+                                highlightParts(it.description ?? "", debouncedQuery)
                               ) : (
                                 it.description
                               )}
@@ -285,6 +279,7 @@ export default function SearchableListClient({
                         <div className="mt-3 flex flex-wrap gap-2">
                           {it.tags.map((t) => (
                             <button
+                              type="button"
                               key={t}
                               onClick={(e) => {
                                 e.preventDefault();
@@ -338,6 +333,7 @@ export default function SearchableListClient({
                         <div className="mt-3 flex flex-wrap gap-2">
                           {it.tags.map((t) => (
                             <button
+                              type="button"
                               key={t}
                               onClick={() => onTagClick(t)}
                               className="text-xs px-2 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 cursor-pointer transition-colors"

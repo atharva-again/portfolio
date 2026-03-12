@@ -250,11 +250,18 @@ export default function ImageLightbox({
       className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${
         animationDirection === 'in' ? 'opacity-100' : 'opacity-0'
       }`}
-      onClick={onClose}
       ref={overlayRef}
     >
+      <button
+        type="button"
+        className="absolute inset-0"
+        onClick={onClose}
+        aria-label="Close lightbox"
+      />
+
       {/* Close button */}
       <button
+        type="button"
         onClick={onClose}
         className="absolute top-6 right-6 z-10 p-3 rounded-full bg-black/60 text-white hover:bg-black/80 transition-all duration-200 cursor-pointer shadow-lg backdrop-blur-sm"
         aria-label="Close lightbox"
@@ -264,6 +271,7 @@ export default function ImageLightbox({
 
       {/* Desktop chevrons (hidden on small screens) */}
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onPrev?.();
@@ -276,6 +284,7 @@ export default function ImageLightbox({
         <ChevronLeft size={28} />
       </button>
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onNext?.();
@@ -290,6 +299,7 @@ export default function ImageLightbox({
 
   {/* Clickable full-height edge areas to navigate (narrow vertical strips) - desktop only */}
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onPrev?.();
@@ -303,6 +313,7 @@ export default function ImageLightbox({
         tabIndex={-1}
       />
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onNext?.();
@@ -326,15 +337,18 @@ export default function ImageLightbox({
       {/* Image + mobile nav wrapper: stack vertically so mobile buttons appear below the image */}
       <div className="flex flex-col items-center">
         {/* Mobile top touch spacer: increases swipeable area above the image (mobile only) */}
-        <div
+        <button
+          type="button"
           className="sm:hidden w-full h-20"
           onClick={(e) => e.stopPropagation()}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          aria-label="Swipe gesture area"
         />
         {/* Image container */}
-        <div
+        <button
+          type="button"
           className={`relative max-h-[90vh] transition-transform duration-300 ${
             animationDirection === 'in' ? 'scale-100' : 'scale-95'
           } ${hasMultiple ? 'pb-12' : ''}`}
@@ -352,6 +366,7 @@ export default function ImageLightbox({
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          aria-label={currentImage.alt || "Current image"}
         >
           <Image
             src={currentImage.src}
@@ -364,20 +379,23 @@ export default function ImageLightbox({
             style={{ maxHeight: containerMaxHeight }}
             sizes="(min-width: 1024px) 70vw, 100vw"
           />
-        </div>
+        </button>
 
         {/* Mobile bottom touch spacer: increases swipeable area below the image (mobile only) */}
-        <div
+        <button
+          type="button"
           className="sm:hidden w-full h-20"
           onClick={(e) => e.stopPropagation()}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          aria-label="Swipe gesture area"
         />
 
   {/* Mobile navigation buttons: fixed position near the bottom on small screens */}
   <div className="absolute left-1/2 -translate-x-1/2 bottom-12 flex gap-4 justify-center sm:hidden z-20">
     <button
+      type="button"
       onClick={(e) => {
         e.stopPropagation();
         window.clearTimeout(pressedTimerRef.current ?? undefined);
@@ -417,6 +435,7 @@ export default function ImageLightbox({
     )}
 
     <button
+      type="button"
       onClick={(e) => {
         e.stopPropagation();
         window.clearTimeout(pressedTimerRef.current ?? undefined);

@@ -1,4 +1,3 @@
-import React from "react";
 import SearchableListClient from "./SearchableListClient";
 import type { StaticImageData } from "next/image";
 
@@ -41,7 +40,7 @@ export type PlainItem = {
   tags: string[];
   image?: string | StaticImageData | null;
   // allow extra fields if you want, but keep them serializable
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 export type ServerSearchableListProps<T> = {

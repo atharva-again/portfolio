@@ -116,7 +116,7 @@ const HoverPreviewLink = ({
     scheduleDeactivation();
   };
 
-  const handlePointerMove = (event: ReactPointerEvent<HTMLSpanElement>) => {
+  const handlePointerMove = (_event: ReactPointerEvent<HTMLSpanElement>) => {
     if (!canHover) return;
     // Don't reposition on pointer move; position is computed once on enter and anchored to the element.
     // Still update cached rect for potential layout changes.
@@ -351,6 +351,7 @@ const HoverPreviewLink = ({
                 </div>
                 {isMailto && mailAddress ? (
                   <button
+                    type="button"
                     onClick={handleCopyEmail}
                     aria-label={`Copy email ${mailAddress}`}
                     className="text-xs px-2 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"

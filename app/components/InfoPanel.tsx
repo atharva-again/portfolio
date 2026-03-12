@@ -78,7 +78,10 @@ const MobilePanel = ({ sections }: { sections: InfoSection[] }) => {
     if (!isOpen || !floatingRef.current) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (!floatingRef.current!.contains(event.target as Node) && !buttonRef.current!.contains(event.target as Node)) {
+      if (
+        !floatingRef.current?.contains(event.target as Node) &&
+        !buttonRef.current?.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -190,7 +193,7 @@ export function BlogInfoPanel({ blog, variant = "desktop", className }: { blog: 
       title: "Links",
       content: (
         <div className="flex flex-row flex-wrap gap-4">
-          {blog.links.map((link, index) => {
+          {blog.links.map((link) => {
             const icon =
               link.type === "repo" ? (
                 <SiGithub className="w-6 h-6" />
@@ -207,7 +210,7 @@ export function BlogInfoPanel({ blog, variant = "desktop", className }: { blog: 
               );
             return (
               <a
-                key={`${link.url}-${index}`}
+                key={link.url}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -275,7 +278,7 @@ export function ProjectInfoPanel({ project, variant = "desktop", className }: { 
       title: "Links",
       content: (
         <div className="flex flex-row flex-wrap gap-4">
-          {project.links.map((link, index) => {
+          {project.links.map((link) => {
             const icon =
               link.type === "repo" ? (
                 <SiGithub className="w-6 h-6" />
@@ -292,7 +295,7 @@ export function ProjectInfoPanel({ project, variant = "desktop", className }: { 
               );
             return (
               <a
-                key={`${link.url}-${index}`}
+                key={link.url}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
