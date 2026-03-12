@@ -1,0 +1,72 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { audiorag1 } from '../assets/images';
+
+# Why AudioRAG?
+
+Transcribing and searching through audio content such as podcasts, lectures, and interviews has always been fragmented. You might have local files scattered across directories, different transcription services with varying quality, and no easy way to search the content.
+
+**The problem:** Audio content is rich in information but hard to index and query. Traditional RAG pipelines focus on text, leaving audio as an afterthought.
+
+**The solution:** A provider-agnostic RAG pipeline specifically designed for audio content that handles transcription, chunking, embedding, and search in a unified, modular architecture.
+
+# What's Unique About This?
+
+**Multi-provider flexibility without lock-in.**
+AudioRAG is not tied to any single provider. You can mix and match STT, embedding, generation, and vector store providers based on your needs, budget, or performance requirements. The pipeline automatically handles provider-specific nuances while maintaining a consistent interface.
+
+# Architecture
+
+## Pipeline Stages
+1. **Ingest**: Load audio from local files or directories
+2. **Split**: Divide large files into processable chunks
+3. **Transcribe**: Convert audio to text using your chosen STT provider
+4. **Chunk**: Group transcription into time-based segments
+5. **Embed**: Generate vector embeddings for each chunk
+6. **Store**: Persist embeddings in your chosen vector database
+
+## Provider Support
+- **STT**: OpenAI Whisper, Deepgram, AssemblyAI, Groq
+- **Embeddings**: OpenAI, Voyage AI, Cohere
+- **Generation**: OpenAI, Anthropic, Gemini
+- **Vector Stores**: ChromaDB, Pinecone, Weaviate, Supabase
+
+## Reliability Features
+- **Budget Governor**: Optional fail-fast limits for RPM, TPM, and audio-seconds/hour
+- **Resumable Processing**: SQLite state tracking with hash-based IDs
+- **Atomic Verification**: Optional post-write verification with strict or best-effort modes
+- **Graceful Exit**: Automatic resource cleanup on completion, failure, or interruption
+
+# Problems Faced
+
+- **Provider fragmentation**: Each STT and embedding provider has different APIs, rate limits, and error handling requirements.
+- **Audio processing complexity**: Large audio files require splitting, and different formats need normalization.
+- **State management**: Tracking processed files across multiple runs without re-processing everything required careful ID generation and state persistence.
+
+# Learnings
+
+Since building AudioRAG, I learned:
+
+- How to design modular, provider-agnostic architectures using abstract interfaces
+- Managing async audio processing pipelines with proper error handling and resource cleanup
+- Implementing budget governors to prevent cost overruns with LLM-based services
+- Building CLI tools with rich progress reporting and partial-failure handling
+- Designing type-safe configurations using Pydantic settings
+
+# Future Vision
+
+## Short-term Plans
+
+- Prepare for public beta release
+
+## Long-term Plans
+- Build a web interface for easier configuration and monitoring
+- Add support for video files (extract audio track automatically)
+- Implement advanced chunking strategies based on topic detection
+
+# Some Screenshots
+
+---
+
+<MDXLightboxImage src={audiorag1} alt="AudioRAG interface" />
+
+---

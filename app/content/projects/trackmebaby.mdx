@@ -1,0 +1,76 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { tmb1, tmb2, tmb3, tmb4 } from '../assets/images';
+
+# Why trackmebaby?
+
+Since I started juggling multiple side projects, I realized how quickly context gets lost. Three repos deep into a weekend and I've already forgotten what I was working on in the first one. I needed a way to passively track my development activity without manually logging anything.
+
+**Why this exists:** LLM-assisted coding means developers spin up side projects faster than ever. trackmebaby keeps a running record of everything across all your projects so you can pick up exactly where you left off.
+
+# What's Unique About This?
+
+**It runs as a silent daemon in your system tray.**
+Unlike time-tracking tools that require manual input, trackmebaby automatically watches your file system, polls git status, and builds a complete picture of your development activity. It's not just time tracking—it's context tracking.
+
+# Architecture
+
+## Backend (Bun + TypeScript)
+- **Runtime**: [Electrobun](https://electrobun.dev/) (lightweight alternative to Electron)
+- **Database**: bun:sqlite with WAL mode and UUIDv7 keys for time-sortable unique IDs
+- **File Watching**: `@parcel/watcher-wasm` with `fs.watch` fallback for cross-platform compatibility
+- **Git Tracking**: Zero-dependency shell commands using `Bun.$`
+
+## Frontend (React)
+- **Framework**: React 19 with Vite
+- **Styling**: Tailwind CSS
+- **UI**: Tab-based dashboard with resizable AI sidebar
+
+## AI Integration
+- **Provider**: Groq API (fetch-based, no SDKs)
+- **Context Assembly**: Automatic activity context generation for natural language Q&A
+- **Warden Analysis**: AI-generated insights about project health, security concerns, and tech debt
+
+# Problems Faced
+
+- **Cross-platform file watching**: Parcel watcher had WASM compatibility issues in some environments, requiring a graceful fallback to `fs.watch`.
+- **Performance optimization**: Balancing real-time file watching with minimal CPU usage required careful debouncing and filtering.
+- **Context management**: Assembling relevant activity context for AI queries without overwhelming the model or exposing sensitive data.
+- **Linux desktop integration limitations**: Due to dependency on OS webview components, certain features like folder selection dialogs don't work reliably on Linux, requiring users to manually enter folder paths. Window dragging and resize gestures, along with swipe gestures, are also not fully supported on Linux.
+
+# Learnings
+
+Since building trackmebaby, I learned:
+
+- How to build cross-platform desktop apps with Electrobun and Bun
+- Implementing efficient file watching with debouncing and `.gitignore` awareness
+- Building typed RPC bridges between main and renderer processes in Electrobun
+- Designing local-first architectures with SQLite for privacy-focused applications
+- Integrating AI capabilities with minimal dependencies and zero vendor lock-in
+
+# Future Vision
+
+## Short Term Plans
+- Prepare and release the application for public beta testing
+
+## Long-term Plans
+- Expand to mobile companion apps for iOS and Android
+- Add collaborative features for team-based activity tracking
+- Implement machine learning models for predictive coding assistance
+
+# Some Screenshots
+
+---
+
+<MDXLightboxImage src={tmb1} alt="Upper half of Code View showing summary of recent changes and automatic todo" />
+
+---
+
+<MDXLightboxImage src={tmb2} alt="Lower half of the Code View showing commit, issue, PR graphs."/>
+
+---
+
+<MDXLightboxImage src={tmb3} alt="Resource Vault" />
+
+---
+
+<MDXLightboxImage src={tmb4} alt="Warden AI analysis" />

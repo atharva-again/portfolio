@@ -7,31 +7,37 @@ export const PROJECT_TAGS = [
   "ASR",
   "TTS",
   "NLP",
-  "React",
   "Next.js",
-  "JS/TS",
+  "TypeScript",
   "Go",
   "Bash",
   "Powershell",
-  "Web Dev",
+  "Electrobun",
+  "Bun",
+  "RAG",
+  "React.js",
+  "React Native",
+  "Hono",
+  "Yjs",
+  "Vite",
+  "ONNX",
+  "FastAPI",
+  "HTML",
+  "CSS",
+  "JavaScript",
 ] as const;
 
 export const FEATURED_PROJECT_TAGS = [
-  "Web Dev",
-  "NLP",
-  "GenAI",
+  "RAG",
   "Python",
-  "React",
   "Next.js",
-  "JS/TS",
+  "TypeScript",
 ] as const;
 
-export const BLOG_TAGS = [
-  "Tech",
-] as const;
+export const BLOG_TAGS = ["Tech"] as const;
 
-export type ProjectTag = typeof PROJECT_TAGS[number];
-export type BlogTag = typeof BLOG_TAGS[number];
+export type ProjectTag = (typeof PROJECT_TAGS)[number];
+export type BlogTag = (typeof BLOG_TAGS)[number];
 
 type CountMap = Record<string, number>;
 
@@ -50,9 +56,12 @@ function normalize(tag: string): string {
 }
 
 /** Accumulate tag counts from an array of items that may have a `tags?: string[]` field. */
-function accumulateCounts<T extends { tags?: string[] }>(items: T[], validTags: readonly string[]): CountMap {
+function accumulateCounts<T extends { tags?: string[] }>(
+  items: T[],
+  validTags: readonly string[],
+): CountMap {
   const counts: CountMap = {};
-  const validTagsLower = validTags.map(t => t.toLowerCase());
+  const validTagsLower = validTags.map((t) => t.toLowerCase());
   for (const it of items) {
     for (const rawTag of it.tags ?? []) {
       const t = normalize(rawTag);

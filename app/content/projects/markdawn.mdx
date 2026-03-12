@@ -1,0 +1,81 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { markdawn1, markdawn2 } from '../assets/images';
+
+# Why Markdawn?
+
+When I was in the market for a Notion alternative, I started using Obsidian. It's **file-over-app** philosophy really brought me in. Everything was nice, but the only problem I had was that I couldn't share my notes with a simple link. The collaboration part of Notion was missing.
+
+Most note-taking applications either lack real-time collaboration or require you to surrender your data to cloud services. I wanted a tool that combined the best of both worlds: real-time collaborative editing with the privacy and control of self-hosting.
+
+# What's Unique About This?
+
+**Monorepo architecture with clear separation of concerns.**
+Markdawn uses a monorepo structure that separates the API, web frontend, collaboration server, and shared utilities. This makes development, testing, and deployment more manageable while keeping the codebase clean and maintainable.
+
+# Architecture
+
+## Monorepo Structure
+```
+packages/
+├── api/       # REST API server (Hono, port 3001)
+├── web/       # Frontend app (Vite, port 5173)
+├── shared/    # Shared types and utilities
+└── collab/    # Collaboration server (Hocuspocus, port 1234)
+```
+
+## Backend (API)
+- **Framework**: Hono (lightweight, high-performance web framework)
+- **Database**: PostgreSQL with Drizzle ORM
+- **Authentication**: Better Auth with OAuth (Google, GitHub)
+- **API Design**: RESTful API with proper error handling and validation
+
+## Frontend (Web)
+- **Framework**: React 19 with Vite
+- **Styling**: Tailwind CSS v4
+- **UI Components**: Mantine component library
+- **Rich Text Editing**: BlockNote editor
+- **State Management**: React Query for server state
+
+## Collaboration
+- **CRDT Library**: Yjs (Conflict-free Replicated Data Types)
+- **Server**: Hocuspocus (Yjs server implementation)
+- **Protocol**: WebSocket for real-time updates
+
+# Problems Faced
+
+- **Real-time synchronization**: Implementing CRDT-based synchronization that handles conflicts gracefully required deep understanding of Yjs.
+- **Monorepo complexity**: Managing dependencies and build configurations across multiple packages required careful tooling choices.
+- **Authentication flow**: Implementing OAuth with multiple providers while maintaining security best practices.
+
+# Learnings
+
+Since building Markdawn, I learned:
+
+- How to implement real-time collaborative editing using CRDTs and Yjs
+- Building monorepo architectures with proper package separation
+- Implementing OAuth authentication flows with multiple providers
+- Designing RESTful APIs with Hono and proper error handling
+- Managing complex frontend state with React Query
+
+# Future Vision
+
+## Short Term Plans
+- Add more rich text editing features (tables, code blocks, callouts)
+- Implement offline mode with local-first architecture
+- Add workspace templates for different use cases
+
+## Long-term Plans
+- Build mobile applications for iOS and Android
+- Add AI-powered features for note summarization and search
+- Implement advanced collaboration features (comments, suggestions, version history)
+
+# Some Screenshots
+
+---
+
+<MDXLightboxImage src={markdawn1} alt="Main dashboard showing workspaces and recent notes" />
+
+---
+
+<MDXLightboxImage src={markdawn2} alt="Rich text editor with collaborative cursor indicators" />
+

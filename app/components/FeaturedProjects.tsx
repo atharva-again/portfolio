@@ -16,7 +16,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
     setLoadedImages(prev => new Set(prev).add(projectId));
   };
 
-  const featuredProjects = projects.filter(p => p.featured);
+  const featuredProjects = projects.filter((p) => p.featured);
 
   return (
     <div className="space-y-8">

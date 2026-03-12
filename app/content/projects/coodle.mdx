@@ -1,0 +1,70 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { coodle1, coodle2 } from '../assets/images';
+
+# Why Coodle?
+
+Students at MITS Gwalior constantly juggle multiple courses, each with its own Moodle instance for assignments, quizzes, and resources. Missing deadlines is easy when you're not checking every platform daily.
+
+**The problem:** Students need to manually check multiple Moodle instances for upcoming assignments and quizzes, leading to missed deadlines and unnecessary stress.
+
+**The solution:** A Python bot that automatically checks your Moodle courses for upcoming deadlines and sends instant notifications via Telegram, so you never miss an assignment again.
+
+# What's Unique About This?
+
+**Minimal resource usage with high reliability.**
+Coodle is designed to run continuously with minimal CPU and memory usage. Its architecture separates the API, worker, and bot processes, allowing each to be scaled independently based on load requirements.
+
+# Architecture
+
+## Three-Service Architecture
+1. **API (FastAPI)**: Serves the web interface and data endpoints
+2. **Worker**: Handles Moodle polling and deadline checking
+3. **Bot**: Manages Telegram interactions and notifications
+
+## Stack
+- **Language**: Python 3.11+
+- **API Framework**: FastAPI with Uvicorn
+- **Bot Framework**: Python Telegram Bot
+- **Package Manager**: UV (fast, reliable dependency management)
+- **Scheduler**: APScheduler for periodic Moodle checks
+
+## Features
+- **Automatic Polling**: Checks Moodle every 6 hours (configurable)
+- **Telegram Notifications**: Instant alerts for upcoming deadlines
+- **Multi-Course Support**: Handles multiple courses across different Moodle instances
+- **High Availability**: Process separation ensures reliability even if one component fails
+
+# Problems Faced
+
+- **Moodle API limitations**: Moodle's web service API has rate limits and requires proper authentication.
+- **Timezone handling**: Ensuring deadline notifications are accurate across different timezones.
+- **Process management**: Managing multiple processes (API, worker, bot) reliably in production.
+
+# Learnings
+
+Since building Coodle, I learned:
+
+- How to interact with Moodle's web service API
+- Building reliable background workers with APScheduler
+- Managing multi-process applications with proper error handling
+- Integrating Telegram bot API for real-time notifications
+
+# Future Vision
+
+The bot is fully functional and does what it's supposed to do, but I need to deploy it to a server for continuous operation.
+
+
+# Some Screenshots
+
+---
+
+<MDXLightboxImage src={coodle1} alt="Telegram bot interface showing upcoming deadlines" />
+
+---
+
+<MDXLightboxImage src={coodle2} alt="Web dashboard for configuring Moodle credentials" />
+
+
+---
+
+{/* <MDXLightboxImage src={coodle3} alt="System status panel showing bot health and recent activity" /> */}

@@ -1,0 +1,47 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { indicAsrQuantHero } from '../assets/images';
+
+# Why Indic ASR Quantized?
+
+High-quality ASR models for Indic languages are typically large and computationally expensive, requiring powerful GPUs for real-time inference. This makes them inaccessible for many users and applications.
+
+**The problem:** Existing Indic ASR models are too heavy for CPU-only devices, limiting their practical use in real-world applications.
+
+**The solution:** I quantized the AI4Bharat IndicConformer model to INT8, achieving a 4x reduction in model size and significant speedup in inference time, though at the cost of accuracy.
+
+# What's Unique About This?
+
+**I performed the quantization myself.**
+This isn't just a wrapper around an existing quantized model, I actually performed the INT8 post-training quantization of the AI4Bharat IndicConformer model. This required careful calibration, evaluation, and validation.
+
+# Architecture
+
+## Quantization Process
+1. **Model Selection**: AI4Bharat IndicConformer-600M multilingual model
+2. **Calibration**: Generated calibration dataset for static post-training quantization
+3. **Quantization**: Applied INT8 quantization using ONNX Runtime tools
+4. **Evaluation**: Benchmarked WER (Word Error Rate) and CER (Character Error Rate)
+5. **Packaging**: Created Python package for easy distribution and use
+
+## Supported Languages
+Assamese, Bengali, Bodo, Dogri, Gujarati, Hindi, Kannada, Kashmiri, Konkani, Maithili, Malayalam, Manipuri, Marathi, Nepali, Odia, Punjabi, Sanskrit, Santali, Sindhi, Tamil, Telugu, Urdu
+
+# Problems Faced
+
+- **Quantization accuracy loss**: Balancing model size reduction with accuracy preservation required careful calibration and iterative testing.
+- **Framework compatibility**: Ensuring ONNX Runtime compatibility across different hardware configurations (CPU vs GPU).
+- **Evaluation complexity**: Benchmarking ASR models across 22 languages with varying phonetic characteristics and data availability.
+
+# Learnings
+
+Since building Indic ASR Quantized, I learned:
+
+- How to perform post-training quantization on large speech models
+- Using ONNX Runtime tools for model optimization and inference
+- Benchmarking ASR models with WER and CER metrics
+- Creating reproducible experiments with Jupyter notebooks
+- Building Python packages for distributing optimized models
+
+# Future Vision
+
+This project is archived and I don't plan on working on it.

@@ -359,7 +359,7 @@ export default function ImageLightbox({
             width={1600}
             height={1200}
             className="w-full h-auto object-contain rounded-lg shadow-2xl"
-            quality={100}
+            quality={85}
             priority
             style={{ maxHeight: containerMaxHeight }}
             sizes="(min-width: 1024px) 70vw, 100vw"

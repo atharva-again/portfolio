@@ -40,7 +40,7 @@ export default function HeroImage({ src, alt, enableLightbox = true }: HeroImage
 
   return (
     <div
-      className="mb-12 relative group aspect-[3/2]"
+      className="mb-12 relative group aspect-[4/3]"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
@@ -48,14 +48,18 @@ export default function HeroImage({ src, alt, enableLightbox = true }: HeroImage
       {isLoading && (
         <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" />
       )}
-      <Image
+       <Image
         src={src}
         alt={alt}
         fill
         className={`w-full h-full rounded-lg object-cover transition-opacity ${enableLightbox ? 'cursor-pointer hover:opacity-90' : ''}`}
         priority
-        quality={100}
+        quality={85}
         onLoad={() => setIsLoading(false)}
+        onError={() => {
+          console.error(`Failed to load image: ${typeof src === 'object' ? src.src : src}`);
+          setIsLoading(false);
+        }}
         onClick={handleClick}
       />
       {/* Cursor-following tooltip for pointer devices (hidden on small/touch) */}

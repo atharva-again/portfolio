@@ -1,0 +1,44 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { fsemend1, fsemend2, fsemend3 } from '../assets/images';
+
+# Why fsemend?
+
+Semester end at MITS Gwalior comes with a lot of events that reuiqre presentations, lab reports, and project reports that are often scattered across different drives, emails, and messaging apps. Finding the right resource at the right time is a challenge.
+
+**The problem:** Academic resources are scattered across multiple platforms, making it hard for students to find what they need when they need it.
+
+**The solution:** A centralized platform where students can share, search, and organize academic materials for semester exams, making "knowledge survival" easier for everyone.
+
+# What's Unique About This?
+
+**Community-driven knowledge sharing.**
+fsemend is not just a repository, it is a collaborative platform where students actively contribute and curate resources. The tag system and search functionality make it easy to find exactly what you need, when you need it.
+
+# Architecture
+
+Simple Next.js app with App Router. Currently deployed on vercel. Using simple fuzzy search right now, no complex AI search or anything.
+
+Also, right now I haven't thought about where the data will live. 
+
+# Learnings
+
+To be honest, I didn't learn anything new, but I was able to solve the biggest hurdle, which would be if two students from the same batch accidentally downloaded the same resource and showed it to their prof. That would count as cheating.
+
+# Future Vision
+
+- Launch it in the insitute
+- Think about how to handle gigabytes of resources effectively, without incurring cost
+
+# Some Screenshots
+
+---
+
+<MDXLightboxImage src={fsemend1} alt="Main dashboard showing shared academic resources" />
+
+---
+
+<MDXLightboxImage src={fsemend2} alt="Search interface with filters for courses and resource types" />
+
+---
+
+<MDXLightboxImage src={fsemend3} alt="Resource detail view with download and sharing options" />

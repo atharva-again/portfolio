@@ -1,0 +1,71 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { urlDetox1, urlDetox2, urlDetox3 } from '../assets/images';
+
+# Why URL Detox?
+
+Every time you copy a URL from a marketing email or social media, it's bloated with tracking parameters. UTM tags, Facebook click IDs, Google Analytics parameters—the list goes on. These not only look ugly but also pose privacy concerns.
+
+**The problem:** Modern URLs are cluttered with tracking parameters that don't add value for the user but help companies track your behavior across the web.
+
+**The solution:** A browser extension that automatically cleans URLs by removing tracking parameters and unshortens link shorteners, all done locally in your browser without sending data to external servers.
+
+# What's Unique About This?
+
+**Privacy-first design with zero data collection.**
+URL Detox works entirely locally in your browser. It doesn't collect, store, or transmit any personal data or browsing information. All processing happens on your device, making it both privacy-conscious and fast.
+
+# Architecture
+
+## Core Components
+- **Background Service Worker**: Handles URL interception and cleaning
+- **Loader Popup**: Displays unshortening progress and fetches redirects
+- **Utils**: Cleaner rules and shortener domain management
+
+## URL Cleaning
+- **Rules Engine**: Uses ClearURLs rules for comprehensive tracking parameter removal
+- **Regex Patterns**: Provider-specific regex patterns for efficient cleaning
+- **DNR Rules**: Declarative Net Request rules for automatic URL interception
+
+## Link Unshortening
+- **Domain Support**: Hundreds of known shortener domains
+- **Redirect Following**: Automatic handling of HTTP redirects
+- **Retry Logic**: Unlimited retries with user-controlled "Retry" button
+
+## Privacy Features
+- **Local Processing**: All URL cleaning happens in the browser
+- **No Data Collection**: Zero telemetry or analytics
+- **Open Source**: Transparent code for security review
+
+# Problems Faced
+
+- **Rule maintenance**: Keeping up with new tracking parameters and shortener domains requires constant updates.
+- **Browser compatibility**: Different browsers have different extension APIs and capabilities.
+- **Performance optimization**: Balancing comprehensive cleaning with minimal impact on page load times.
+
+# Learnings
+
+Since building URL Detox, I learned:
+
+- How to build browser extensions with modern web extension APIs
+- Implementing Declarative Net Request rules for efficient URL interception
+- Managing extension state and configuration across browser sessions
+- Building privacy-focused applications with zero data collection
+- Testing browser extensions with Playwright for cross-browser compatibility
+
+# Future Vision
+
+This project is archived and will not receive further updates, though it remains fully functional and in daily use.
+
+# Some Screenshots
+
+---
+
+<MDXLightboxImage src={urlDetox1} alt="Browser extension popup showing cleaned URL" />
+
+---
+
+<MDXLightboxImage src={urlDetox2} alt="Settings panel for configuring cleaning rules" />
+
+---
+
+<MDXLightboxImage src={urlDetox3} alt="History view showing recently cleaned URLs" />

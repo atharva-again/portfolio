@@ -21,7 +21,7 @@ const hyperlinkPreviews: Record<string, HoverPreviewContent> = {
   "https://github.com/atharva-again/samvaad": {
     title: "Samvaad",
     description:
-      "A voice-first learning platform that turns dense documents into conversational study sessions.",
+      "A voice-first platform that turns dense documents into natural conversations.",
     image: samvaadHero,
   },
   "https://web.mitsgwalior.in/": {
@@ -47,7 +47,7 @@ export default function Home() {
             I am a product-first developer. What that means is in order for me
             to commit to a project, it needs to have some kind of inherent
             coolness.
-            <br />
+            {/* <br />
             <br />
             At the moment, I am working on{" "}
             <HoverPreviewLink
@@ -58,14 +58,15 @@ export default function Home() {
             >
               Samvaad
             </HoverPreviewLink>
-            , a voice-first learning platform.
+            , a voice-first RAG platform.
+            <br />
+            <br /> */}
             <br />
             <br />
             Beyond the tech side of things, I love and advocate for good public
             transport. I think for any city, public transport and infra is
             crucial. My other interests are modern cinema, hip-hop and
-            electronic music, and a new one I discovered recently: ricing my
-            linux desktop.
+            electronic music.
           </p>
 
           <div className="mt-6">
@@ -83,7 +84,8 @@ export default function Home() {
           <div className="rounded-md -mx-6 bg-white dark:bg-black/60">
             <div className="px-6 py-6">
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                I’ve worked across frontend and backend stacks, RAG systems, and
+                I’ve worked across frontend and backend stacks,
+                created mobile and desktop apps, RAG systems, and
                 developed some robotic systems. Below are technologies I use
                 frequently:
               </p>
@@ -116,14 +118,17 @@ export default function Home() {
           <div className="rounded-md -mx-6 bg-white dark:bg-black/60">
             <div className="px-6 py-6">
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                <b>Building</b>: Working on jumping Samvaad from v0.1 to v1.0 by
-                developing the frontend, making it production ready and
-                deploying it so anyone, anywhere can use it.
+                <b>Building</b>: Working on two side-projects: AudioRAG and trackmebaby.
                 <br />
                 <br />
-                <b>Learning</b>: Learning about conformers and how I can
-                finetune and quantify large ASR and TTS models trained on Indic
-                languages to be used in Samvaad. Apart from this, I am also a
+                <b>Learning</b>: Experimenting with{" "}
+                <Link
+                  href="https://electrobun.dev/"
+                  className="underline decoration-zinc-300 dark:decoration-zinc-700 underline-offset-4 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                >
+                  Electrobun
+                </Link>
+                . Apart from this, I am also a
                 third-year student at{" "}
                 <HoverPreviewLink
                   href="https://web.mitsgwalior.in/"
@@ -138,7 +143,7 @@ export default function Home() {
             </div>
           </div>
           <p className="mt-3 text-sm italic text-zinc-500 dark:text-zinc-400">
-            Updated: Nov 6, 2025
+            Updated: Mar 11, 2026
           </p>
         </section>
 

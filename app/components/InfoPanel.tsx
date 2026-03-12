@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { SiGithub, SiMedium } from "react-icons/si";
+import { SiGithub, SiMedium, SiHuggingface } from "react-icons/si";
+import { FaPython } from "react-icons/fa";
 import { ExternalLink, FileText, Info, X } from "lucide-react";
 import type { Project } from "../lib/projects";
 import type { Blog } from "../lib/blogs";
@@ -197,6 +198,10 @@ export function BlogInfoPanel({ blog, variant = "desktop", className }: { blog: 
                 <ExternalLink className="w-6 h-6" />
               ) : link.type === "medium" ? (
                 <SiMedium className="w-6 h-6" />
+              ) : link.type === "huggingface" ? (
+                <SiHuggingface className="w-6 h-6" />
+              ) : link.type === "pypi" ? (
+                <FaPython className="w-6 h-6" />
               ) : (
                 <FileText className="w-6 h-6" />
               );
@@ -278,6 +283,10 @@ export function ProjectInfoPanel({ project, variant = "desktop", className }: { 
                 <ExternalLink className="w-6 h-6" />
               ) : link.type === "medium" ? (
                 <SiMedium className="w-6 h-6" />
+              ) : link.type === "huggingface" ? (
+                <SiHuggingface className="w-6 h-6" />
+              ) : link.type === "pypi" ? (
+                <FaPython className="w-6 h-6" />
               ) : (
                 <FileText className="w-6 h-6" />
               );
