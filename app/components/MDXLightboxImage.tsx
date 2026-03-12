@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import type { ImageProps, StaticImageData } from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useLightbox } from "./LightboxProvider";
 
-interface MDXLightboxImageProps {
-  src: string | any;
+type MDXLightboxImageProps = Omit<ImageProps, "src" | "alt" | "className"> & {
+  src: string | StaticImageData;
   alt?: string;
   className?: string;
-  [key: string]: any;
-}
+};
 
 export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxImageProps) {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,10 +35,10 @@ export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxI
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const imgWrapperRef = useRef<HTMLDivElement | null>(null);
+  const imgWrapperRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleWrapperMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = (imgWrapperRef.current as HTMLDivElement).getBoundingClientRect();
+  const handleWrapperMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
     setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
@@ -49,12 +49,14 @@ export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxI
       )}
 
       {/* Image wrapper: attach pointer handlers here so tooltip only appears when hovering the image itself */}
-      <div
+      <button
+        type="button"
         ref={imgWrapperRef}
         className="relative inline-block"
         onMouseMove={handleWrapperMouseMove}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
+        onClick={handleClick}
       >
         <Image
           src={src}
@@ -64,7 +66,6 @@ export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxI
           className={`w-auto h-auto rounded-lg shadow-md cursor-pointer hover:opacity-90 transition-opacity ${className || ""}`}
           quality={100}
           onLoad={() => setIsLoading(false)}
-          onClick={handleClick}
           {...props}
         />
 
@@ -79,7 +80,7 @@ export function MDXLightboxImage({ src, alt, className, ...props }: MDXLightboxI
         >
           Click to enlarge
         </div>
-      </div>
+      </button>
     </div>
   );
 }

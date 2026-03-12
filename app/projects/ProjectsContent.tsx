@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Project } from "../lib/projects";
+import type { Project } from "../lib/projects";
 import { PROJECT_TAGS } from "../lib/tags";
 import SearchableList from "../components/SearchableList";
 

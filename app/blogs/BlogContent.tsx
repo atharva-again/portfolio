@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Blog } from "../lib/blogs";
+import type { Blog } from "../lib/blogs";
 import { BLOG_TAGS } from "../lib/tags";
 import SearchableList from "../components/SearchableList";
 

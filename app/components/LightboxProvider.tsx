@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useRef, useCallback, useEffect } from "react";
+import { createContext, useContext, useState, type ReactNode, useRef, useCallback, useEffect } from "react";
 import ImageLightbox from "./ImageLightbox";
 import type { StaticImageData } from "next/image";
 
@@ -35,7 +35,6 @@ export function LightboxProvider({ children }: LightboxProviderProps) {
   const [images, setImages] = useState<LightboxImage[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [registry, setRegistry] = useState<Array<{ id: number; image: LightboxImage }>>([]);
   const registryRef = useRef<Array<{ id: number; image: LightboxImage }>>([]);
   const nextIdRef = useRef(0);
 
@@ -50,14 +49,11 @@ export function LightboxProvider({ children }: LightboxProviderProps) {
     const id = nextIdRef.current++;
     const entry = { id, image };
     registryRef.current.push(entry);
-    // update state for consumers if needed
-    setRegistry([...registryRef.current]);
     return id;
   }, []);
 
   const unregisterImage = useCallback((id: number) => {
     registryRef.current = registryRef.current.filter((e) => e.id !== id);
-    setRegistry([...registryRef.current]);
   }, []);
 
   const openLightboxAtId = useCallback((id: number) => {
@@ -70,9 +66,9 @@ export function LightboxProvider({ children }: LightboxProviderProps) {
     setIsOpen(true);
   }, []);
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setIsOpen(false);
-  };
+  }, []);
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -90,18 +86,18 @@ export function LightboxProvider({ children }: LightboxProviderProps) {
       // Close the lightbox when user tries to go back
       closeLightbox();
       // Push the state back to prevent actual navigation
-      window.history.pushState(null, '', window.location.href);
+      window.history.pushState(null, "", window.location.href);
     };
 
     // Push a state to enable back navigation to close lightbox
-    window.history.pushState({ lightbox: true }, '', window.location.href);
-    
-    window.addEventListener('popstate', handlePopState);
+    window.history.pushState({ lightbox: true }, "", window.location.href);
+
+    window.addEventListener("popstate", handlePopState);
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
-  }, [isOpen]);
+  }, [isOpen, closeLightbox]);
 
   return (
     <LightboxContext.Provider

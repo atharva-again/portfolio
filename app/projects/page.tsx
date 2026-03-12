@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getAllProjects } from "../lib/projects";
