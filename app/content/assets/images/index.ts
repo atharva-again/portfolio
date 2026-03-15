@@ -1,60 +1,48 @@
-export { default as alertshipHero } from './alertship-hero.png';
-export { default as alertship1 } from './alertship-1.png';
-export { default as alertship2 } from './alertship-2.png';
-export { default as alertship3 } from './alertship-3.png';
-export { default as alertship4 } from './alertship-4.png';
-
-export { default as githubHero } from './github-hero.png';
-export { default as linkedinHero } from './linkedin-hero.png';
-export { default as mediumHero } from './medium-hero.png';
-export { default as mitsHero } from './mits-hero.png';
-export { default as xHero } from './x-hero.png';
-
-export { default as samvaadHero } from './samvaad-hero.png';
-export { default as samvaad1 } from './samvaad-1.png';
-export { default as samvaad2 } from './samvaad-2.png';
-
-export { default as qHero } from './q-hero.png';
-export { default as q1 } from './q-1.png';
-export { default as q2 } from './q-2.png';
-export { default as q3 } from './q-3.png';
-
-export { default as portfolioHero } from './portfolio-hero.png';
-
-export { default as tmbHero } from './tmb-hero.png';
-export { default as tmb1 } from './tmb-1.png';
-export { default as tmb2 } from './tmb-2.png';
-export { default as tmb3 } from './tmb-3.png';
-export { default as tmb4 } from './tmb-4.png';
-
-export { default as indicAsrQuantHero } from './indic-asr-quant-hero.png';
-
-export { default as audioragHero } from './audiorag-hero.png';
-export { default as audiorag1 } from './audiorag-1.png';
-
-export { default as urlDetoxHero } from './url-detox-hero.png';
-export { default as urlDetox1 } from './url-detox-1.png';
-export { default as urlDetox2 } from './url-detox-2.png';
-export { default as urlDetox3 } from './url-detox-3.png';
-
-export { default as coodleHero } from './coodle-hero.png';
-export { default as coodle1 } from './coodle-1.png';
-export { default as coodle2 } from './coodle-2.png';
-
-export { default as fsemendHero } from './fsemend-hero.png';
-export { default as fsemend1 } from './fsemend-1.png';
-export { default as fsemend2 } from './fsemend-2.png';
-export { default as fsemend3 } from './fsemend-3.png';
-
-export { default as markdawnHero } from './markdawn-hero.png';
-export { default as markdawn1 } from './markdawn-1.png';
-export { default as markdawn2 } from './markdawn-2.png';
-
-export { default as pinkSneaker} from './pink-sneaker.png'
-
-export { default as cpcbHero} from './cpcb-hero.png'
-export { default as cpcb1} from './cpcb-1.png'
-export { default as cpcb2} from './cpcb-2.png'
-export { default as cpcb3} from './cpcb-3.png'
-export { default as cpcb4} from './cpcb-4.png'
-export { default as cpcb5} from './cpcb-5.png'
+export { default as alertship1 } from "./alertship-1.png";
+export { default as alertship2 } from "./alertship-2.png";
+export { default as alertship3 } from "./alertship-3.png";
+export { default as alertship4 } from "./alertship-4.png";
+export { default as alertshipHero } from "./alertship-hero.png";
+export { default as audiorag1 } from "./audiorag-1.png";
+export { default as audioragHero } from "./audiorag-hero.png";
+export { default as codingWithNothingHero } from "./coding-with-nothing-hero.png";
+export { default as coodle1 } from "./coodle-1.png";
+export { default as coodle2 } from "./coodle-2.png";
+export { default as coodleHero } from "./coodle-hero.png";
+export { default as cpcb1 } from "./cpcb-1.png";
+export { default as cpcb2 } from "./cpcb-2.png";
+export { default as cpcb3 } from "./cpcb-3.png";
+export { default as cpcb4 } from "./cpcb-4.png";
+export { default as cpcb5 } from "./cpcb-5.png";
+export { default as cpcbHero } from "./cpcb-hero.png";
+export { default as fsemend1 } from "./fsemend-1.png";
+export { default as fsemend2 } from "./fsemend-2.png";
+export { default as fsemend3 } from "./fsemend-3.png";
+export { default as fsemendHero } from "./fsemend-hero.png";
+export { default as githubHero } from "./github-hero.png";
+export { default as indicAsrQuantHero } from "./indic-asr-quant-hero.png";
+export { default as linkedinHero } from "./linkedin-hero.png";
+export { default as markdawn1 } from "./markdawn-1.png";
+export { default as markdawn2 } from "./markdawn-2.png";
+export { default as markdawnHero } from "./markdawn-hero.png";
+export { default as mediumHero } from "./medium-hero.png";
+export { default as mitsHero } from "./mits-hero.png";
+export { default as pinkSneaker } from "./pink-sneaker.png";
+export { default as portfolioHero } from "./portfolio-hero.png";
+export { default as q1 } from "./q-1.png";
+export { default as q2 } from "./q-2.png";
+export { default as q3 } from "./q-3.png";
+export { default as qHero } from "./q-hero.png";
+export { default as samvaad1 } from "./samvaad-1.png";
+export { default as samvaad2 } from "./samvaad-2.png";
+export { default as samvaadHero } from "./samvaad-hero.png";
+export { default as tmb1 } from "./tmb-1.png";
+export { default as tmb2 } from "./tmb-2.png";
+export { default as tmb3 } from "./tmb-3.png";
+export { default as tmb4 } from "./tmb-4.png";
+export { default as tmbHero } from "./tmb-hero.png";
+export { default as urlDetox1 } from "./url-detox-1.png";
+export { default as urlDetox2 } from "./url-detox-2.png";
+export { default as urlDetox3 } from "./url-detox-3.png";
+export { default as urlDetoxHero } from "./url-detox-hero.png";
+export { default as xHero } from "./x-hero.png";
