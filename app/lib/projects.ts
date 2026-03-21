@@ -69,7 +69,7 @@ export const PROJECTS: Project[] = [
       "A background desktop app that watches your projects folder and keeps track of what you're working on. Ask AI questions about your work history.",
     year: "Mar 2026",
     links: [
-      { url: "https://github.com/atharva-again/tmb", type: "repo" },
+      { url: "https://github.com/Feynmunh/trackmebaby", type: "repo" },
     ],
     heroImage: tmbHero,
     tags: ["Electrobun", "Bun", "Vite", "TypeScript"],
