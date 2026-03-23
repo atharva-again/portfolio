@@ -12,7 +12,7 @@ export default function VisitorCount() {
 	useEffect(() => {
 		if (!code) return;
 
-		fetch(`https://${code}.goatcounter.com/counter/TOTAL.json?no_branding=true`)
+		fetch("/api/stats/total?no_branding=true")
 			.then((r) => r.json())
 			.then((d) => setCount(d.count))
 			.catch(() => {});

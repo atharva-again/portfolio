@@ -33,8 +33,8 @@ export default function RootLayout({
 				{process.env.NEXT_PUBLIC_GOATCOUNTER_CODE && (
 					<script
 						async
-						data-goatcounter={`https://${process.env.NEXT_PUBLIC_GOATCOUNTER_CODE}.goatcounter.com/count`}
-						src="https://gc.zgo.at/count.js"
+						data-goatcounter="/api/stats/count"
+						src="/api/stats/script"
 					/>
 				)}
 			</head>
