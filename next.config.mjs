@@ -2,10 +2,11 @@ import createMDX from "@next/mdx";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	allowedDevOrigins: ["192.168.1.9"],
 	pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 	images: {
 		// Only configure domains if you are loading images from external websites
-		qualities: [100, 75],
+		qualities: [100, 85, 75],
 	},
 	async rewrites() {
 		const code = process.env.NEXT_PUBLIC_GOATCOUNTER_CODE;
@@ -32,7 +33,7 @@ const withMDX = createMDX({
 	extension: /\.(md|mdx)$/,
 	options: {
 		remarkPlugins: ["remark-gfm"],
-		rehypePlugins: [],
+		rehypePlugins: ["rehype-slug"],
 	},
 });
 
