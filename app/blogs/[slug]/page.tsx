@@ -59,8 +59,11 @@ export default async function BlogPage({ params }: Props) {
 	let mdxContent: string;
 	try {
 		mdxContent = fs.readFileSync(mdxFilePath, "utf-8");
-	} catch {
-		notFound();
+	} catch (error: unknown) {
+		if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+			notFound();
+		}
+		throw error;
 	}
 	const headings = await extractHeadings(mdxContent);
 
