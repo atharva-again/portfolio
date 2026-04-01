@@ -8,75 +8,180 @@ export default function Footer() {
 	const year = new Date().getFullYear();
 
 	return (
-		<footer className="site-footer border-t border-zinc-200 dark:border-zinc-800">
-			<div className="mx-auto max-w-4xl px-6 py-12 grid grid-cols-1 sm:grid-cols-4 gap-8">
+		<footer
+			className="site-footer"
+			style={{
+				fontFamily: "Tahoma, 'MS Sans Serif', Arial, sans-serif",
+				fontSize: "11px",
+				background: "#d4d0c8",
+				borderTop: "2px solid #ffffff",
+			}}
+		>
+			{/* Window-chrome title bar */}
+			<div
+				style={{
+					background: "linear-gradient(to right, #0a246a, #a6caf0)",
+					color: "#fff",
+					fontWeight: "bold",
+					fontSize: "11px",
+					padding: "3px 8px",
+					display: "flex",
+					alignItems: "center",
+					gap: "6px",
+				}}
+			>
+				<span>🖥️</span>
+				<span>Atharva Verma — Portfolio v1.0 © {year}</span>
+			</div>
+
+			<div
+				style={{
+					display: "grid",
+					gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+					gap: "12px",
+					padding: "12px",
+					background: "#ece9d8",
+					borderTop: "1px solid #ffffff",
+					borderBottom: "1px solid #808080",
+				}}
+			>
+				{/* Brand */}
 				<div>
-					<Link href="/" className="font-semibold text-lg">
+					<Link
+						href="/"
+						style={{
+							fontWeight: "bold",
+							fontSize: "13px",
+							textDecoration: "none",
+							color: "#000",
+						}}
+					>
 						AV
 					</Link>
-					<p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-						I'm Atharva. I love building, learning, investing, designing,
-						writing, reading, thirfting, traveling, rails, food, fashion, music,
+					<p
+						style={{
+							marginTop: "4px",
+							color: "#444",
+							lineHeight: "1.5",
+							fontSize: "11px",
+						}}
+					>
+						I&apos;m Atharva. I love building, learning, investing, designing,
+						writing, reading, thrifting, traveling, rails, food, fashion, music,
 						and probably a lot more.
 					</p>
 				</div>
 
+				{/* Explore */}
 				<div>
-					<h4 className="text-sm font-medium mb-3">Explore</h4>
-					<ul className="space-y-2 text-sm">
-						<li>
-							<Link
-								href="/"
-								className="text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
-							>
-								Home
-							</Link>
-						</li>
-						<li>
-							<Link
-								href="/projects"
-								className="text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
-							>
-								Projects
-							</Link>
-						</li>
-						<li>
-							<Link
-								href="/blogs"
-								className="text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
-							>
-								Blog
-							</Link>
-						</li>
+					<h4
+						style={{
+							fontWeight: "bold",
+							marginBottom: "6px",
+							fontSize: "11px",
+							borderBottom: "1px solid #808080",
+							paddingBottom: "2px",
+						}}
+					>
+						📂 Explore
+					</h4>
+					<ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+						{[
+							{ href: "/", label: "🏠 Home" },
+							{ href: "/projects", label: "📁 Projects" },
+							{ href: "/blogs", label: "📝 Blog" },
+						].map(({ href, label }) => (
+							<li key={href} style={{ marginBottom: "3px" }}>
+								<Link href={href} style={{ color: "#0000ee", fontSize: "11px" }}>
+									{label}
+								</Link>
+							</li>
+						))}
 					</ul>
 				</div>
 
-				{/* Resources column removed temporarily */}
-
+				{/* Connect */}
 				<div>
-					<h4 className="text-sm font-medium mb-3">Connect</h4>
-					<Socials
-						links={CONTACT}
-						className=""
-						iconSize={18}
-						forceEmailPlacement={true}
-					/>
-
-					<div className="mt-6 space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
+					<h4
+						style={{
+							fontWeight: "bold",
+							marginBottom: "6px",
+							fontSize: "11px",
+							borderBottom: "1px solid #808080",
+							paddingBottom: "2px",
+						}}
+					>
+						📬 Connect
+					</h4>
+					<Socials links={CONTACT} className="" iconSize={16} forceEmailPlacement />
+					<div style={{ marginTop: "8px", color: "#555", fontSize: "11px" }}>
 						<VisitorCount />
-						<div>© {year} Atharva Verma</div>
+						<div style={{ marginTop: "2px" }}>© {year} Atharva Verma</div>
 					</div>
 				</div>
 			</div>
 
-			{/* Huge decorative name at the bottom of the footer */}
-			<div className="flex justify-center overflow-hidden px-6 pb-8">
+			{/* ASCII art in classic inset panel */}
+			<div
+				style={{
+					background: "#d4d0c8",
+					padding: "8px",
+					textAlign: "center",
+					overflow: "hidden",
+					borderTop: "1px solid #808080",
+				}}
+			>
 				<pre
 					aria-hidden="true"
-					className="pointer-events-none select-none whitespace-pre font-mono text-[0.4rem] leading-none text-zinc-900 dark:text-white opacity-40 sm:text-[0.6rem] md:text-sm lg:text-base"
+					style={{
+						pointerEvents: "none",
+						userSelect: "none",
+						whiteSpace: "pre",
+						fontFamily: "Courier New, monospace",
+						fontSize: "0.35rem",
+						lineHeight: 1,
+						color: "#808080",
+						opacity: 0.6,
+					}}
 				>
 					{ATHARVA_ASCII_ART}
 				</pre>
+			</div>
+
+			{/* Status bar */}
+			<div
+				style={{
+					background: "#d4d0c8",
+					borderTop: "1px solid #808080",
+					padding: "2px 8px",
+					display: "flex",
+					gap: "8px",
+					fontSize: "11px",
+				}}
+			>
+				<div
+					style={{
+						borderTop: "1px solid #808080",
+						borderLeft: "1px solid #808080",
+						borderRight: "1px solid #fff",
+						borderBottom: "1px solid #fff",
+						padding: "0 6px",
+					}}
+				>
+					✅ Done
+				</div>
+				<div
+					style={{
+						borderTop: "1px solid #808080",
+						borderLeft: "1px solid #808080",
+						borderRight: "1px solid #fff",
+						borderBottom: "1px solid #fff",
+						padding: "0 6px",
+						flex: 1,
+					}}
+				>
+					Built with Next.js · Deployed on Vercel
+				</div>
 			</div>
 		</footer>
 	);

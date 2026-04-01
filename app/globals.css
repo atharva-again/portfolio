@@ -1,50 +1,250 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Win2K Color Palette */
+  --background: #008080;          /* Classic teal desktop */
+  --foreground: #000000;
+  --win-silver: #d4d0c8;          /* Window chrome silver */
+  --win-silver-light: #ece9d8;    /* Lighter silver / luna */
+  --win-silver-dark: #808080;     /* Shadow edge */
+  --win-title-bar: #0a246a;       /* Classic title bar deep blue */
+  --win-title-bar-end: #a6caf0;   /* Title bar gradient end */
+  --win-title-text: #ffffff;
+  --win-highlight: #0000ff;       /* Classic link / highlight blue */
+  --win-border-light: #ffffff;
+  --win-border-dark: #404040;
+  --win-inset-dark: #808080;
+  --win-inset-light: #ffffff;
+  --win-btn-face: #d4d0c8;
+  --win-text: #000000;
+  --win-link: #0000ee;
+  --win-link-visited: #551a8b;
+  --win-taskbar: #245edb;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+  --font-mono: "Courier New", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--win-text);
+  font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+  font-size: 11px;
+  min-height: 100vh;
 }
 
-/* Footer styles */
+/* ── Win2K window chrome ─────────────────────────────────── */
+.win-window {
+  background: var(--win-silver);
+  border-top: 2px solid var(--win-border-light);
+  border-left: 2px solid var(--win-border-light);
+  border-right: 2px solid var(--win-border-dark);
+  border-bottom: 2px solid var(--win-border-dark);
+  box-shadow: 1px 1px 0 var(--win-silver-dark), inset 1px 1px 0 #ffffff;
+}
+
+.win-titlebar {
+  background: linear-gradient(to right, var(--win-title-bar), var(--win-title-bar-end));
+  color: var(--win-title-text);
+  font-weight: bold;
+  font-size: 11px;
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.win-titlebar-buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.win-titlebar-btn {
+  width: 16px;
+  height: 14px;
+  background: var(--win-btn-face);
+  border-top: 1px solid var(--win-border-light);
+  border-left: 1px solid var(--win-border-light);
+  border-right: 1px solid var(--win-border-dark);
+  border-bottom: 1px solid var(--win-border-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.win-titlebar-btn:active {
+  border-top: 1px solid var(--win-border-dark);
+  border-left: 1px solid var(--win-border-dark);
+  border-right: 1px solid var(--win-border-light);
+  border-bottom: 1px solid var(--win-border-light);
+}
+
+.win-content {
+  background: var(--win-silver-light);
+  padding: 8px;
+}
+
+/* ── Beveled inset panel ─────────────────────────────────── */
+.win-panel {
+  background: var(--win-silver-light);
+  border-top: 1px solid var(--win-inset-dark);
+  border-left: 1px solid var(--win-inset-dark);
+  border-right: 1px solid var(--win-inset-light);
+  border-bottom: 1px solid var(--win-inset-light);
+  padding: 8px;
+}
+
+/* ── Sunken / inset field ────────────────────────────────── */
+.win-field {
+  background: #ffffff;
+  border-top: 1px solid var(--win-inset-dark);
+  border-left: 1px solid var(--win-inset-dark);
+  border-right: 1px solid var(--win-inset-light);
+  border-bottom: 1px solid var(--win-inset-light);
+  padding: 4px 6px;
+  font-family: "Tahoma", Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* ── Classic button ──────────────────────────────────────── */
+.win-btn {
+  background: var(--win-btn-face);
+  border-top: 2px solid var(--win-border-light);
+  border-left: 2px solid var(--win-border-light);
+  border-right: 2px solid var(--win-border-dark);
+  border-bottom: 2px solid var(--win-border-dark);
+  padding: 2px 10px;
+  font-family: "Tahoma", Arial, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  color: #000;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.win-btn:hover {
+  background: #e0ddd5;
+}
+
+.win-btn:active {
+  border-top: 2px solid var(--win-border-dark);
+  border-left: 2px solid var(--win-border-dark);
+  border-right: 2px solid var(--win-border-light);
+  border-bottom: 2px solid var(--win-border-light);
+}
+
+/* ── Tab strip ───────────────────────────────────────────── */
+.win-tab {
+  background: var(--win-silver);
+  border-top: 2px solid var(--win-border-light);
+  border-left: 2px solid var(--win-border-light);
+  border-right: 2px solid var(--win-border-dark);
+  border-bottom: none;
+  padding: 2px 10px 3px;
+  font-family: "Tahoma", Arial, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  margin-right: 2px;
+  position: relative;
+  bottom: -1px;
+}
+
+/* ── Classic link ────────────────────────────────────────── */
+a {
+  color: var(--win-link);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: var(--win-link-visited);
+}
+
+a:hover {
+  color: var(--win-link);
+  text-decoration: underline;
+}
+
+/* ── Section header rule ─────────────────────────────────── */
+.win-section-header {
+  font-weight: bold;
+  font-size: 11px;
+  color: #000;
+  border-bottom: 1px solid var(--win-border-dark);
+  padding-bottom: 2px;
+  margin-bottom: 6px;
+}
+
+/* ── Status bar ──────────────────────────────────────────── */
+.win-statusbar {
+  background: var(--win-silver);
+  border-top: 1px solid var(--win-border-dark);
+  padding: 2px 6px;
+  font-size: 11px;
+  display: flex;
+  gap: 8px;
+}
+
+.win-statusbar-pane {
+  border-top: 1px solid var(--win-inset-dark);
+  border-left: 1px solid var(--win-inset-dark);
+  border-right: 1px solid var(--win-inset-light);
+  border-bottom: 1px solid var(--win-inset-light);
+  padding: 0 6px;
+}
+
+/* ── Tag pill ────────────────────────────────────────────── */
+.win-tag {
+  background: var(--win-btn-face);
+  border-top: 1px solid var(--win-border-light);
+  border-left: 1px solid var(--win-border-light);
+  border-right: 1px solid var(--win-border-dark);
+  border-bottom: 1px solid var(--win-border-dark);
+  padding: 1px 6px;
+  font-size: 11px;
+  color: #000;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.win-tag:hover {
+  background: #c8c5be;
+  color: #000;
+}
+
+/* ── Marquee ─────────────────────────────────────────────── */
+marquee {
+  font-size: 11px;
+  color: var(--win-text);
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
 .site-footer {
-  border-top: 1px solid rgba(0,0,0,0.06);
-  background: transparent;
-  color: var(--foreground);
+  background: var(--win-silver);
+  border-top: 2px solid var(--win-border-light);
+  color: var(--win-text);
 }
 
 .site-footer a {
-  color: inherit;
+  color: var(--win-link);
 }
 
-@media (prefers-color-scheme: dark) {
-  .site-footer {
-    border-top-color: rgba(255,255,255,0.04);
-  }
-}
-
-/* Rich footer specific styles */
 .site-footer h4 {
-  color: var(--foreground);
+  color: var(--win-text);
+  font-weight: bold;
 }
 
 .site-footer ul {
@@ -53,6 +253,29 @@ body {
   list-style: none;
 }
 
-.site-footer .font-semibold {
-  letter-spacing: -0.01em;
+/* ── Scrollbar (Webkit) ──────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
 }
+::-webkit-scrollbar-track {
+  background: #c8c5be;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--win-silver);
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+}
+::-webkit-scrollbar-button {
+  background: var(--win-btn-face);
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
