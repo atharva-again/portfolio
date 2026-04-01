@@ -50,11 +50,12 @@ export default function Socials({
 
 	return (
 		<div className={`flex items-center gap-3 ${className}`}>
-			{Object.entries(links).map(([platform, data]) => {
+			{(Object.keys(links) as ContactPlatform[]).map((platform) => {
+				const data = links[platform];
 				if (!data) return null;
 
-				const Icon = PLATFORM_ICONS[platform as ContactPlatform];
-				const previewImage = PREVIEW_IMAGES[platform as ContactPlatform];
+				const Icon = PLATFORM_ICONS[platform];
+				const previewImage = PREVIEW_IMAGES[platform];
 
 				const preview: HoverPreviewContent = {
 					title: data.title,
@@ -62,12 +63,10 @@ export default function Socials({
 					image: previewImage,
 				};
 
-				const href = platform === "email" ? `mailto:${data.url}` : data.url;
-
 				return (
 					<HoverPreviewLink
 						key={platform}
-						href={href}
+						href={data.url}
 						preview={preview}
 						className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
 						external
