@@ -1,122 +1,84 @@
+import type { StaticImageData } from "next/image";
 import { FaLinkedin } from "react-icons/fa";
-import { SiGithub, SiX, SiMedium, SiGmail } from "react-icons/si";
+import { SiGithub, SiGmail, SiMedium, SiX } from "react-icons/si";
+import {
+	githubHero,
+	linkedinHero,
+	mediumHero,
+	xHero,
+} from "../content/assets/images";
+import { CONTACT, type ContactPlatform } from "../lib/contact";
 import HoverPreviewLink, { type HoverPreviewContent } from "./HoverPreviewLink";
-import { githubHero, linkedinHero, xHero, mediumHero } from "../content/assets/images";
-
-type SocialLinks = {
-  github?: string;
-  linkedin?: string;
-  x?: string; 
-  medium?: string;
-  email?: string;
-};
 
 type Props = {
-  links?: SocialLinks;
-  className?: string;
-  iconSize?: number;
-  forceEmailPlacement?: boolean;
+	links?: Partial<
+		Record<ContactPlatform, { url: string; title: string; description: string }>
+	>;
+	className?: string;
+	iconSize?: number;
+	forceEmailPlacement?: boolean;
 };
 
+const PLATFORM_ICONS: Record<
+	ContactPlatform,
+	React.ComponentType<{ size: number; "aria-hidden": boolean }>
+> = {
+	github: SiGithub,
+	linkedin: FaLinkedin,
+	x: SiX,
+	medium: SiMedium,
+	email: SiGmail,
+};
+
+const PREVIEW_IMAGES: Partial<
+	Record<ContactPlatform, string | StaticImageData>
+> = {
+	github: githubHero,
+	linkedin: linkedinHero,
+	x: xHero,
+	medium: mediumHero,
+};
 
 export default function Socials({
-  links = {},
-  className = "",
-  iconSize = 18,
-  forceEmailPlacement = false,
+	links = CONTACT,
+	className = "",
+	iconSize = 18,
+	forceEmailPlacement = false,
 }: Props) {
-  const commonButtonClasses =
-    "inline-flex items-center justify-center rounded-md p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800";
+	const commonButtonClasses =
+		"inline-flex items-center justify-center rounded-md p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800";
 
-  const socialPreviews: Record<string, HoverPreviewContent> = {
-    "https://github.com/atharva-again": {
-      title: "GitHub",
-      description: "Explore my open-source projects and code contributions.",
-      image: githubHero,
-    },
-    "https://www.linkedin.com/in/atharva-again": {
-      title: "LinkedIn",
-      description: "I don't really like LinkedIn but just putting it out there.",
-      image: linkedinHero,
-    },
-    "https://x.com/atharva_again": {
-      title: "X", 
-      description: "For my random thoughts and projects, tech or otherwise.",
-      image: xHero,
-    },
-    "https://medium.com/@atharva-again": {
-      title: "Medium",
-      description: "Have been writing less than I'd like to.",
-      image: mediumHero,
-    },
-    "mailto:atharva.verma18@gmail.com": {
-      title: "Email",
-      description: "I keep my inboxes clean (not kidding).",
-    },
-  };
+	return (
+		<div className={`flex items-center gap-3 ${className}`}>
+			{(Object.keys(links) as ContactPlatform[]).map((platform) => {
+				const data = links[platform];
+				if (!data) return null;
 
-  return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      {links.github ? (
-          <HoverPreviewLink
-            href={links.github}
-            preview={socialPreviews[links.github]}
-            className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
-            external
-            placement={["above", "below"]}
-          >
-            <SiGithub size={iconSize} aria-hidden="true" />
-          </HoverPreviewLink>
-      ) : null}
+				const Icon = PLATFORM_ICONS[platform];
+				const previewImage = PREVIEW_IMAGES[platform];
 
-      {links.linkedin ? (
-        <HoverPreviewLink
-          href={links.linkedin}
-          preview={socialPreviews[links.linkedin]}
-          className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
-          external
-          placement={["above", "below"]}
-        >
-          <FaLinkedin size={iconSize} aria-hidden="true" />
-        </HoverPreviewLink>
-      ) : null}
+				const preview: HoverPreviewContent = {
+					title: data.title,
+					description: data.description,
+					image: previewImage,
+				};
 
-      {links.x ? (
-        <HoverPreviewLink
-          href={links.x}
-          preview={socialPreviews[links.x]}
-          className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
-          external
-          placement={["above", "below"]}
-        >
-          <SiX size={iconSize} aria-hidden="true" />
-        </HoverPreviewLink>
-      ) : null}
-
-      {links.medium ? (
-        <HoverPreviewLink
-          href={links.medium}
-          preview={socialPreviews[links.medium]}
-          className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
-          external
-          placement={["above", "below"]}
-        >
-          <SiMedium size={iconSize} aria-hidden="true" />
-        </HoverPreviewLink>
-      ) : null}
-      {links.email ? (
-        <HoverPreviewLink
-          href={`mailto:${links.email}`}
-          preview={socialPreviews[`mailto:${links.email}`]}
-          className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
-          external
-          placement={["below"]}
-          forcePlacement={forceEmailPlacement}
-        >
-          <SiGmail size={iconSize} aria-hidden="true" />
-        </HoverPreviewLink>
-      ) : null}
-
-    </div>
-  );
+				return (
+					<HoverPreviewLink
+						key={platform}
+						href={data.url}
+						preview={preview}
+						className={`${commonButtonClasses} text-zinc-800 dark:text-zinc-100`}
+						external
+						placement={platform === "email" ? ["below"] : ["above", "below"]}
+						forcePlacement={
+							platform === "email" ? forceEmailPlacement : undefined
+						}
+					>
+						<Icon size={iconSize} aria-hidden={true} />
+					</HoverPreviewLink>
+				);
+			})}
+		</div>
+	);
 }
