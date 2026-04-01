@@ -1,53 +1,47 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
-import HoverPreviewLink, {
-  type HoverPreviewContent,
-} from "./components/HoverPreviewLink";
-import { getAllProjects } from "./lib/projects";
-import { getFeaturedBlogs } from "./lib/blogs";
-import { FEATURED_PROJECT_TAGS } from "./lib/tags";
-import Socials from "./components/Socials";
-import { CONTACT } from "./lib/contact";
-import { samvaadHero, mitsHero } from "./content/assets/images";
+import Link from "next/link";
 import FeaturedProjects from "./components/FeaturedProjects";
+import HoverPreviewLink, {
+	type HoverPreviewContent,
+} from "./components/HoverPreviewLink";
+import Socials from "./components/Socials";
+import { mitsHero } from "./content/assets/images";
+import { getFeaturedBlogs } from "./lib/blogs";
+import { CONTACT } from "./lib/contact";
+import { getAllProjects } from "./lib/projects";
+import { FEATURED_PROJECT_TAGS } from "./lib/tags";
 
 export const metadata: Metadata = {
-  title: "Atharva Verma",
-  description: "Software engineer and builder",
+	title: "Atharva Verma",
+	description: "Software engineer and builder",
 };
 
 const hyperlinkPreviews: Record<string, HoverPreviewContent> = {
-  "https://github.com/atharva-again/samvaad": {
-    title: "Samvaad",
-    description:
-      "A voice-first platform that turns dense documents into natural conversations.",
-    image: samvaadHero,
-  },
-  "https://web.mitsgwalior.in/": {
-    title: "MITS Gwalior",
-    description:
-      "Madhav Institute of Technology & Science is a NAAC A++ deemed university in Gwalior, MP, India",
-    image: mitsHero,
-  },
+	"https://web.mitsgwalior.in/": {
+		title: "MITS Gwalior",
+		description:
+			"Madhav Institute of Technology & Science is a NAAC A++ deemed university in Gwalior, MP, India",
+		image: mitsHero,
+	},
 };
 
 export default function Home() {
-  const projects = getAllProjects();
-  const featuredBlogs = getFeaturedBlogs();
+	const projects = getAllProjects();
+	const featuredBlogs = getFeaturedBlogs();
 
-  return (
-    <main className="min-h-screen bg-white dark:bg-black">
-      <div className="mx-auto max-w-4xl px-6 py-16">
-        <section className="mb-32">
-          <h1 className="text-5xl font-bold tracking-tight mb-6">
-            Atharva Verma
-          </h1>
-          <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
-            I am a product-first developer. What that means is in order for me
-            to commit to a project, it needs to have some kind of inherent
-            coolness.
-            {/* <br />
+	return (
+		<main className="min-h-screen bg-white dark:bg-black">
+			<div className="mx-auto max-w-4xl px-6 py-16">
+				<section className="mb-32">
+					<h1 className="text-5xl font-bold tracking-tight mb-6">
+						Atharva Verma
+					</h1>
+					<p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
+						I am a product-first developer. What that means is in order for me
+						to commit to a project, it needs to have some kind of inherent
+						coolness.
+						{/* <br />
             <br />
             At the moment, I am working on{" "}
             <HoverPreviewLink
@@ -61,151 +55,147 @@ export default function Home() {
             , a voice-first RAG platform.
             <br />
             <br /> */}
-            <br />
-            <br />
-            Beyond the tech side of things, I love and advocate for good public
-            transport. I think for any city, public transport and infra is
-            crucial. My other interests are modern cinema, hip-hop and
-            electronic music.
-          </p>
+						<br />
+						<br />
+						Beyond the tech side of things, I love and advocate for good public
+						transport. I think for any city, public transport and infra is
+						crucial. My other interests are modern cinema, hip-hop and
+						electronic music.
+					</p>
 
-          <div className="mt-6">
-            <Socials links={CONTACT} className="mt-2" iconSize={18} />
-          </div>
-        </section>
+					<div className="mt-6">
+						<Socials links={CONTACT} className="mt-2" iconSize={18} />
+					</div>
+				</section>
 
-        <section id="experience" className="mb-16">
-          <div className="flex items-baseline justify-between mb-4">
-            <h2 className="text-2xl font-semibold">
-              Experience (or the tech i have worked with)
-            </h2>
-          </div>
+				<section id="experience" className="mb-16">
+					<div className="flex items-baseline justify-between mb-4">
+						<h2 className="text-2xl font-semibold">
+							Experience (or the tech i have worked with)
+						</h2>
+					</div>
 
-          <div className="rounded-md -mx-6 bg-white dark:bg-black/60">
-            <div className="px-6 py-6">
-              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                I’ve worked across frontend and backend stacks,
-                created mobile and desktop apps, RAG systems, and
-                developed some robotic systems. Below are technologies I use
-                frequently:
-              </p>
+					<div className="rounded-md -mx-6 bg-white dark:bg-black/60">
+						<div className="px-6 py-6">
+							<p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+								I’ve worked across frontend and backend stacks, created mobile
+								and desktop apps, RAG systems, and developed some robotic
+								systems. Below are technologies I use frequently:
+							</p>
 
-              <div className="mt-4 flex flex-wrap gap-3">
-                {FEATURED_PROJECT_TAGS.map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`/projects?tags=${encodeURIComponent(tag)}`}
-                    className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer"
-                  >
-                    {tag}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-          <p className="mt-3 text-sm italic text-zinc-500 dark:text-zinc-400">
-            PS: Click any tag to view projects related to that technology.
-          </p>
-        </section>
+							<div className="mt-4 flex flex-wrap gap-3">
+								{FEATURED_PROJECT_TAGS.map((tag) => (
+									<Link
+										key={tag}
+										href={`/projects?tags=${encodeURIComponent(tag)}`}
+										className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer"
+									>
+										{tag}
+									</Link>
+								))}
+							</div>
+						</div>
+					</div>
+					<p className="mt-3 text-sm italic text-zinc-500 dark:text-zinc-400">
+						PS: Click any tag to view projects related to that technology.
+					</p>
+				</section>
 
-        <section id="upto" className="mb-12">
-          <div className="flex items-baseline justify-between mb-4">
-            <h2 className="text-2xl font-semibold">
-              What I am Upto These Days
-            </h2>
-          </div>
+				<section id="upto" className="mb-12">
+					<div className="flex items-baseline justify-between mb-4">
+						<h2 className="text-2xl font-semibold">
+							What I am Upto These Days
+						</h2>
+					</div>
 
-          <div className="rounded-md -mx-6 bg-white dark:bg-black/60">
-            <div className="px-6 py-6">
-              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                <b>Building</b>: Working on two side-projects: AudioRAG and trackmebaby.
-                <br />
-                <br />
-                <b>Learning</b>: Experimenting with{" "}
-                <Link
-                  href="https://electrobun.dev/"
-                  className="underline decoration-zinc-300 dark:decoration-zinc-700 underline-offset-4 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                >
-                  Electrobun
-                </Link>
-                . Apart from this, I am also a
-                third-year student at{" "}
-                <HoverPreviewLink
-                  href="https://web.mitsgwalior.in/"
-                  className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
-                  preview={hyperlinkPreviews["https://web.mitsgwalior.in/"]}
-                  placement={["above", "below"]}
-                >
-                  MITS Gwalior
-                </HoverPreviewLink>{" "}
-                studying AI and Robotics.
-              </p>
-            </div>
-          </div>
-          <p className="mt-3 text-sm italic text-zinc-500 dark:text-zinc-400">
-            Updated: Mar 11, 2026
-          </p>
-        </section>
+					<div className="rounded-md -mx-6 bg-white dark:bg-black/60">
+						<div className="px-6 py-6">
+							<p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+								<b>Building</b>: Working on two side-projects: AudioRAG and
+								trackmebaby.
+								<br />
+								<br />
+								<b>Learning</b>: Experimenting with{" "}
+								<Link
+									href="https://electrobun.dev/"
+									className="underline decoration-zinc-300 dark:decoration-zinc-700 underline-offset-4 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+								>
+									Electrobun
+								</Link>
+								. Apart from this, I am also a third-year student at{" "}
+								<HoverPreviewLink
+									href="https://web.mitsgwalior.in/"
+									className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
+									preview={hyperlinkPreviews["https://web.mitsgwalior.in/"]}
+									placement={["above", "below"]}
+								>
+									MITS Gwalior
+								</HoverPreviewLink>{" "}
+								studying AI and Robotics.
+							</p>
+						</div>
+					</div>
+					<p className="mt-3 text-sm italic text-zinc-500 dark:text-zinc-400">
+						Updated: Mar 11, 2026
+					</p>
+				</section>
 
-        <section className="mb-24">
-          <div className="flex items-baseline justify-between mb-8">
-            <h2 className="text-2xl font-semibold">Selected Projects</h2>
-            <Link
-              href="/projects"
-              className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
-            >
-              View all →
-            </Link>
-          </div>
+				<section className="mb-24">
+					<div className="flex items-baseline justify-between mb-8">
+						<h2 className="text-2xl font-semibold">Selected Projects</h2>
+						<Link
+							href="/projects"
+							className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
+						>
+							View all →
+						</Link>
+					</div>
 
-          <FeaturedProjects projects={projects} />
-        </section>
+					<FeaturedProjects projects={projects} />
+				</section>
 
-        <section>
-          <div className="flex items-baseline justify-between mb-8">
-            <h2 className="text-2xl font-semibold">Featured Writing</h2>
-            <Link
-              href="/blogs"
-              className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
-            >
-              View all →
-            </Link>
-          </div>
-          <div className="space-y-8">
-            {featuredBlogs.map((blog) => (
-              <div key={blog.slug}>
-                <Link
-                  href={`/blogs/${blog.slug}`}
-                  className="block"
-                >
-                  <div className="flex flex-col md:flex-row gap-4 items-start">
-                    {blog.heroImage && (
-                      <div className="relative w-full md:w-24 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
-                        <Image
-                          src={blog.heroImage}
-                          alt={blog.title}
-                          fill
-                          sizes="(min-width: 768px) 6rem, 100vw"
-                          className="object-cover"
-                          quality={100}
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1 mt-2 md:mt-0">
-                      <div className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
-                        {blog.title}
-                      </div>
-                      <p className="text-zinc-600 dark:text-zinc-400 mt-1">
-                        {blog.description}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-    </main>
-  );
+				<section>
+					<div className="flex items-baseline justify-between mb-8">
+						<h2 className="text-2xl font-semibold">Featured Writing</h2>
+						<Link
+							href="/blogs"
+							className="text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
+						>
+							View all →
+						</Link>
+					</div>
+					<div className="space-y-8">
+						{featuredBlogs.map((blog) => (
+							<div key={blog.slug}>
+								<Link href={`/blogs/${blog.slug}`} className="block">
+									<div className="flex flex-col md:flex-row gap-4 items-start">
+										{blog.heroImage && (
+											<div className="relative w-full md:w-24 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+												<Image
+													src={blog.heroImage}
+													alt={blog.title}
+													fill
+													sizes="(min-width: 768px) 6rem, 100vw"
+													className="object-cover"
+													quality={100}
+												/>
+											</div>
+										)}
+										<div className="flex-1 mt-2 md:mt-0">
+											<div className="text-lg font-medium hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors">
+												{blog.title}
+											</div>
+											<p className="text-zinc-600 dark:text-zinc-400 mt-1">
+												{blog.description}
+											</p>
+										</div>
+									</div>
+								</Link>
+							</div>
+						))}
+					</div>
+				</section>
+			</div>
+		</main>
+	);
 }

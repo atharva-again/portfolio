@@ -45,8 +45,8 @@ export const PROJECTS: Project[] = [
 			"Voice-first learning/information-gathering platform. Allows users to upload their docs and have text or voice conversations with them.",
 		year: "Sep 2025",
 		links: [
-			{ url: "https://github.com/atharva-again/samvaad", type: "repo" },
-			{ url: "https://www.samvaad.live", type: "demo" },
+			{ url: "https://git.new/samvaad", type: "repo" },
+			{ url: "https://dub.sh/samvaad", type: "demo" },
 		],
 		heroImage: samvaadHero,
 		tags: ["ASR", "TTS", "RAG", "Python", "Next.js", "TypeScript"],
@@ -61,7 +61,7 @@ export const PROJECTS: Project[] = [
 		description:
 			"A background desktop app that watches your projects folder and keeps track of what you're working on. Ask AI questions about your work history.",
 		year: "Mar 2026",
-		links: [{ url: "https://github.com/Feynmunh/trackmebaby", type: "repo" }],
+		links: [{ url: "https://git.new/trackmebaby", type: "repo" }],
 		heroImage: tmbHero,
 		tags: ["Electrobun", "Bun", "Vite", "TypeScript"],
 		status: "active",
@@ -76,9 +76,9 @@ export const PROJECTS: Project[] = [
 			"Quantized Indic ASR for multiple Indic languages. INT8 quantization for efficient CPU inference.",
 		year: "Dec 2025",
 		links: [
-			{ url: "https://github.com/atharva-again/indic-asr-onnx", type: "repo" },
+			{ url: "https://git.new/indic-conf-quant", type: "repo" },
 			{
-				url: "https://huggingface.co/atharva-again/indic-conformer-600m-quantized",
+				url: "https://dub.sh/indic-conf-quant",
 				type: "huggingface",
 			},
 			{ url: "https://pypi.org/project/indic-asr-onnx/", type: "pypi" },
