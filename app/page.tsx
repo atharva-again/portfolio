@@ -2,28 +2,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import FeaturedProjects from "./components/FeaturedProjects";
-import HoverPreviewLink, {
-	type HoverPreviewContent,
-} from "./components/HoverPreviewLink";
 import Socials from "./components/Socials";
-import { mitsHero } from "./content/assets/images";
 import { getFeaturedBlogs } from "./lib/blogs";
 import { CONTACT } from "./lib/contact";
 import { getAllProjects } from "./lib/projects";
-import { FEATURED_PROJECT_TAGS } from "./lib/tags";
+import { sendkit } from "./content/assets/images";
 
 export const metadata: Metadata = {
 	title: "Atharva Verma",
 	description: "Software engineer and builder",
-};
-
-const hyperlinkPreviews: Record<string, HoverPreviewContent> = {
-	"https://web.mitsgwalior.in/": {
-		title: "MITS Gwalior",
-		description:
-			"Madhav Institute of Technology & Science is a NAAC A++ deemed university in Gwalior, MP, India",
-		image: mitsHero,
-	},
 };
 
 export default function Home() {
@@ -68,76 +55,43 @@ export default function Home() {
 					</div>
 				</section>
 
-				<section id="experience" className="mb-16">
+				<section id="work" className="mb-16">
 					<div className="flex items-baseline justify-between mb-4">
 						<h2 className="text-2xl font-semibold">
-							Experience (or the tech i have worked with)
+							work work work work work work
 						</h2>
 					</div>
 
-					<div className="rounded-md -mx-6 bg-white dark:bg-black/60">
-						<div className="px-6 py-6">
-							<p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-								I’ve worked across frontend and backend stacks, created mobile
-								and desktop apps, RAG systems, and developed some robotic
-								systems. Below are technologies I use frequently:
-							</p>
-
-							<div className="mt-4 flex flex-wrap gap-3">
-								{FEATURED_PROJECT_TAGS.map((tag) => (
-									<Link
-										key={tag}
-										href={`/projects?tags=${encodeURIComponent(tag)}`}
-										className="inline-block rounded px-3 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer"
-									>
-										{tag}
-									</Link>
-								))}
+					<Link
+						href="https://sendkit.ai"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="flex flex-col md:flex-row gap-4 items-start group"
+					>
+						<div className="relative w-full md:w-24 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+							<Image
+								src={sendkit}
+								alt="SendKit"
+								fill
+								sizes="(min-width: 768px) 6rem, 100vw"
+								className="object-cover"
+								quality={100}
+							/>
+						</div>
+						<div className="flex-1 mt-2 md:mt-0 w-full">
+							<div className="flex items-baseline justify-between w-full">
+								<span className="text-lg font-medium group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
+									Product Eng Intern, <b>SendKit</b>
+								</span>
+								<span className="text-zinc-400 dark:text-zinc-500 text-sm flex-shrink-0 ml-4">
+									Jun 2026 - Present
+								</span>
 							</div>
-						</div>
-					</div>
-					<p className="mt-3 text-sm italic text-zinc-500 dark:text-zinc-400">
-						PS: Click any tag to view projects related to that technology.
-					</p>
-				</section>
-
-				<section id="upto" className="mb-12">
-					<div className="flex items-baseline justify-between mb-4">
-						<h2 className="text-2xl font-semibold">
-							What I am Upto These Days
-						</h2>
-					</div>
-
-					<div className="rounded-md -mx-6 bg-white dark:bg-black/60">
-						<div className="px-6 py-6">
-							<p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-								<b>Building</b>: Working on two side-projects: AudioRAG and
-								trackmebaby.
-								<br />
-								<br />
-								<b>Learning</b>: Experimenting with{" "}
-								<Link
-									href="https://electrobun.dev/"
-									className="underline decoration-zinc-300 dark:decoration-zinc-700 underline-offset-4 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-								>
-									Electrobun
-								</Link>
-								. Apart from this, I am also a third-year student at{" "}
-								<HoverPreviewLink
-									href="https://web.mitsgwalior.in/"
-									className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
-									preview={hyperlinkPreviews["https://web.mitsgwalior.in/"]}
-									placement={["above", "below"]}
-								>
-									MITS Gwalior
-								</HoverPreviewLink>{" "}
-								studying AI and Robotics.
+							<p className="text-zinc-600 dark:text-zinc-400 mt-1">
+								Improving user experience across the stack
 							</p>
 						</div>
-					</div>
-					<p className="mt-3 text-sm italic text-zinc-500 dark:text-zinc-400">
-						Updated: Mar 11, 2026
-					</p>
+					</Link>
 				</section>
 
 				<section className="mb-24">
