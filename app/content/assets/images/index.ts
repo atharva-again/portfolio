@@ -33,6 +33,7 @@ export { default as q1 } from "./q-1.png";
 export { default as q2 } from "./q-2.png";
 export { default as q3 } from "./q-3.png";
 export { default as qHero } from "./q-hero.png";
+export { default as sendkit } from "./sendkit.png";
 export { default as samvaad1 } from "./samvaad-1.png";
 export { default as samvaad2 } from "./samvaad-2.png";
 export { default as samvaadHero } from "./samvaad-hero.png";
