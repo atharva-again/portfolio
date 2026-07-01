@@ -28,20 +28,7 @@ export default function Home() {
 						I am a product-first developer. What that means is in order for me
 						to commit to a project, it needs to have some kind of inherent
 						coolness.
-						{/* <br />
-            <br />
-            At the moment, I am working on{" "}
-            <HoverPreviewLink
-              href="https://github.com/atharva-again/samvaad"
-              className="underline decoration-sky-500 decoration-2 underline-offset-4 transition-colors hover:text-sky-600 dark:hover:text-sky-300"
-              preview={hyperlinkPreviews["https://github.com/atharva-again/samvaad"]}
-              placement={["side-right", "below"]}
-            >
-              Samvaad
-            </HoverPreviewLink>
-            , a voice-first RAG platform.
-            <br />
-            <br /> */}
+
 						<br />
 						<br />
 						Beyond the tech side of things, I love and advocate for good public
