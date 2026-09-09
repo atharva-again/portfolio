@@ -1,5 +1,9 @@
 import type { StaticImageData } from "next/image";
-import { codingWithNothingHero, cpcbHero } from "../content/assets/images";
+import {
+	codingWithNothingHero,
+	cpcbHero,
+	ossSoftwareHero,
+} from "../content/assets/images";
 import { BLOG_TAGS } from "./tags";
 
 export type Blog = {
@@ -14,6 +18,16 @@ export type Blog = {
 };
 
 export const BLOGS: Blog[] = [
+	{
+		slug: "a-list-of-oss-software-i-use",
+		title: "a list of (oss) software i use",
+		description:
+			"A personal tour of the open-source and developer tools I use across my laptop, terminal, coding workflow, and Android devices.",
+		heroImage: ossSoftwareHero,
+		date: "Sep 2026",
+		tags: ["Tech", "Workflow"],
+		featured: true,
+	},
 	{
 		slug: "cpcb-aqi-api",
 		title: "CPCB's AQI API: Everything You Need To Know",

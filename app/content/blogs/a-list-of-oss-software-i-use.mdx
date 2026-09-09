@@ -1,0 +1,163 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import {
+	ossSoftwareFastfetch,
+	ossSoftwareHelix,
+	ossSoftwareKde,
+	ossSoftwareMarkdawn,
+	ossSoftwareMarkdawnMobile,
+} from '../assets/images';
+
+Been meaning to write this from a long time. The only motivation behind this is that I find it useful to read about other people's experience related to software, especially if they are devs because they can produce a nuanced take that can be closer to my liking and requirements, and I hope this can be useful to you, dev or not.
+
+I thought about whether I should divide this device-wise (laptop, phone, tab, tv) or should just list them one by one without any such division. I decided with the latter because there are some apps that I use on multiple devices. Sooooo, here we go.
+
+## OpenSUSE Tumbleweed
+
+The device that I spend my most time on is my laptop. It runs on [Tumbleweed](https://get.opensuse.org/tumbleweed/), a rolling distro by OpenSUSE.
+
+> What Is A Rolling Distro?
+>
+> Most OSes that you would know have release versions and release annualy or after some interval (Windows 11 came after Win 10, MacOS 26 (Tahoe) after 25).
+>
+> Tumbleweed doesn't have a version. It is a continuously updating distro.
+
+### The Pros
+
+- as a dev it is important i get the latest packages
+- zypper (the package manager) is pretty cool
+- snapper support out of the box. If anything goes wrong during an update, which hasn't till now in my almost a year of using weed, just revert back to a previous snapshot of your system during boot and you are good to go.
+- most stable rolling distro, some say even the most stable distro
+- perfect out of the box kde support
+- sick logo
+- self-sustainable because there is OpenSUSE behind it with a legitimate way to make cash
+
+### The Cons
+
+- there are duplicated software to do the same thing. yast does the same things as kde's software center, wifi service, etc. Had to delete them myself. Block them too otherwise on the next update they would be redownloaded.
+- The installation is not that simple, at least not if compared to Fedora / Ubuntu which have nice graphic installation
+
+## KDE Plasma
+
+I have a lot of love to give to the KDE team. They are phenomenal. I use [KDE Plasma](https://kde.org/plasma-desktop/) as my DE (Desktop Environment). The level of customizations I can make is crazy, but even vanilla Plasma is so cool and looks good.
+
+Before this, I used to use GNOME. There are some aspects of GNOME I find better than KDE, but overall I like KDE better.
+
+I also have these sick Nothing-inspired widgets on my desktop screen that I found on Reddit, made by someone for KDE. You can find them on [GitHub](https://github.com/jaxparrow07/nothing-kde-widgets).
+
+<MDXLightboxImage src={ossSoftwareKde} alt="KDE Plasma desktop with custom widgets" />
+
+There are no cons to KDE. It does ship with some KDE apps by default, but I won't say it is bloatware.
+
+## Kitty
+
+The very first thing I open after my laptop has booted up is the terminal. There are multiple terminal emulators available (Ghostty, Terminator, native terminals, Alacritty, etc.), but I use [Kitty](https://sw.kovidgoyal.net/kitty/).
+
+There is no particular justification behind this choice, but Kitty does support native image rendering, GPU rendering, themes, keybinds, and is cross-platform. The reason I use it over the native terminal app is because in future when I move to macOS or other distros I don't want to set up new keybinds. I can reuse my configs.
+
+However, I find that Kitty is a bit more RAM-heavy than the native terminal app, but it's fine.
+
+By the way, Kitty is not made by KDE.
+
+## zsh
+
+I use zsh as my primary shell. Started with bash, as everyone else. Shifted to zsh due to its better autocomplete and initially I was awed by Oh My Zsh too. But then I got fed up with the plugins. But never went back to bash.
+
+## Starship
+
+Starship is a shell prompt. Basically what it does is display info like this:
+
+```
+markdawn-issue-64 on  fix/sidebar-shortcut [$!?] via  v25.9.0 took 13s
+```
+
+- markdawn-issue-64 is the name of directory (here it is a git worktree)
+- fix/sidebar-shortcut is the git branch I am on
+- v25.9.0 is my nodejs version
+- 13s is the time it took for the last command to execute
+
+Pretty handy. Built in Rust. Cross-platform. Check it out [here](https://starship.rs/). Even though it is customizable, I never felt the need to. I just use it out of the box.
+
+## Fastfetch
+
+Just a nerdy tool to display system information whenever the shell file is loaded. You can find it on [GitHub](https://github.com/fastfetch-cli/fastfetch). Supports macOS too so it goes well with my "reusing configs" philosophy. Primarily written in C so it is quite fast, as the name suggests.
+
+<MDXLightboxImage src={ossSoftwareFastfetch} alt="Fastfetch displaying system information in a terminal" />
+
+## Zen Browser
+
+I was first introduced to sidebar-based browsers through Arc Browser by The Browser Company. Used it when I was on Windows. Then I found [Zen](https://zen-browser.app/), tried it on Windows too, and finally made it my daily driver after switching to Linux. It's OSS too and based on Firefox.
+
+Aesthetics and functions are pretty nice, but there are still some things I miss about Arc.
+
+## Zed Code Editor
+
+A modern, Rust-based code editor, so you know it's fast and doesn't hog memory like VS Code. But now with agentic coding, I rarely open IDEs or code editors that much. I open Zed more than VS Code, which I haven't opened in months, good riddance.
+
+I get confused between Zed and Zen quite often lol.
+
+## Helix
+
+Helix is a terminal-based editor. It follows a batteries-included approach and is made using Rust. It is quite fast. I like that I don't have to spend time plugin hunting. I used LazyVim before too but finally settled on Helix; it felt like home.
+
+<MDXLightboxImage src={ossSoftwareHelix} alt="Helix editor open in a terminal" />
+
+## OpenCode TUI
+
+Probably the software I spend the most time using on my desktop, besides the terminal itself. I like the fact that it is well-thought-out, the devs are quite active on X and care about their craft, and I can use whatever models I want (at least I could until Anthropic and Microsoft decided to start burning bridges).
+
+## Markdawn
+
+The next-generation knowledge base app that I'm building for myself, and other humans and agents. Fully OSS and self-hostable. Supports Markdown syntax and lossless Markdown import and export.
+
+I added a fully functioning Obsidian import feature too because I used to use Obsidian, but it didn't fit my workflow due to sync being paid, no web version, and no collaboration features.
+
+<MDXLightboxImage src={ossSoftwareMarkdawn} alt="Markdawn workspace" />
+
+<MDXLightboxImage src={ossSoftwareMarkdawnMobile} alt="Markdawn on a mobile device" />
+
+You can try it [here](https://markdawn.space) today. Public beta right now.
+
+## Obsidian
+
+Really inspiring piece of software. Lot of philosophy, design, and code principles that I'm copying from it. Feels well thought-out. Even though it is technically not OSS (code not available), it feels OSS because you are never bounded by anything. In the end it is just a Markdown editor.
+
+But I have moved completely from Obsidian to Markdawn, but still felt like mentioning it, because it is a carefully crafted piece of software and the devs behind it are really thoughtful and nice.
+
+## KDE Connect
+
+I use it to connect my laptop with my phone. The catch is they have to be on the same network (Wi-Fi or hotspot). Then I can do things like one-click sharing, clipboard sharing, media controls, picking up calls, and more.
+
+It has nice integration with KDE Plasma, like widgets or a share option coming directly in the context menu.
+
+## LocalSend
+
+I use it to share files between devices on my home Wi-Fi network. It is installed on all devices (laptop, phone, tab, TV).
+
+## Paperize
+
+A beautiful, open-source Android app which I use to shuffle my wallpapers. You can find it [here](https://github.com/Anthonyy232/Paperize). It follows Material UI design too.
+
+## URLCheck
+
+This is such a cool app. I set it up as my default browser, and then whenever I click on a link it opens a dialog where I can do things like remove trackers and unnecessary parameters and resolve URLs. A must-have for privacy-focused people. Find it [here](https://github.com/TrianguloY/URLCheck).
+
+## Birday
+
+Use it to keep track of birthdays of friends and family. Fully OSS app. Tiny, works as expected. Syncs with contacts too.
+
+## Firefox Nightly for Android
+
+I installed it initially for debugging websites on my phone, but now use it fully. It syncs well with Zen too (remember it is Firefox-based).
+
+## Sponge
+
+Use it to clear my gallery with the swiping experience. Better than manually selecting and deleting from file explorer or gallery. Effective in my experience. You can find it on the Play Store. I can't find its code anywhere so it must not be OSS.
+
+## Breezy Weather
+
+Beautiful OSS weather app. Has quite nice widgets on Android too.
+
+## Spectacle
+
+Spectacle is the default screenshot and screen recording software in KDE. Works as expected, though screen recording with sound doesn't work for some reason. I don't know whether it is the app or an X11/Wayland thing.
+
