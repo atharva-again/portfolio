@@ -22,8 +22,6 @@ export { default as fsemendHero } from "./fsemend-hero.png";
 export { default as githubHero } from "./github-hero.png";
 export { default as indicAsrQuantHero } from "./indic-asr-quant-hero.png";
 export { default as linkedinHero } from "./linkedin-hero.png";
-export { default as markdawn1 } from "./markdawn-1.png";
-export { default as markdawn2 } from "./markdawn-2.png";
 export { default as markdawnHero } from "./markdawn-hero.png";
 export { default as mediumHero } from "./medium-hero.png";
 export { default as mitsHero } from "./mits-hero.png";

@@ -1,81 +1,82 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import { markdawn1, markdawn2 } from '../assets/images';
-
 # Why Markdawn?
 
-When I was in the market for a Notion alternative, I started using Obsidian. It's **file-over-app** philosophy really brought me in. Everything was nice, but the only problem I had was that I couldn't share my notes with a simple link. The collaboration part of Notion was missing.
+Markdawn is an open-source, markdown-based knowledge base for humans and their AI agents. It is currently
+available in public beta at [markdawn.space](https://markdawn.space) and can also be self-hosted under the GNU AGPL v3.
 
-Most note-taking applications either lack real-time collaboration or require you to surrender your data to cloud services. I wanted a tool that combined the best of both worlds: real-time collaborative editing with the privacy and control of self-hosting.
+The important idea is that the browser, CLI, REST API, and MCP interface all use the same content layer. A page created by a person is the same kind of page an agent can read, edit, and link to. There is no separate agent mode, data store, or sync layer to keep in agreement.
 
 # What's Unique About This?
 
-**Monorepo architecture with clear separation of concerns.**
-Markdawn uses a monorepo structure that separates the API, web frontend, collaboration server, and shared utilities. This makes development, testing, and deployment more manageable while keeping the codebase clean and maintainable.
+**The API is the product, not an adapter bolted onto a human-only app.**
+
+Markdawn treats AI agents as first-class users. Agents can work with the same pages and folders as people through the REST API, the terminal CLI, or remote MCP. Access is permissioned: read-only tokens are suitable for answering questions, while write access can be granted when an agent needs to create or make targeted edits.
+
+The product also keeps the parts that make a knowledge base useful for people: markdown editing, folders, backlinks, tags, search, sharing, and real-time collaboration.
 
 # Architecture
 
 ## Monorepo Structure
-```
+
+```text
 packages/
-├── api/       # REST API server (Hono, port 3001)
-├── web/       # Frontend app (Vite, port 5173)
+├── api/       # Hono API and PostgreSQL persistence
+├── web/       # React/Vite application and Markdown editor
+├── collab/    # Hocuspocus collaboration service
+├── mcp/       # Remote MCP server and API client
 ├── shared/    # Shared types and utilities
-└── collab/    # Collaboration server (Hocuspocus, port 1234)
+└── marketing-site/ # Public landing page
 ```
 
-## Backend (API)
-- **Framework**: Hono (lightweight, high-performance web framework)
+## Backend
+
+- **API**: Hono with regular browser routes and a versioned `/api/v1` contract
 - **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: Better Auth with OAuth (Google, GitHub)
-- **API Design**: RESTful API with proper error handling and validation
+- **Authentication**: Better Auth, OAuth, scoped API tokens, and MCP OAuth
+- **Content**: Markdown converted to and from Yjs documents, with page metadata,
+  folders, links, sharing, versions, search, imports, exports, and Trash
 
-## Frontend (Web)
-- **Framework**: React 19 with Vite
-- **Styling**: Tailwind CSS v4
-- **UI Components**: Mantine component library
-- **Rich Text Editing**: BlockNote editor
-- **State Management**: React Query for server state
+## Frontend
 
-## Collaboration
-- **CRDT Library**: Yjs (Conflict-free Replicated Data Types)
-- **Server**: Hocuspocus (Yjs server implementation)
-- **Protocol**: WebSocket for real-time updates
+- **Framework**: React with Vite and React Router
+- **Editor**: Milkdown with CommonMark/GFM support, math, tables, task lists,
+  callouts, wiki links, slash commands, and collaborative cursors
+- **Data fetching**: TanStack Query
+- **UI**: Tailwind CSS with a responsive interface and dark mode
 
-# Problems Faced
+## Collaboration And Agents
 
-- **Real-time synchronization**: Implementing CRDT-based synchronization that handles conflicts gracefully required deep understanding of Yjs.
-- **Monorepo complexity**: Managing dependencies and build configurations across multiple packages required careful tooling choices.
-- **Authentication flow**: Implementing OAuth with multiple providers while maintaining security best practices.
+- **Real-time editing**: Yjs CRDTs over Hocuspocus WebSockets
+- **Sharing**: Restricted pages, public view/edit links, and per-person
+  view/edit/admin access
+- **CLI**: Page search, reading, creation, exact edits, Markdown import/export,
+  workspace export, and an installable agent skill
+- **MCP**: OAuth-protected tools for searching, reading, creating, updating,
+  moving, copying, importing, exporting, and managing pages and folders
 
 # Learnings
 
 Since building Markdawn, I learned:
 
-- How to implement real-time collaborative editing using CRDTs and Yjs
-- Building monorepo architectures with proper package separation
-- Implementing OAuth authentication flows with multiple providers
-- Designing RESTful APIs with Hono and proper error handling
-- Managing complex frontend state with React Query
+- How to design a product where humans and agents share one content layer
+- Building a real-time collaborative editor around Yjs and Hocuspocus
+- Designing versioned REST APIs for both interactive clients and automation
+- Integrating MCP and OAuth without bypassing normal workspace permissions
+- Building reliable Markdown and Obsidian import/export workflows
+- Structuring a TypeScript monorepo with separate web, API, collaboration,
+  MCP, shared, documentation, and marketing packages
+- Deploying and documenting an open-source application for self-hosting
 
 # Future Vision
 
 ## Short Term Plans
-- Add more rich text editing features (tables, code blocks, callouts)
-- Implement offline mode with local-first architecture
-- Add workspace templates for different use cases
+
+- Better knowledge base features (search, graph, etc.)
+- Support more MCP clients
+- Find a way to market the app
 
 ## Long-term Plans
-- Build mobile applications for iOS and Android
-- Add AI-powered features for note summarization and search
-- Implement advanced collaboration features (comments, suggestions, version history)
 
-# Some Screenshots
-
----
-
-<MDXLightboxImage src={markdawn1} alt="Main dashboard showing workspaces and recent notes" />
-
----
-
-<MDXLightboxImage src={markdawn2} alt="Rich text editor with collaborative cursor indicators" />
-
+- Make Markdawn a dependable shared memory layer for people and their agents
+- Mobile and desktop app
+- Full offline capabilities
+- Keep self-hosting and data portability as first-class features
