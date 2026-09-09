@@ -39,6 +39,23 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
 	{
+		id: "markdawn",
+		title: "Markdawn",
+		description:
+			"Open-source, markdown-based knowledge base for humans and AI agents, available through the browser, CLI, REST API, and MCP.",
+		year: "Feb 2026",
+		links: [
+			{ url: "https://github.com/atharva-again/Markdawn", type: "repo" },
+			{ url: "https://markdawn.space", type: "demo" },
+		],
+		heroImage: markdawnHero,
+		tags: ["TypeScript", "Go", "React.js", "Hono", "PostgreSQL", "Yjs", "MCP"],
+		status: "active",
+		featured: true,
+		contentFile: "markdawn.mdx",
+	},
+
+	{
 		id: "samvaad",
 		title: "Samvaad",
 		description:
@@ -65,7 +82,7 @@ export const PROJECTS: Project[] = [
 		heroImage: tmbHero,
 		tags: ["Electrobun", "Bun", "Vite", "TypeScript"],
 		status: "active",
-		featured: true,
+		featured: false,
 		contentFile: "trackmebaby.mdx",
 	},
 
@@ -102,20 +119,6 @@ export const PROJECTS: Project[] = [
 		status: "active",
 		featured: false,
 		contentFile: "audiorag.mdx",
-	},
-
-	{
-		id: "markdawn",
-		title: "Markdawn",
-		description:
-			"A collaborative note-taking application with real-time editing capabilities.",
-		year: "Feb 2026",
-		links: [{ url: "https://github.com/atharva-again/Markdawn", type: "repo" }],
-		heroImage: markdawnHero,
-		tags: ["React.js", "Hono", "Yjs", "TypeScript"],
-		status: "active",
-		featured: false,
-		contentFile: "markdawn.mdx",
 	},
 
 	{
