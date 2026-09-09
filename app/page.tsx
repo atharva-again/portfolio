@@ -71,11 +71,14 @@ export default function Home() {
 									Product Eng Intern, <b>SendKit</b>
 								</span>
 								<span className="text-zinc-400 dark:text-zinc-500 text-sm flex-shrink-0 ml-4">
-									Jun 2026 - Present
+									Jun 2026 - Sep 2026
 								</span>
 							</div>
 							<p className="text-zinc-600 dark:text-zinc-400 mt-1">
-								Improving user experience across the stack
+								Built product observability with self-hosted SigNoz while improving the
+								experience for people through dark mode, responsive mobile support, and
+								user-requested features—and for AI agents through MCP tools and more
+								capable APIs.
 							</p>
 						</div>
 					</Link>
