@@ -1,0 +1,117 @@
+Imagine this: you have a note-taking app with a complex feature set like Markdown rendering, toolbar, slash menu, sharing infrastructure, etc.
+
+You opened and merged a PR that added keyboard shortcuts. You tested it thoroughly yourself and confirmed that the new shortcuts were working. The code made it to production. Now you encounter a weird bug that somehow crept in, and URLs are no longer rendering properly.
+
+You never thought about testing whether URL pasting was working because why would you? The PR didn't touch it, it was not in its scope, but somehow it crept in.
+
+This exact same scenario happened with me, and that's when I decided that I needed to properly test features. But I can't do it manually, because it would mean testing that all headings (H1 through H5), paragraphs, all lists (bulleted, numbered, task lists), and dozens of other features work and render properly.
+
+This is where Playwright comes in.
+
+## What Is E2E Testing?
+
+E2E means end to end. It really is end to end because you are testing *everything*. It might seem like it's only testing the frontend, but it's more like *the frontend testing itself and the backend*, which is a huge gain.
+
+For example, you can have a test which ensures that a new page is always created successfully. Or a test which ensures that when you paste a table, it renders properly.
+
+E2E tests require that you run an actual server, not a mock. That's the whole point. Mocks can hide errors.
+
+## What Is Playwright?
+
+I know, you probably already know this, given that you are reading this and are in the tech space. But I will tell you what my definition of Playwright is.
+
+> *Playwright is a library which standardizes access to browser APIs so you can automate stuff without it being painful.*
+
+It is by Microsoft, probably the only good thing they have created.
+
+If you are anything like me, you might have tried to research its alternatives and weigh their pros and cons, but I would like to put your mind at ease and assure you that you can't go wrong with Playwright. It's the standard for a reason.
+
+You can find it on [GitHub](https://github.com/microsoft/playwright) and its own [website](https://playwright.dev/), which has nice docs.
+
+## MCP And CLI
+
+Playwright has pretty cool MCP support, and now it has its own CLI and skills too, so your context doesn't bloat.
+
+## How I (Or Rather OpenCode) Wrote The E2E Tests
+
+As I told you, this was the first time working with E2E tests for me. Even though LLMs make it pretty easy, there is still an inherent understanding that you only gain after getting your hands dirty.
+
+I asked my agent to research best E2E testing practices, how we should implement them, and which things we should test. Long story short, it wrote some tests, and after some back and forth, they were passing. I had to do multiple passes to make sure they covered almost all features and edge cases too. But yeah, it was working.
+
+I still remember the agent asking me whether I wanted Chrome only or both Chrome and Firefox. I said both, because I'm a Zen Browser user, which is a Firefox fork. Maybe I shouldn't have, which you will know soon why.
+
+The first run took around 10 minutes. This was the first time any of my GitHub Actions jobs had taken that long. I was like, okay, this is slow, but it's giving me determinism, which I would take any day, especially when AI is generating code.
+
+## The Breaking Points
+
+### First: It Took Too Long
+
+As I continued adding features and writing E2E tests for them, one job took almost 30 minutes. Thirty minutes for a single CI job was a lot for me. It cost me GitHub Actions minutes, which is fine, but more importantly, it slowed down my velocity.
+
+I decided I needed to do something about this.
+
+### Second: Chrome vs Firefox
+
+I learned it, perhaps too late, that Chrome has 100x better support for DevTools, due to it having a better API. Chrome was always faster than Firefox for the same tests.
+
+Not just that, some tests failed only in Firefox that never failed in Chrome, and everything was green. And then there were times when a test failed in Chrome but not in Firefox. This leads into the third point.
+
+### Third: The Non-Determinism
+
+E2E tests are non-deterministic. I once ran the same test suite, once with one worker and another time with two workers.
+
+> *Workers are basically how many threads are running your tests at the same time. More means faster, but you are competing for resources.*
+
+No failures with one worker. Multiple failures with two. The various reasons this could happen:
+
+1. **Machine limitations** like CPU throttling. This is the best because it is not in your control.
+2. **Database collision.** Both workers are trying to read and write to the same database instance. You need to find a way to provide true isolation at the worker or test level.
+3. **The same login credentials being used.** This breaks isolation and will eventually come back to bite you. The simple fix again is to have a way to create new test credentials on demand, like an `/api/test` REST endpoint.
+
+## Things That Make The Breaking Points Bearable
+
+### Run Only Chrome On Every PR
+
+Don't try to fight what is broken. Run only Chrome on every PR and then, if you really want, run Firefox nightly or have a tag where you can use `@firefox` and run it.
+
+### Make The E2E Job Non-Required
+
+There are times when the test flags something, but you test it manually and it works. A lot of times it has nothing to do with your PR's scope.
+
+Instead of rerunning the E2E test and praying it goes away, it is better to make it non-required so that once the reviewer or developer has verified it is a false positive, the PR can still go through and velocity is preserved.
+
+Of course, developers have a responsibility here not to be impatient and flag failures as false positives just to get the PR merged.
+
+### True Isolation
+
+Things you can isolate:
+
+1. Database
+2. Server
+3. Login credentials
+
+I personally keep the server the same and isolate the rest too. This maps nicely into the next section.
+
+### Vertical Scaling: Workers And Fully Parallel
+
+I already told you what workers are. But this analogy will help you understand better:
+
+> *Workers: you have multiple test files. Each test file can run in parallel.*
+>
+> *Fully parallel: this is a true/false toggle. If it's true, all the tests inside a test file are also parallel; otherwise, they run sequentially.*
+
+However, don't think that you can keep increasing workers and get a linear decrease in job time. It doesn't work like that. Keep in mind that the more workers you have, the more isolated databases and servers you need to maintain, which costs RAM and CPU. If you have fully parallel enabled on top of that, you can do the math for what that means.
+
+### Horizontal Scaling: Sharding
+
+This is, in my opinion, a very nice feature, but I haven't personally used it because I haven't reached that scale and I don't wish to spend my development time on this right now.
+
+You might already know about database sharding. It's the same principle. For example, you run one-third of your tests on one machine or job and the rest on another.
+
+### Read The Docs, Or At Least Ask Your Agent To
+
+It's important that you know what the configs are, because often the agent will just try to increase the timeout in the hope that the test passes, and you need to know that's not helpful. Read the [docs](https://playwright.dev/docs/intro), please!
+
+## Conclusion
+
+Playwright is a very helpful tool for orchestrating and executing E2E tests. It's hard to get AI agents to write E2E tests that actually test something instead of mocks and random impossible scenarios, but once it's done, it saves you from a lot of worry. As I said, take any determinism you can get these days :)

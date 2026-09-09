@@ -2,6 +2,7 @@ import type { StaticImageData } from "next/image";
 import {
 	codingWithNothingHero,
 	cpcbHero,
+	playwrightE2eHero,
 	ossSoftwareHero,
 } from "../content/assets/images";
 import { BLOG_TAGS } from "./tags";
@@ -18,6 +19,22 @@ export type Blog = {
 };
 
 export const BLOGS: Blog[] = [
+	{
+		slug: "a-beginners-guide-to-e2e-testing-using-playwright",
+		title: "A Beginner's Guide to E2E Testing (Using Playwright)",
+		description:
+			"A practical introduction to end-to-end testing with Playwright, including browser coverage, CI speed, isolation, parallelism, and flaky tests.",
+		heroImage: playwrightE2eHero,
+		date: "Jun 2026",
+		tags: ["Tech", "Workflow"],
+		links: [
+			{
+				type: "medium",
+				url: "https://medium.com/@atharva-again/a-beginners-guide-to-e2e-testing-using-playwright-a32ab3cc3bd6",
+			},
+		],
+		featured: true,
+	},
 	{
 		slug: "a-list-of-oss-software-i-use",
 		title: "a list of (oss) software i use",
