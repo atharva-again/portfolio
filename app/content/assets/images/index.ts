@@ -33,6 +33,7 @@ export { default as ossSoftwareMarkdawn } from "./oss-software-markdawn.png";
 export { default as ossSoftwareMarkdawnMobile } from "./oss-software-markdawn-mobile.png";
 export { default as pinkSneaker } from "./pink-sneaker.png";
 export { default as portfolioHero } from "./portfolio-hero.png";
+export { default as lessIsMoreHero } from "./less-is-more-hero.jpeg";
 export { default as playwrightE2eHero } from "./playwright-e2e-hero.png";
 export { default as q1 } from "./q-1.png";
 export { default as q2 } from "./q-2.png";

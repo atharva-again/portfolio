@@ -2,6 +2,7 @@ import type { StaticImageData } from "next/image";
 import {
 	codingWithNothingHero,
 	cpcbHero,
+	lessIsMoreHero,
 	playwrightE2eHero,
 	ossSoftwareHero,
 } from "../content/assets/images";
@@ -31,6 +32,22 @@ export const BLOGS: Blog[] = [
 			{
 				type: "medium",
 				url: "https://medium.com/@atharva-again/a-beginners-guide-to-e2e-testing-using-playwright-a32ab3cc3bd6",
+			},
+		],
+		featured: true,
+	},
+	{
+		slug: "less-is-really-more-more-so-in-the-ai-age",
+		title: "less is really more, more so in the ai age",
+		description:
+			"Why AI-assisted development makes product judgment, restraint, and taste more important than ever.",
+		heroImage: lessIsMoreHero,
+		date: "Mar 2026",
+		tags: ["Tech", "Workflow"],
+		links: [
+			{
+				type: "medium",
+				url: "https://medium.com/@atharva-again/less-is-really-more-more-so-in-the-ai-age-42aa68e36155",
 			},
 		],
 		featured: true,
