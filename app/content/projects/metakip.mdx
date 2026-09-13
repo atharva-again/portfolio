@@ -1,7 +1,7 @@
-# Why Markdawn?
+# Why Metakip?
 
-Markdawn is an open-source, markdown-based knowledge base for humans and their AI agents. It is currently
-available in public beta at [markdawn.space](https://markdawn.space) and can also be self-hosted under the GNU AGPL v3.
+Metakip is an open-source, markdown-based knowledge base for humans and their AI agents. It is currently
+available in public beta at [metakip.com](https://metakip.com) and can also be self-hosted under the GNU AGPL v3.
 
 The important idea is that the browser, CLI, REST API, and MCP interface all use the same content layer. A page created by a person is the same kind of page an agent can read, edit, and link to. There is no separate agent mode, data store, or sync layer to keep in agreement.
 
@@ -9,7 +9,7 @@ The important idea is that the browser, CLI, REST API, and MCP interface all use
 
 **The API is the product, not an adapter bolted onto a human-only app.**
 
-Markdawn treats AI agents as first-class users. Agents can work with the same pages and folders as people through the REST API, the terminal CLI, or remote MCP. Access is permissioned: read-only tokens are suitable for answering questions, while write access can be granted when an agent needs to create or make targeted edits.
+Metakip treats AI agents as first-class users. Agents can work with the same pages and folders as people through the REST API, the terminal CLI, or remote MCP. Access is permissioned: read-only tokens are suitable for answering questions, while write access can be granted when an agent needs to create or make targeted edits.
 
 The product also keeps the parts that make a knowledge base useful for people: markdown editing, folders, backlinks, tags, search, sharing, and real-time collaboration.
 
@@ -38,7 +38,7 @@ packages/
 ## Frontend
 
 - **Framework**: React with Vite and React Router
-- **Editor**: Milkdown with CommonMark/GFM support, math, tables, task lists,
+- **Editor**: CodeMirror with CommonMark/GFM support, math, tables, task lists,
   callouts, wiki links, slash commands, and collaborative cursors
 - **Data fetching**: TanStack Query
 - **UI**: Tailwind CSS with a responsive interface and dark mode
@@ -55,7 +55,7 @@ packages/
 
 # Learnings
 
-Since building Markdawn, I learned:
+Since building Metakip, I learned:
 
 - How to design a product where humans and agents share one content layer
 - Building a real-time collaborative editor around Yjs and Hocuspocus
@@ -76,7 +76,7 @@ Since building Markdawn, I learned:
 
 ## Long-term Plans
 
-- Make Markdawn a dependable shared memory layer for people and their agents
+- Make Metakip a dependable shared memory layer for people and their agents
 - Mobile and desktop app
 - Full offline capabilities
 - Keep self-hosting and data portability as first-class features

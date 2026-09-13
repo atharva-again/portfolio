@@ -5,7 +5,7 @@ import {
 	coodleHero,
 	fsemendHero,
 	indicAsrQuantHero,
-	markdawnHero,
+	metakipHero,
 	portfolioHero,
 	qHero,
 	samvaadHero,
@@ -39,20 +39,20 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
 	{
-		id: "markdawn",
-		title: "Markdawn",
+		id: "metakip",
+		title: "Metakip",
 		description:
 			"Open-source, markdown-based knowledge base for humans and AI agents, available through the browser, CLI, REST API, and MCP.",
 		year: "Feb 2026",
 		links: [
-			{ url: "https://github.com/atharva-again/Markdawn", type: "repo" },
-			{ url: "https://markdawn.space", type: "demo" },
+			{ url: "https://github.com/Metakip/metakip", type: "repo" },
+			{ url: "https://metakip.com", type: "demo" },
 		],
-		heroImage: markdawnHero,
+		heroImage: metakipHero,
 		tags: ["TypeScript", "Go", "React.js", "Hono", "PostgreSQL", "Yjs", "MCP"],
 		status: "active",
 		featured: true,
-		contentFile: "markdawn.mdx",
+		contentFile: "metakip.mdx",
 	},
 
 	{
