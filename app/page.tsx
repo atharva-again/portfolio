@@ -7,6 +7,7 @@ import { getFeaturedBlogs } from "./lib/blogs";
 import { CONTACT } from "./lib/contact";
 import { getAllProjects } from "./lib/projects";
 import { sendkit } from "./content/assets/images";
+import { imageAspectClass } from "./lib/image";
 
 export const metadata: Metadata = {
 	title: "Atharva Verma",
@@ -114,7 +115,9 @@ export default function Home() {
 								<Link href={`/blogs/${blog.slug}`} className="block">
 									<div className="flex flex-col md:flex-row gap-4 items-start">
 										{blog.heroImage && (
-											<div className="relative w-full md:w-24 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+										<div
+											className={`relative w-full md:w-24 ${imageAspectClass(blog.heroImageAspect)} flex-shrink-0 rounded-lg overflow-hidden`}
+										>
 												<Image
 													src={blog.heroImage}
 													alt={blog.title}

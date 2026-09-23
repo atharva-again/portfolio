@@ -1,5 +1,6 @@
 import SearchableListClient from "./SearchableListClient";
 import type { StaticImageData } from "next/image";
+import type { ImageAspect } from "../lib/image";
 
 /**
  * Server wrapper for the client search component.
@@ -28,6 +29,7 @@ export type Accessors<T> = {
   getDate?: (item: T) => string | undefined;
   getTags?: (item: T) => string[] | undefined;
   getImage?: (item: T) => string | StaticImageData | undefined;
+	getImageAspect?: (item: T) => ImageAspect | undefined;
 };
 
 /* Plain serializable shape passed to the client */
@@ -39,6 +41,7 @@ export type PlainItem = {
   date?: string | null;
   tags: string[];
   image?: string | StaticImageData | null;
+	imageAspect?: ImageAspect;
   // allow extra fields if you want, but keep them serializable
   [key: string]: unknown;
 };
@@ -63,7 +66,16 @@ export default function SearchableList<T>({
   syncWithQuery = false,
   className,
 }: ServerSearchableListProps<T>) {
-  const { getId, getTitle, getDescription, getHref, getTags, getDate, getImage } =
+	const {
+		getId,
+		getTitle,
+		getDescription,
+		getHref,
+		getTags,
+		getDate,
+		getImage,
+		getImageAspect,
+	} =
     accessors;
 
   // Normalize to plain serializable items on the server.
@@ -75,6 +87,7 @@ export default function SearchableList<T>({
     date: getDate ? (getDate(it) ?? null) : null,
     tags: getTags ? (getTags(it) ?? []) : [],
     image: getImage ? (getImage(it) ?? null) : null,
+		imageAspect: getImageAspect ? getImageAspect(it) : undefined,
   }));
 
   // Render the client component and pass only serializable props.

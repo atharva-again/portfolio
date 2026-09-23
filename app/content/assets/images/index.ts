@@ -53,3 +53,5 @@ export { default as urlDetox2 } from "./url-detox-2.png";
 export { default as urlDetox3 } from "./url-detox-3.png";
 export { default as urlDetoxHero } from "./url-detox-hero.png";
 export { default as xHero } from "./x-hero.png";
+export { default as wtfAreHarnessesHero } from "./wtf-are-harnesses-hero.png";
+export { default as wtfAreHarnessesToolLoop } from "./wtf-are-harnesses-tool-loop.png";

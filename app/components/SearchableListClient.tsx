@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Fuse from "fuse.js";
 import type { PlainItem } from "./SearchableList";
+import { imageAspectClass } from "../lib/image";
 
 /**
  * Client-side interactive list with:
@@ -232,7 +233,9 @@ export default function SearchableListClient({
                 <Link href={it.href} className="block">
                   <div className="flex flex-col md:flex-row gap-4">
                     {it.image && (
-                      <div className="relative w-full md:w-40 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+						<div
+							className={`relative w-full md:w-40 ${imageAspectClass(it.imageAspect)} flex-shrink-0 rounded-lg overflow-hidden`}
+						>
                         {!isLoaded && (
                           <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse rounded-lg" />
                         )}
@@ -300,7 +303,9 @@ export default function SearchableListClient({
                 <div>
                   <div className="flex flex-col md:flex-row gap-4">
                     {it.image && (
-                      <div className="relative w-full md:w-40 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+						<div
+							className={`relative w-full md:w-40 ${imageAspectClass(it.imageAspect)} flex-shrink-0 rounded-lg overflow-hidden`}
+						>
                         {!isLoaded && (
                           <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse rounded-lg" />
                         )}

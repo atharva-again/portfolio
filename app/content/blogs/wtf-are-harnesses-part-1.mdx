@@ -1,0 +1,169 @@
+import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+import { wtfAreHarnessesToolLoop } from '../assets/images';
+
+I'm trying to build my own harness. Why? Because I can.
+
+So I thought the best step is to learn how the current harnesses function. And write it down so I can understand myself as well as help others. Here we go :)
+
+## LLMs are the backbone
+
+The whole reason we talk about harnesses is because of LLMs. LLMs are simple: text-in and text-out and a lot internal stuff, but that's the core.
+
+If you just wanna chat, you don't need a "harness". All you need is an LLM in a loop where all previous messages are appended to the prompt before you send the new one.
+
+But, it can't do *meaningful* work for you cuz it has access to no **tools**.
+
+## What exactly are tools?
+
+Models are handicapped by themselves. Tools give them superpowers. Tools are the way by which generic models become useful.
+
+This is what the tool loop looks like, more or less in all harnesses:
+
+<MDXLightboxImage src={wtfAreHarnessesToolLoop} alt="The tool loop in an AI harness: tool definition, selection, model request, tool call, validation and authorization, execution, and result" />
+
+### Tool Declaration
+
+At the most basic level, a tool declaration needs three things:
+
+```
+name
+description
+input_schema
+```
+
+### Tool Selection
+
+There are various situations where the host doesn't wanna expose all the tools to a model/agent:
+
+1. Security
+2. Context and cost optimization
+3. Progressive disclosure
+4. Task specific modes (coding mode, planning mode, research mode)
+5. Subagents
+
+It is the responsibility of the host/harness to expose tools selectively.
+
+### Model Request
+
+You send a message like "Read README.md" in your harness and it sends a request like this:
+
+```json
+{
+  "messages": [
+    { "role": "user", "content": "Read README.md" }
+  ],
+  "tools": [
+    {
+      "name": "read",
+      "description": "Read file contents",
+      "input_schema": { "...": "..." }
+    }
+  ]
+}
+```
+
+The harness is telling the model what message the user sent and the tools available to it.
+
+### Model Tool Call
+
+The model can then respond with something like this:
+
+```json
+{
+  "role": "assistant",
+  "content": [
+    {
+      "type": "toolCall",
+      "id": "call_123",
+      "name": "read",
+      "arguments": {
+        "path": "README.md"
+      }
+    }
+  ]
+}
+```
+
+The model is telling the harness that it wants to call the read tool on the README.md file.
+
+### Validation and Authorization
+
+After receiving the model's tool call request, the harness doesn't just go and execute it.
+
+It first needs to verify whether the tool exists and is the JSON and schema valid or not. In case of Codex and many other harnesses, it also scans for potentially unsafe tool calls and explicitly asks for approvals.
+
+### Execution
+
+After the tool call request has been validated and authorized, the harness executes it, and then sends the result back in a separate request.
+
+The result can look like this:
+
+```json
+{
+  "role": "toolResult",
+  "toolCallId": "call_123",
+  "content": [
+    { "type": "text", "text": "README contents..." }
+  ]
+}
+```
+
+Now there is some stuff that happens before and after the execution. Like telemetry, logging, etc, but yeah overall this is the flow.
+
+## AI Gateways are important
+
+Think OpenRouter, Vercel AI SDK / Gateway. Those are important for a harness, especially the ones that support multiple models, like Pi. The users need to be able to use any model with the harness, and the harness needs to provide a unified transcript and layer. Pi decided to build its own pi-ai sdk, whereas OpenCode uses Vercel's AI sdk. Both are fine in my opinion. Hermes Agent uses the official sdks where possible and then some custom stuff if necessary.
+
+## So, is a harness just tools and ai gateway?
+
+On the surface, pretty much yes. But then there is some other stuff like:
+
+1. Error handling (invalid tool calls, upstream errors, exponential backoff, etc.)
+2. User Surface (TUI, CLI, Desktop app, Telegram, Slack, etc.)
+3. State Management (state saved in json or sqlite, permanent memory, etc.)
+4. Supporting stuff like Skills, MCP, etc.
+5. Privacy and Security (sandboxing, etc.)
+6. Plugins and extensions
+7. Compaction
+
+## Where do you talk with your agent // user surfaces // messaging gateways
+
+Models are intelligent enough now. Everyone is saying the same. What we need is for them to be more agentic and actually useful to a normie. Beyond just coding. That's why Muse blowed up so much.
+
+If AI gateway is how the model talks to the harness, the messaging gateway is how a user talks to the harness. The user can be talking from Telegram, WhatsApp, Slack, Email, or from fucking VIm from all the harness cares. It's agnostic to it. The messaging gateway handles that.
+
+A simple coding agent probably doesn't need a messaging gateway. Pi and fx both don't have one out of the box. But a more general purpose agent absolutely does need it, like Hermes and OpenClaw.
+
+By the term "user surface", I mean how the users interact with the harness. It is a tad bit different from the term "messaging gateway", cuz it also involves the UI/UX. You can't do much if the user is talking from WhatsApp or Telegram, but you can make things delightful if they are using your mobile or desktop app or TUIs!
+
+## WE NEED MORE TOOLS!
+
+The built-in harness tools are nice. But they are not enough. Working on a project and you need to access product analytics to check where users are dropping? You can ask your agent, but how the hell does it know where to look? That's exactly what MCP was made to solve. A way for agents to connect to external tools. You just install and configure the PostHog MCP with your agent and now your agent can see everything you can see.
+
+Some people, including me, don't like MCP that much. Won't go into the details why, but we prefer the skills + CLI combo or just let the harness call the API directly after OAuth or using bearer token.
+
+Some examples for CLI are GitHub, Podman, Kubernetes, Docker, git. Some examples for OAuth/API connectors are the Google suite, Slack, etc.
+
+Increasingly as it seems, the two most important **tools** or **capabilities** that an agent needs are becoming browser use and computer use. Not every website and app on your laptop expose an MCP or CLI. The agent needs to navigate it like a real person. The simplest imagination for this could be using the Playwright or Vercel's agent browser to automate stuff, and then you can build on top of it.
+
+## memorymemorymemorymemorymemorymemorymemorymemorymemorymemorymemory
+
+We hear this so many times in the TL that it just gets annoying, but it genuinely is very important. The simplest solution to this was the AGENTS.md convention. All the stuff you don't wanna repeat again about a codebase, you write in one file and then it is included with every model call. Simple solution. But there are limitations to a single markdown file. It can be as long as you want it too, but stuffing everything into one file just bloats the context and isn't scalable.
+
+There are two school of thoughts on memory. One says graph is better, another says md files are better. I don't have enough knowledge to argue about any, but I guess both have there use cases. Both Hermes and OpenClaw use the latter approach.
+
+One thing that stood out for me was agents creating reusable skills. This is actual, genuine learning so they don't have to fuck around and find out again after doing it once. They can just stick to the plan.
+
+## Proactiveness is something we don't talk about enough
+
+What good is all this intelliegence if the agent only works after I ask it too?
+
+Now proactiveness can be as simple as when you are assigned an issue on GitHub, the agent can take the liberty to triage it and present solution(s) and ask you how to move forward.
+
+Or it can be a daily brief every morning. Or it can be reminders. Or it can be automatically checking your email about a job interview, reminding you, and also mentioning some talking points. You can build a 10-step routine for all anyone cares.
+
+## Conclusion
+
+There are some things I'm choosing not to talk about here: subagents (i dont use them), compaction methods, memory methods (both are not the main aim of this writeup), reliability, o11y, and telemetry, etc.
+
+But I hope after reading it you can just a bit more sense of the whole harness space. Atleast my understanding increased a bit.

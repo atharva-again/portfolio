@@ -12,6 +12,7 @@ import {
 	tmbHero,
 	urlDetoxHero,
 } from "../content/assets/images";
+import type { ImageAspect } from "./image";
 
 export type LinkItem = {
 	url: string;
@@ -23,6 +24,7 @@ export type Project = {
 	title: string;
 	description: string;
 	year?: string;
+	heroImageAspect?: ImageAspect;
 	links?: LinkItem[];
 	heroImage?: string | StaticImageData;
 	tags?: string[];

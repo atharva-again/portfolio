@@ -4,14 +4,16 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import type { StaticImageData } from "next/image";
 import { useLightbox } from "./LightboxProvider";
+import { imageAspectClass, type ImageAspect } from "../lib/image";
 
 interface HeroImageProps {
   src: string | StaticImageData;
-  alt: string;
-  enableLightbox?: boolean;
+	alt: string;
+	aspect?: ImageAspect;
+	enableLightbox?: boolean;
 }
 
-export default function HeroImage({ src, alt, enableLightbox = true }: HeroImageProps) {
+export default function HeroImage({ src, alt, aspect, enableLightbox = true }: HeroImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { openLightboxAtId, registerImage, unregisterImage } = useLightbox();
   const idRef = useRef<number | null>(null);
@@ -39,7 +41,7 @@ export default function HeroImage({ src, alt, enableLightbox = true }: HeroImage
   };
 
   return (
-    <div className="mb-12 relative group aspect-[4/3]">
+		<div className={`mb-12 relative group ${imageAspectClass(aspect)}`}>
       {isLoading && (
         <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse" />
       )}

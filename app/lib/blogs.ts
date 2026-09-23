@@ -5,14 +5,18 @@ import {
 	lessIsMoreHero,
 	playwrightE2eHero,
 	ossSoftwareHero,
+	wtfAreHarnessesHero,
 } from "../content/assets/images";
 import { BLOG_TAGS } from "./tags";
+import type { ImageAspect } from "./image";
 
 export type Blog = {
 	slug: string;
 	title: string;
 	description: string;
 	date: string;
+	publishedAt?: string;
+	heroImageAspect?: ImageAspect;
 	tags?: string[];
 	heroImage?: string | StaticImageData;
 	links?: { type: string; url: string }[];
@@ -34,7 +38,7 @@ export const BLOGS: Blog[] = [
 				url: "https://medium.com/@atharva-again/a-beginners-guide-to-e2e-testing-using-playwright-a32ab3cc3bd6",
 			},
 		],
-		featured: true,
+		featured: false,
 	},
 	{
 		slug: "less-is-really-more-more-so-in-the-ai-age",
@@ -76,7 +80,7 @@ export const BLOGS: Blog[] = [
 				url: "https://medium.com/@atharva-again/cpcbs-aqi-api-everything-you-need-to-know-41f5eff85c5a",
 			},
 		],
-		featured: true,
+		featured: false,
 	},
 	{
 		slug: "coding-with-nothing",
@@ -95,11 +99,48 @@ export const BLOGS: Blog[] = [
 		],
 		featured: true,
 	},
+	{
+		slug: "wtf-are-harnesses-part-1",
+		title: "wtf are harnesses: part 1 of building my own",
+		description:
+			"A practical introduction to AI harnesses: tools, model loops, gateways, user surfaces, memory, skills, and proactive agents.",
+		heroImage: wtfAreHarnessesHero,
+		heroImageAspect: "16/9",
+		date: "Sep 2026",
+		publishedAt: "2026-09-23",
+		tags: ["Tech", "Workflow"],
+		featured: true,
+	},
 ];
+
+const MONTHS = [
+	"jan",
+	"feb",
+	"mar",
+	"apr",
+	"may",
+	"jun",
+	"jul",
+	"aug",
+	"sep",
+	"oct",
+	"nov",
+	"dec",
+];
+
+function blogDateValue(blog: Blog): number {
+	const [monthName, yearText] = blog.date.trim().toLowerCase().split(/\s+/);
+	const year = Number(yearText);
+	const month = MONTHS.indexOf(monthName?.slice(0, 3) ?? "");
+	const exactDate = blog.publishedAt ? new Date(`${blog.publishedAt}T00:00:00Z`) : null;
+	const day = exactDate && !Number.isNaN(exactDate.getTime()) ? exactDate.getUTCDate() : 0;
+
+	return Number.isFinite(year) && month >= 0 ? (year * 12 + month) * 32 + day : 0;
+}
 
 /** Basic accessors */
 export function getAllBlogs(): Blog[] {
-	return BLOGS;
+	return [...BLOGS].sort((a, b) => blogDateValue(b) - blogDateValue(a));
 }
 
 export function getBlog(slug: string): Blog | undefined {
@@ -107,7 +148,7 @@ export function getBlog(slug: string): Blog | undefined {
 }
 
 export function getFeaturedBlogs(): Blog[] {
-	return BLOGS.filter((b) => b.featured);
+	return getAllBlogs().filter((b) => b.featured);
 }
 
 /** Tag helpers */

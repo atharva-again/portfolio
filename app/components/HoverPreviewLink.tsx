@@ -7,13 +7,15 @@ import { createPortal } from "react-dom";
 import { TbClipboard, TbClipboardCheck } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
+import { imageAspectClass, type ImageAspect } from "../lib/image";
 
 const PAGE_LOAD_TIME = Date.now();
 
 type HoverPreviewContent = {
   title: string;
   description: string;
-  image?: string | StaticImageData;
+	image?: string | StaticImageData;
+	imageAspect?: ImageAspect;
 };
 
 type PlacementOption = "above" | "below" | "side-left" | "side-right";
@@ -278,7 +280,9 @@ const HoverPreviewLink = ({
             onPointerLeave={handlePreviewLeave}
           >
             {!isMailto ? (
-              <div className="relative aspect-[3/2] w-full overflow-hidden">
+				<div
+					className={`relative ${imageAspectClass(preview.imageAspect)} w-full overflow-hidden`}
+				>
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
                 )}
@@ -329,7 +333,9 @@ const HoverPreviewLink = ({
             onPointerLeave={handlePreviewLeave}
           >
             {!isMailto ? (
-              <div className="relative aspect-[3/2] w-full overflow-hidden">
+				<div
+					className={`relative ${imageAspectClass(preview.imageAspect)} w-full overflow-hidden`}
+				>
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse" />
                 )}

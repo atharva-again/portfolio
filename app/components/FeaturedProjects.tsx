@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import type { Project } from "../lib/projects";
+import { imageAspectClass } from "../lib/image";
 
 interface FeaturedProjectsProps {
   projects: Project[];
@@ -31,7 +32,9 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           >
             <div className="flex flex-col md:flex-row gap-4 items-start">
               {project.heroImage && (
-                <div className="relative w-full md:w-24 aspect-[3/2] flex-shrink-0 rounded-lg overflow-hidden">
+					<div
+						className={`relative w-full md:w-24 ${imageAspectClass(project.heroImageAspect)} flex-shrink-0 rounded-lg overflow-hidden`}
+					>
                   {!isLoaded && (
                     <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 animate-pulse rounded-lg" />
                   )}

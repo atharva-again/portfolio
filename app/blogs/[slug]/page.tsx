@@ -86,7 +86,11 @@ export default async function BlogPage({ params }: Props) {
 					{/* Main Content */}
 					<div className="md:col-span-2">
 						{blog.heroImage && (
-							<HeroImage src={blog.heroImage} alt={blog.title} />
+							<HeroImage
+								src={blog.heroImage}
+								alt={blog.title}
+								aspect={blog.heroImageAspect}
+							/>
 						)}
 						<BlogInfoPanel blog={blog} toc={headings} variant="mobile" />
 						<div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-semibold prose-headings:text-zinc-900 dark:prose-headings:text-zinc-100">

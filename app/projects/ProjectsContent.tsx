@@ -51,6 +51,7 @@ export default function ProjectsContent({ projects }: ProjectsContentProps) {
             getDate: (p) => p.year ?? "",
             getTags: (p) => (p.tags ?? []).filter(tag => PROJECT_TAGS.some(t => t.toLowerCase() === tag.toLowerCase())),
             getImage: (p) => p.heroImage,
+			getImageAspect: (p) => p.heroImageAspect,
           }}
           placeholder="Search projects..."
           syncWithQuery
