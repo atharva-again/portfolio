@@ -11,7 +11,7 @@ const components: MDXComponents = {
     <h1
       {...props}
       className={merge(
-        "mt-12 text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 first:mt-0",
+        "mt-12 break-words [overflow-wrap:anywhere] text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 first:mt-0",
         className,
       )}
     />
@@ -20,7 +20,7 @@ const components: MDXComponents = {
     <h2
       {...props}
       className={merge(
-        "mt-10 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100",
+        "mt-10 break-words [overflow-wrap:anywhere] text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100",
         className,
       )}
     />
@@ -29,7 +29,7 @@ const components: MDXComponents = {
     <h3
       {...props}
       className={merge(
-        "mt-8 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100",
+        "mt-8 break-words [overflow-wrap:anywhere] text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100",
         className,
       )}
     />
@@ -38,7 +38,7 @@ const components: MDXComponents = {
     <h4
       {...props}
       className={merge(
-        "mt-6 text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100",
+        "mt-6 break-words [overflow-wrap:anywhere] text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100",
         className,
       )}
     />

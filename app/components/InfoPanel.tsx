@@ -115,7 +115,7 @@ const TableOfContents = ({ headings }: { headings: Heading[] }) => {
 									}
 								}}
 								className={cx(
-									"text-sm block py-1 pl-4 transition-colors",
+									"text-sm block break-words [overflow-wrap:anywhere] py-1 pl-4 transition-colors",
 									activeIds.has(heading.id)
 										? "text-zinc-900 dark:text-zinc-100 font-medium"
 										: "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100",
