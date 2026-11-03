@@ -192,7 +192,7 @@ export const PROJECTS: Project[] = [
 			"I have tried to keep the design minimalistic with keeping user experience in mind, however subtle.",
 		links: [
 			{ url: "https://github.com/atharva-again/portfolio", type: "repo" },
-			{ url: "https://atharvaverma.dev/", type: "demo" },
+			{ url: "https://atharvaverma.com/", type: "demo" },
 		],
 		heroImage: portfolioHero,
 		tags: ["Next.js", "TypeScript"],
