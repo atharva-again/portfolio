@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ResponsiveImage from "../components/ResponsiveImage.astro";
 import FeaturedContent from "../components/FeaturedContent.astro";
+import GitHubHeatmap from "../components/GitHubHeatmap.astro";
 import Socials from "../components/Socials.astro";
 import { CONTACT } from "../lib/contact";
 import { getBlogs, getProjects } from "../lib/content";
@@ -34,6 +35,8 @@ const metadata = {
 					<Socials links={CONTACT} iconSize={18} />
 				</div>
 			</section>
+
+			<GitHubHeatmap />
 
 			<section id="work" class="home-section work-section">
 				<div class="section-heading">

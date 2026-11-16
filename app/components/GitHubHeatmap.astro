@@ -1,0 +1,252 @@
+---
+import { getGitHubContributionCalendar } from "../lib/github-contributions";
+
+const calendar = getGitHubContributionCalendar();
+const weekdays = [
+	{ index: 0, label: "" },
+	{ index: 1, label: "Mon" },
+	{ index: 2, label: "" },
+	{ index: 3, label: "Wed" },
+	{ index: 4, label: "" },
+	{ index: 5, label: "Fri" },
+	{ index: 6, label: "" },
+];
+const levels: (0 | 1 | 2 | 3 | 4)[] = [0, 1, 2, 3, 4];
+---
+
+<section class="github-section" aria-label="GitHub contributions">
+	<div class="github-calendar-panel">
+		<div class="github-calendar-scroll">
+			<div class="github-calendar-content" style={`--week-count: ${calendar.weeks}`}>
+				<div class="github-calendar-months" aria-hidden="true">
+					<span></span>
+					{calendar.months.map((month) => (
+						<span style={`grid-column: ${month.week + 2}`}>{month.label}</span>
+					))}
+				</div>
+				<div class="github-calendar-grid" role="grid" aria-label="Daily contributions">
+					{weekdays.map((weekday) => (
+						<div class="github-calendar-row" role="row">
+							<span class="github-weekday" role="rowheader">{weekday.label}</span>
+							{calendar.days
+								.filter((day) => day.weekday === weekday.index)
+								.map((day) => (
+									<button
+										type="button"
+										class="github-day"
+										role="gridcell"
+										tabindex={day.index === 0 ? 0 : -1}
+										data-day-index={day.index}
+										data-level={day.level}
+										style={`grid-column: ${day.week + 2}`}
+										title={day.tooltip}
+										aria-label={day.tooltip}
+									></button>
+								))}
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+		<footer class="github-calendar-footer">
+			<h2 class="github-calendar-total">
+				{calendar.total.toLocaleString("en-US")} contributions in the last year
+			</h2>
+			<div class="github-calendar-legend" aria-label="Contribution activity levels">
+				<span>Less</span>
+				{levels.map((level) => <span class="github-legend-cell" data-level={level}></span>)}
+				<span>More</span>
+			</div>
+		</footer>
+	</div>
+</section>
+
+<script>
+	const grid = document.querySelector<HTMLElement>(".github-calendar-grid");
+	const scroll = document.querySelector<HTMLElement>(".github-calendar-scroll");
+	if (scroll) scroll.scrollLeft = scroll.scrollWidth;
+
+	grid?.addEventListener("keydown", (event) => {
+		if (!(event.target instanceof HTMLButtonElement)) return;
+
+		const index = Number(event.target.dataset.dayIndex);
+		const movement = {
+			ArrowLeft: -7,
+			ArrowRight: 7,
+			ArrowUp: -1,
+			ArrowDown: 1,
+		}[event.key];
+		if (movement === undefined) return;
+
+		const next = grid.querySelector<HTMLButtonElement>(
+			`[data-day-index="${index + movement}"]`,
+		);
+		if (!next) return;
+		event.preventDefault();
+		next.focus();
+	});
+</script>
+
+<style>
+	.github-section {
+		--github-calendar-fg: #1f2328;
+		--github-calendar-muted: #656d76;
+		--github-calendar-border: #d1d9e0;
+		--github-level-0: #ebedf0;
+		--github-level-1: #9be9a8;
+		--github-level-2: #40c463;
+		--github-level-3: #30a14e;
+		--github-level-4: #216e39;
+		margin-bottom: 6rem;
+	}
+
+	.github-section,
+	.github-calendar-panel {
+		font-family:
+			-apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+	}
+
+	.github-calendar-total {
+		margin: 0;
+		color: var(--github-calendar-fg);
+		font-size: 0.875rem;
+		font-weight: 400;
+		line-height: 1.5;
+	}
+
+	.github-calendar-panel {
+		padding: 0.875rem 0.75rem 0.625rem;
+		border: 1px solid var(--github-calendar-border);
+		border-radius: 0.375rem;
+		background: var(--background);
+	}
+
+	.github-calendar-months,
+	.github-calendar-row {
+		display: grid;
+		width: max-content;
+		grid-template-columns: 29px repeat(var(--week-count), 11px);
+		column-gap: 4px;
+	}
+
+	.github-calendar-months {
+		height: 15px;
+		align-items: end;
+		color: var(--github-calendar-muted);
+		font-size: 0.75rem;
+		line-height: 1;
+	}
+
+	.github-calendar-scroll {
+		overflow-x: auto;
+	}
+
+	.github-calendar-content {
+		width: max-content;
+	}
+
+	.github-calendar-grid {
+		display: grid;
+		row-gap: 4px;
+		margin-top: 4px;
+	}
+
+	.github-calendar-row {
+		height: 11px;
+		align-items: center;
+	}
+
+	.github-weekday {
+		color: var(--github-calendar-muted);
+		font-size: 0.625rem;
+		line-height: 11px;
+	}
+
+	.github-day,
+	.github-legend-cell {
+		display: block;
+		width: 11px;
+		height: 11px;
+		padding: 0;
+		border: 0;
+		border-radius: 2px;
+		background: var(--github-level-0);
+	}
+
+	.github-day {
+		cursor: default;
+	}
+
+	.github-day[data-level="1"],
+	.github-legend-cell[data-level="1"] {
+		background: var(--github-level-1);
+	}
+
+	.github-day[data-level="2"],
+	.github-legend-cell[data-level="2"] {
+		background: var(--github-level-2);
+	}
+
+	.github-day[data-level="3"],
+	.github-legend-cell[data-level="3"] {
+		background: var(--github-level-3);
+	}
+
+	.github-day[data-level="4"],
+	.github-legend-cell[data-level="4"] {
+		background: var(--github-level-4);
+	}
+
+	.github-day:hover,
+	.github-day:focus-visible {
+		outline: 1px solid var(--github-calendar-muted);
+		outline-offset: 1px;
+	}
+
+	.github-calendar-footer,
+	.github-calendar-legend {
+		display: flex;
+		align-items: center;
+	}
+
+	.github-calendar-footer {
+		min-height: 1.5rem;
+		margin-top: 0.5rem;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		color: var(--github-calendar-muted);
+		font-size: 0.75rem;
+	}
+
+	.github-calendar-footer a {
+		color: inherit;
+	}
+
+	.github-calendar-footer a:hover {
+		color: var(--hover-solid);
+		text-decoration: underline;
+	}
+
+	.github-calendar-legend {
+		flex: none;
+		gap: 3px;
+	}
+
+	.github-calendar-legend > span:not(.github-legend-cell) {
+		margin-inline: 0.25rem;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.github-section {
+			--github-calendar-fg: #e6edf3;
+			--github-calendar-muted: #9198a1;
+			--github-calendar-border: #30363d;
+			--github-level-0: #161b22;
+			--github-level-1: #0e4429;
+			--github-level-2: #006d32;
+			--github-level-3: #26a641;
+			--github-level-4: #39d353;
+		}
+	}
+</style>
