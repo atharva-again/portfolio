@@ -1,5 +1,21 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import { fsemend1, fsemend2, fsemend3 } from '../assets/images';
+---
+title: "fsemend"
+description: "Collaborative platform for students to share presentations, lab reports, and project reports."
+year: "Feb 2026"
+heroImage: ../assets/images/fsemend-hero.png
+tags: ["Next.js", "TypeScript", "CSS", "Bun"]
+links:
+  - type: repo
+    url: https://github.com/atharva-again/fproficiency
+  - type: demo
+    url: https://fsemend.vercel.app
+status: active
+featured: false
+order: 11
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { fsemend1, fsemend2, fsemend3 } from "../assets/images";
 
 # Why fsemend?
 
@@ -18,7 +34,7 @@ fsemend is not just a repository, it is a collaborative platform where students 
 
 Simple Next.js app with App Router. Currently deployed on vercel. Using simple fuzzy search right now, no complex AI search or anything.
 
-Also, right now I haven't thought about where the data will live. 
+Also, right now I haven't thought about where the data will live.
 
 # Learnings
 
@@ -37,7 +53,10 @@ To be honest, I didn't learn anything new, but I was able to solve the biggest h
 
 ---
 
-<MDXLightboxImage src={fsemend2} alt="Search interface with filters for courses and resource types" />
+<MDXLightboxImage
+  src={fsemend2}
+  alt="Search interface with filters for courses and resource types"
+/>
 
 ---
 

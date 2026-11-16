@@ -1,11 +1,21 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
+---
+title: "a list of (oss) software i use"
+description: "A personal tour of the open-source and developer tools I use across my laptop, terminal, coding workflow, and Android devices."
+date: "Sep 2026"
+heroImage: ../assets/images/oss-software-hero.png
+tags: ["Tech", "Workflow"]
+featured: true
+order: 2
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
 import {
-	ossSoftwareFastfetch,
-	ossSoftwareHelix,
-	ossSoftwareKde,
-	ossSoftwareMetakip,
-	ossSoftwareMetakipMobile,
-} from '../assets/images';
+  ossSoftwareFastfetch,
+  ossSoftwareHelix,
+  ossSoftwareKde,
+  ossSoftwareMetakip,
+  ossSoftwareMetakipMobile,
+} from "../assets/images";
 
 Been meaning to write this from a long time. The only motivation behind this is that I find it useful to read about other people's experience related to software, especially if they are devs because they can produce a nuanced take that can be closer to my liking and requirements, and I hope this can be useful to you, dev or not.
 
@@ -81,7 +91,10 @@ Pretty handy. Built in Rust. Cross-platform. Check it out [here](https://starshi
 
 Just a nerdy tool to display system information whenever the shell file is loaded. You can find it on [GitHub](https://github.com/fastfetch-cli/fastfetch). Supports macOS too so it goes well with my "reusing configs" philosophy. Primarily written in C so it is quite fast, as the name suggests.
 
-<MDXLightboxImage src={ossSoftwareFastfetch} alt="Fastfetch displaying system information in a terminal" />
+<MDXLightboxImage
+  src={ossSoftwareFastfetch}
+  alt="Fastfetch displaying system information in a terminal"
+/>
 
 ## Zen Browser
 
@@ -160,4 +173,3 @@ Beautiful OSS weather app. Has quite nice widgets on Android too.
 ## Spectacle
 
 Spectacle is the default screenshot and screen recording software in KDE. Works as expected, though screen recording with sound doesn't work for some reason. I don't know whether it is the app or an X11/Wayland thing.
-

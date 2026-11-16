@@ -1,0 +1,91 @@
+---
+---
+
+<nav
+	data-site-nav
+	class="site-nav"
+>
+	<div class="nav-inner">
+		<a href="/" class="nav-brand">AV</a>
+		<div class="nav-links">
+			<a
+				href="/"
+				class="nav-link nav-home-link"
+				>Home</a
+			>
+			<a
+				href="/projects"
+				class="nav-link"
+				>Projects</a
+			>
+			<a
+				href="/blogs"
+				class="nav-link"
+				>Blogs</a
+			>
+		</div>
+	</div>
+</nav>
+
+<style>
+	.site-nav {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		border-bottom: 1px solid var(--border);
+		background: rgb(255 255 255 / 70%);
+		backdrop-filter: blur(4px) saturate(150%);
+		box-shadow: 0 1px 5px rgb(0 0 0 / 5%);
+		transition: opacity 200ms ease;
+	}
+
+	.site-nav.is-obscured {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.nav-inner {
+		display: flex;
+		width: 100%;
+		max-width: 56rem;
+		margin: auto;
+		padding: 1rem 1.5rem;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.nav-brand {
+		font-size: 1.125rem;
+		font-weight: 600;
+		line-height: 1.555556;
+	}
+
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.nav-link {
+		color: var(--muted);
+		font-size: 0.875rem;
+		line-height: 1.428571;
+		transition: color 160ms ease;
+	}
+
+	.nav-link:hover {
+		color: var(--hover-solid);
+	}
+
+	@media (max-width: 639px) {
+		.nav-home-link {
+			display: none;
+		}
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.site-nav {
+			background: rgb(0 0 0 / 60%);
+		}
+	}
+</style>

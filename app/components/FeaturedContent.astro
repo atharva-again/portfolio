@@ -1,0 +1,89 @@
+---
+import type { ContentEntry } from "../lib/content";
+import { imageAspectClass } from "../lib/image";
+import ResponsiveImage from "./ResponsiveImage.astro";
+
+type Props = {
+	entries: ContentEntry[];
+};
+
+const { entries } = Astro.props;
+---
+
+<div class="featured-list">
+	{entries.map((entry) => (
+		<a href={`/${entry.collection}/${entry.id}`} class="featured-item">
+			<div class:list={["featured-image", imageAspectClass(entry.data.heroImageAspect)]}>
+				<ResponsiveImage
+					src={entry.data.heroImage}
+					alt={entry.data.title}
+					fill
+					loadingIndicator
+					sizes="(min-width: 768px) 6rem, 100vw"
+					class="image-cover"
+				/>
+			</div>
+			<div class="featured-copy">
+				<div class="featured-title">{entry.data.title}</div>
+				<p>{entry.data.description}</p>
+			</div>
+		</a>
+	))}
+</div>
+
+<style>
+	.featured-list {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.featured-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.featured-image {
+		position: relative;
+		width: 6rem;
+		flex: none;
+		overflow: hidden;
+		border-radius: 0.5rem;
+	}
+
+	.featured-copy {
+		flex: 1;
+		margin-top: 0;
+	}
+
+	.featured-copy p {
+		margin: 0.25rem 0 0;
+		color: var(--muted);
+		line-height: 1.5;
+	}
+
+	.featured-title {
+		font-size: 1.125rem;
+		font-weight: 500;
+		line-height: 1.555556;
+		transition: color 160ms ease;
+	}
+
+	.featured-item:hover .featured-title {
+		color: var(--hover-muted);
+	}
+
+	@media (max-width: 767px) {
+		.featured-item {
+			flex-direction: column;
+		}
+
+		.featured-image {
+			width: 100%;
+		}
+
+		.featured-copy {
+			margin-top: 0.5rem;
+		}
+	}
+</style>

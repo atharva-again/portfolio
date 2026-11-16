@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  lint-and-typecheck:
+  build-lint-and-typecheck:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +29,6 @@ jobs:
 
       - name: Run typecheck
         run: bun run typecheck
+
+      - name: Build production bundle
+        run: bun run build

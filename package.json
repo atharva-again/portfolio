@@ -1,44 +1,37 @@
 {
-	"name": "portfolio",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "biome lint .",
-		"typecheck": "next typegen && tsc --noEmit"
-	},
-	"dependencies": {
-		"@mdx-js/loader": "^3.1.1",
-		"@mdx-js/react": "^3.1.1",
-		"@next/mdx": "^16.2.1",
-		"@tailwindcss/typography": "^0.5.19",
-		"@types/mdx": "^2.0.13",
-		"fuse.js": "^7.1.0",
-		"lucide-react": "^0.562.0",
-		"next": "16.2.1",
-		"react": "19.2.3",
-		"react-dom": "19.2.3",
-		"react-icons": "^5.6.0",
-		"rehype-slug": "^6.0.0",
-		"remark-gfm": "^4.0.1",
-		"remark-parse": "^11.0.0",
-		"remark-rehype": "^11.1.0",
-		"unified": "^11.0.5",
-		"unist-util-visit": "^5.0.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.4.6",
-		"@tailwindcss/postcss": "^4.2.1",
-		"@types/node": "^25.4.0",
-		"@types/react": "^19.2.14",
-		"@types/react-dom": "^19.2.3",
-		"tailwindcss": "^4.2.1",
-		"typescript": "^5.9.3"
-	},
-	"packageManager": "bun@1",
-	"engines": {
-		"bun": ">=1.0.0"
-	}
+  "name": "portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "astro preview",
+    "lint": "vp lint app astro.config.ts",
+    "typecheck": "astro check && tsc --noEmit",
+    "check": "vp run lint && vp run typecheck && vp run build",
+    "update:github-contributions": "bun run app/scripts/update-github-contributions.ts"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "8.1.6",
+    "fuse.js": "7.5.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@types/node": "26.6.6",
+    "astro": "7.4.12",
+    "sharp": "0.35.5",
+    "typescript": "6.0.3",
+    "vite-plus": "1.6.0"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
+    "vitest": "5.1.0"
+  },
+  "engines": {
+    "bun": ">=1.4.2",
+    "node": ">=22.23.4"
+  },
+  "packageManager": "bun@1.4.2"
 }

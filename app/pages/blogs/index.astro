@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SearchableList from "../../components/SearchableList.astro";
+import { getBlogs } from "../../lib/content";
+
+const blogs = await getBlogs();
+const items = blogs.map((blog) => ({
+	id: blog.id,
+	title: blog.data.title,
+	description: blog.data.description,
+	href: `/blogs/${blog.id}`,
+	date: blog.data.date,
+	tags: blog.data.tags,
+	image: blog.data.heroImage,
+	imageAspect: blog.data.heroImageAspect,
+}));
+const metadata = {
+	path: "/blogs",
+	title: "Blog - Atharva Verma",
+	description: "Writing about code, ideas, and learning",
+	openGraphType: "website" as const,
+};
+---
+
+<BaseLayout metadata={metadata}>
+	<main class="page-main">
+		<div class="page-container">
+			<header class="page-header">
+				<h1 class="page-title">Writing</h1>
+				<p class="page-description">
+					Thoughts on software, technology, and things I am learning.
+				</p>
+			</header>
+			<section id="blog-section" class="page-list-section">
+				<SearchableList items={items} id="blogs" placeholder="Search posts or tags..." />
+			</section>
+		</div>
+	</main>
+</BaseLayout>

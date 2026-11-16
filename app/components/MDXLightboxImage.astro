@@ -1,0 +1,76 @@
+---
+import type { ImageSource } from "../lib/image";
+import ResponsiveImage from "./ResponsiveImage.astro";
+
+type Props = {
+	src: ImageSource;
+	alt?: string;
+	class?: string;
+	width?: number;
+	height?: number;
+	sizes?: string;
+};
+
+const { src, alt = "", class: className, width, height, sizes } = Astro.props;
+const asset = typeof src === "string" ? undefined : src;
+---
+
+<div class="mdx-image">
+	<button
+		type="button"
+		data-lightbox-trigger
+		aria-label={`Enlarge image${alt ? `: ${alt}` : ""}`}
+		class="mdx-image-button"
+	>
+		<ResponsiveImage
+			src={src}
+			alt={alt}
+			class:list={["mdx-image-element", className]}
+			sizes={sizes ?? "(min-width: 800px) 768px, 100vw"}
+			maxWidth={1920}
+			width={width ?? asset?.width ?? 800}
+			height={height ?? asset?.height ?? 450}
+			loadingIndicator
+		/>
+		<span
+			data-image-tooltip
+			aria-hidden="true"
+			class="image-cursor-tooltip"
+		>Click to enlarge</span>
+	</button>
+</div>
+
+<style>
+	.mdx-image {
+		display: flex;
+		width: 100%;
+		margin-block: 1.5rem;
+		justify-content: center;
+	}
+
+	.mdx-image-button {
+		position: relative;
+		display: inline-block;
+		max-width: 100%;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+	}
+
+	.mdx-image-button :global(.mdx-image-element) {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		border-radius: 0.5rem;
+		box-shadow:
+			0 4px 6px -1px rgb(0 0 0 / 10%),
+			0 2px 4px -2px rgb(0 0 0 / 10%);
+		transition: opacity 150ms ease;
+	}
+
+	.mdx-image-button:hover :global(.mdx-image-element) {
+		opacity: 0.9;
+	}
+</style>

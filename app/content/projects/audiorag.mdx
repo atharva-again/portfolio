@@ -1,5 +1,19 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import { audiorag1 } from '../assets/images';
+---
+title: "AudioRAG"
+description: "Provider-agnostic RAG pipeline for audio content. Transcribe, chunk, embed, and search audio from local files."
+year: "Feb 2026"
+heroImage: ../assets/images/audiorag-hero.png
+tags: ["Python", "ASR", "RAG"]
+links:
+  - type: repo
+    url: https://github.com/atharva-again/AudioRAG
+status: active
+featured: false
+order: 5
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { audiorag1 } from "../assets/images";
 
 # Why AudioRAG?
 
@@ -17,6 +31,7 @@ AudioRAG is not tied to any single provider. You can mix and match STT, embeddin
 # Architecture
 
 ## Pipeline Stages
+
 1. **Ingest**: Load audio from local files or directories
 2. **Split**: Divide large files into processable chunks
 3. **Transcribe**: Convert audio to text using your chosen STT provider
@@ -25,12 +40,14 @@ AudioRAG is not tied to any single provider. You can mix and match STT, embeddin
 6. **Store**: Persist embeddings in your chosen vector database
 
 ## Provider Support
+
 - **STT**: OpenAI Whisper, Deepgram, AssemblyAI, Groq
 - **Embeddings**: OpenAI, Voyage AI, Cohere
 - **Generation**: OpenAI, Anthropic, Gemini
 - **Vector Stores**: ChromaDB, Pinecone, Weaviate, Supabase
 
 ## Reliability Features
+
 - **Budget Governor**: Optional fail-fast limits for RPM, TPM, and audio-seconds/hour
 - **Resumable Processing**: SQLite state tracking with hash-based IDs
 - **Atomic Verification**: Optional post-write verification with strict or best-effort modes
@@ -59,6 +76,7 @@ Since building AudioRAG, I learned:
 - Prepare for public beta release
 
 ## Long-term Plans
+
 - Build a web interface for easier configuration and monitoring
 - Add support for video files (extract audio track automatically)
 - Implement advanced chunking strategies based on topic detection

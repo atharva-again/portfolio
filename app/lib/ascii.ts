@@ -1,6 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
+import asciiArt from "../components/AtharvaVermaASCII.txt?raw";
 
-const asciiFilePath = path.join(process.cwd(), "app/components/AtharvaVermaASCII.txt");
-
-export const ATHARVA_ASCII_ART = fs.readFileSync(asciiFilePath, "utf-8");
+export const ATHARVA_ASCII_ART = asciiArt;

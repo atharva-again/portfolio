@@ -1,5 +1,19 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import { urlDetox1, urlDetox2, urlDetox3 } from '../assets/images';
+---
+title: "URL Detox"
+description: "Browser extension that cleans URLs by removing tracking parameters and unshortens link shorteners."
+year: "Nov 2025"
+heroImage: ../assets/images/url-detox-hero.png
+tags: ["TypeScript", "Vite", "HTML", "CSS"]
+links:
+  - type: repo
+    url: https://github.com/atharva-again/url-detox
+status: archived
+featured: false
+order: 6
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { urlDetox1, urlDetox2, urlDetox3 } from "../assets/images";
 
 # Why URL Detox?
 
@@ -17,21 +31,25 @@ URL Detox works entirely locally in your browser. It doesn't collect, store, or 
 # Architecture
 
 ## Core Components
+
 - **Background Service Worker**: Handles URL interception and cleaning
 - **Loader Popup**: Displays unshortening progress and fetches redirects
 - **Utils**: Cleaner rules and shortener domain management
 
 ## URL Cleaning
+
 - **Rules Engine**: Uses ClearURLs rules for comprehensive tracking parameter removal
 - **Regex Patterns**: Provider-specific regex patterns for efficient cleaning
 - **DNR Rules**: Declarative Net Request rules for automatic URL interception
 
 ## Link Unshortening
+
 - **Domain Support**: Hundreds of known shortener domains
 - **Redirect Following**: Automatic handling of HTTP redirects
 - **Retry Logic**: Unlimited retries with user-controlled "Retry" button
 
 ## Privacy Features
+
 - **Local Processing**: All URL cleaning happens in the browser
 - **No Data Collection**: Zero telemetry or analytics
 - **Open Source**: Transparent code for security review

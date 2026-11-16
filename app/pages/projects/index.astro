@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SearchableList from "../../components/SearchableList.astro";
+import { getProjects } from "../../lib/content";
+
+const projects = await getProjects();
+const items = projects.map((project) => ({
+	id: project.id,
+	title: project.data.title,
+	description: project.data.description,
+	href: `/projects/${project.id}`,
+	date: project.data.year,
+	tags: project.data.tags,
+	image: project.data.heroImage,
+	imageAspect: project.data.heroImageAspect,
+}));
+const metadata = {
+	path: "/projects",
+	title: "Projects - Atharva Verma",
+	description: "A collection of projects and work",
+	openGraphType: "website" as const,
+};
+---
+
+<BaseLayout metadata={metadata}>
+	<main class="page-main">
+		<div class="page-container">
+			<header class="page-header">
+				<h1 class="page-title">Projects</h1>
+				<p class="page-description">
+					A collection of things I have built.
+				</p>
+			</header>
+			<section id="projects-section" class="page-list-section">
+				<SearchableList items={items} id="projects" placeholder="Search projects..." />
+			</section>
+		</div>
+	</main>
+</BaseLayout>

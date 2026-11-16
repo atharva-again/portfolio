@@ -1,0 +1,170 @@
+<dialog data-image-lightbox aria-label="Image preview" class="image-lightbox">
+	<div data-lightbox-stage class="lightbox-stage">
+		<button type="button" data-lightbox-close aria-label="Close image preview" class="lightbox-control lightbox-close">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="M18 6 6 18"></path>
+				<path d="m6 6 12 12"></path>
+			</svg>
+		</button>
+		<button type="button" data-lightbox-prev aria-label="Previous image" class="lightbox-control lightbox-prev">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="m15 18-6-6 6-6"></path>
+			</svg>
+		</button>
+		<img data-lightbox-image alt="" draggable="false" class="lightbox-image" />
+		<button type="button" data-lightbox-next aria-label="Next image" class="lightbox-control lightbox-next">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="m9 18 6-6-6-6"></path>
+			</svg>
+		</button>
+		<p data-lightbox-counter class="lightbox-counter"></p>
+	</div>
+</dialog>
+
+<script>
+	import "../scripts/lightbox";
+</script>
+
+<style>
+	.image-lightbox {
+		max-width: none;
+		max-height: none;
+		margin: auto;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: white;
+	}
+
+	.image-lightbox::backdrop {
+		background: rgb(0 0 0 / 80%);
+		backdrop-filter: blur(4px);
+	}
+
+	.lightbox-stage {
+		position: relative;
+		display: flex;
+		width: 100vw;
+		height: 100dvh;
+		padding: 5rem 1.25rem;
+		align-items: center;
+		justify-content: center;
+		/* Keep single-finger swipes in the viewer without disabling pinch-to-zoom. */
+		touch-action: pinch-zoom;
+		user-select: none;
+	}
+
+	.lightbox-image {
+		width: min(100%, 1600px);
+		max-width: 100%;
+		max-height: calc(100dvh - 10rem);
+		border-radius: 0.5rem;
+		box-shadow: 0 25px 50px rgb(0 0 0 / 25%);
+		object-fit: contain;
+	}
+
+	.image-lightbox[data-has-multiple] .lightbox-image {
+		max-height: calc(100dvh - 13.75rem);
+		margin-bottom: 3rem;
+	}
+
+	.lightbox-control {
+		position: absolute;
+		z-index: 10;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border: 0;
+		border-radius: 999px;
+		background: rgb(0 0 0 / 65%);
+		color: white;
+		cursor: pointer;
+		box-shadow: 0 10px 15px rgb(0 0 0 / 20%);
+		backdrop-filter: blur(4px);
+		transition: background-color 150ms ease;
+	}
+
+	.lightbox-control:hover {
+		background: rgb(0 0 0 / 80%);
+	}
+
+	.lightbox-control:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+
+	.lightbox-control svg {
+		display: block;
+		width: 28px;
+		height: 28px;
+		flex: none;
+	}
+
+	.lightbox-close {
+		top: 1.5rem;
+		right: 1.5rem;
+		padding: 0.75rem;
+	}
+
+	.lightbox-prev,
+	.lightbox-next {
+		top: 50%;
+		padding: 0.75rem;
+		transform: translateY(-50%);
+	}
+
+	.lightbox-prev {
+		left: 1.5rem;
+	}
+
+	.lightbox-next {
+		right: 1.5rem;
+	}
+
+	.lightbox-counter {
+		position: absolute;
+		bottom: 1rem;
+		left: 50%;
+		margin: 0;
+		padding: 0.25rem 0.75rem;
+		transform: translateX(-50%);
+		border-radius: 999px;
+		background: rgb(0 0 0 / 65%);
+		font-size: 0.875rem;
+	}
+
+	.lightbox-counter:empty {
+		display: none;
+	}
+
+	@media (max-width: 639px) {
+		.lightbox-prev,
+		.lightbox-next {
+			top: auto;
+			bottom: 3rem;
+			padding: 0.5rem 1rem;
+			transform: none;
+		}
+
+		.lightbox-prev {
+			right: auto;
+			left: calc(50% - 5rem);
+		}
+
+		.lightbox-next {
+			right: auto;
+			left: calc(50% + 2rem);
+		}
+
+		.lightbox-prev svg,
+		.lightbox-next svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		.lightbox-counter {
+			bottom: 3rem;
+			padding-block: 0.5rem;
+		}
+	}
+</style>

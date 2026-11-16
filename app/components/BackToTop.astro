@@ -1,0 +1,100 @@
+---
+---
+
+<div
+	data-back-to-top
+	aria-hidden="true"
+	class="back-to-top is-hidden"
+>
+	<button
+		type="button"
+		data-back-to-top-button
+		aria-label="Back to top"
+		title="Back to top"
+		class="back-to-top-button"
+	>
+		<svg
+			width="52"
+			height="52"
+			viewBox="0 0 52 52"
+			class="back-to-top-ring"
+			aria-hidden="true"
+		>
+			<defs>
+				<linearGradient id="back-to-top-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+					<stop offset="0%" stop-color="#7c3aed"></stop>
+					<stop offset="100%" stop-color="#06b6d4"></stop>
+				</linearGradient>
+			</defs>
+			<circle cx="26" cy="26" r="24.25" stroke="rgba(15,23,42,0.06)" stroke-width="3.5" fill="none"></circle>
+			<circle
+				data-back-to-top-progress
+				cx="26"
+				cy="26"
+				r="24.25"
+				stroke="url(#back-to-top-gradient)"
+				stroke-width="3.5"
+				stroke-linecap="round"
+				stroke-dasharray="152.37"
+				stroke-dashoffset="152.37"
+				fill="none"
+				style="transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 200ms linear"
+			></circle>
+		</svg>
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+			<path d="M12 5v14M19 12l-7-7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+		</svg>
+	</button>
+</div>
+
+<script>
+	import "../scripts/back-to-top";
+</script>
+
+<style>
+	.back-to-top {
+		position: fixed;
+		right: 1.5rem;
+		bottom: 1.5rem;
+		z-index: 50;
+		opacity: 0;
+		transition: opacity 200ms ease;
+	}
+
+	.back-to-top.is-visible {
+		opacity: 1;
+	}
+
+	.back-to-top.is-hidden {
+		pointer-events: none;
+	}
+
+	.back-to-top-button {
+		position: relative;
+		display: flex;
+		width: 52px;
+		height: 52px;
+		padding: 6px;
+		align-items: center;
+		justify-content: center;
+		border: 0;
+		border-radius: 50%;
+		background: rgb(255 255 255 / 90%);
+		box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+		backdrop-filter: blur(4px);
+		cursor: pointer;
+	}
+
+	.back-to-top-ring {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.back-to-top-button {
+			background: rgb(0 0 0 / 90%);
+		}
+	}
+</style>

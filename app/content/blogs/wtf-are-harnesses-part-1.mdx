@@ -1,5 +1,17 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import { wtfAreHarnessesToolLoop } from '../assets/images';
+---
+title: "wtf are harnesses: part 1 of building my own"
+description: "A practical introduction to AI harnesses: tools, model loops, gateways, user surfaces, memory, skills, and proactive agents."
+date: "Sep 2026"
+publishedAt: "2026-09-23"
+heroImage: ../assets/images/wtf-are-harnesses-hero.png
+heroImageAspect: "16/9"
+tags: ["Tech", "Workflow"]
+featured: true
+order: 1
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { wtfAreHarnessesToolLoop } from "../assets/images";
 
 I'm trying to build my own harness. Why? Because I can.
 
@@ -11,7 +23,7 @@ The whole reason we talk about harnesses is because of LLMs. LLMs are simple: te
 
 If you just wanna chat, you don't need a "harness". All you need is an LLM in a loop where all previous messages are appended to the prompt before you send the new one.
 
-But, it can't do *meaningful* work for you cuz it has access to no **tools**.
+But, it can't do _meaningful_ work for you cuz it has access to no **tools**.
 
 ## What exactly are tools?
 
@@ -19,7 +31,10 @@ Models are handicapped by themselves. Tools give them superpowers. Tools are the
 
 This is what the tool loop looks like, more or less in all harnesses:
 
-<MDXLightboxImage src={wtfAreHarnessesToolLoop} alt="The tool loop in an AI harness: tool definition, selection, model request, tool call, validation and authorization, execution, and result" />
+<MDXLightboxImage
+  src={wtfAreHarnessesToolLoop}
+  alt="The tool loop in an AI harness: tool definition, selection, model request, tool call, validation and authorization, execution, and result"
+/>
 
 ### Tool Declaration
 
@@ -49,9 +64,7 @@ You send a message like "Read README.md" in your harness and it sends a request 
 
 ```json
 {
-  "messages": [
-    { "role": "user", "content": "Read README.md" }
-  ],
+  "messages": [{ "role": "user", "content": "Read README.md" }],
   "tools": [
     {
       "name": "read",
@@ -102,9 +115,7 @@ The result can look like this:
 {
   "role": "toolResult",
   "toolCallId": "call_123",
-  "content": [
-    { "type": "text", "text": "README contents..." }
-  ]
+  "content": [{ "type": "text", "text": "README contents..." }]
 }
 ```
 

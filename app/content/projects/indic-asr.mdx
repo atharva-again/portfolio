@@ -1,5 +1,23 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import { indicAsrQuantHero } from '../assets/images';
+---
+title: "Indic ASR Quantized"
+description: "Quantized Indic ASR for multiple Indic languages. INT8 quantization for efficient CPU inference."
+year: "Dec 2025"
+heroImage: ../assets/images/indic-asr-quant-hero.png
+tags: ["Python", "ONNX", "ASR"]
+links:
+  - type: repo
+    url: https://git.new/indic-conf-quant
+  - type: huggingface
+    url: https://dub.sh/indic-conf-quant
+  - type: pypi
+    url: https://pypi.org/project/indic-asr-onnx/
+status: archived
+featured: true
+order: 4
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { indicAsrQuantHero } from "../assets/images";
 
 # Why Indic ASR Quantized?
 
@@ -17,6 +35,7 @@ This isn't just a wrapper around an existing quantized model, I actually perform
 # Architecture
 
 ## Quantization Process
+
 1. **Model Selection**: AI4Bharat IndicConformer-600M multilingual model
 2. **Calibration**: Generated calibration dataset for static post-training quantization
 3. **Quantization**: Applied INT8 quantization using ONNX Runtime tools
@@ -24,6 +43,7 @@ This isn't just a wrapper around an existing quantized model, I actually perform
 5. **Packaging**: Created Python package for easy distribution and use
 
 ## Supported Languages
+
 Assamese, Bengali, Bodo, Dogri, Gujarati, Hindi, Kannada, Kashmiri, Konkani, Maithili, Malayalam, Manipuri, Marathi, Nepali, Odia, Punjabi, Sanskrit, Santali, Sindhi, Tamil, Telugu, Urdu
 
 # Problems Faced

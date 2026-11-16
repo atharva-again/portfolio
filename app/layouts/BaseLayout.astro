@@ -1,0 +1,43 @@
+---
+import "../globals.css";
+import "../styles/site.css";
+import { resolvePageMetadata, type PageMetadata } from "../lib/metadata";
+import BackToTop from "../components/BackToTop.astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+
+type Props = {
+	metadata: PageMetadata;
+};
+
+const { metadata } = Astro.props;
+const resolved = resolvePageMetadata(metadata);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#ffffff" />
+		<title>{resolved.title}</title>
+		{
+			resolved.meta.map(({ attribute, key, content }) => (
+				<meta {...{ [attribute]: key }} content={content} />
+			))
+		}
+		{resolved.canonical && <link rel="canonical" href={resolved.canonical} />}
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<Navbar />
+		<slot />
+		<Footer />
+		<BackToTop />
+	</body>
+</html>

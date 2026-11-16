@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentDetail from "../../components/ContentDetail.astro";
+import { getCollection, render } from "astro:content";
+import { getBlogMetadata } from "../../lib/metadata";
+import type { Heading } from "../../lib/content";
+
+export async function getStaticPaths() {
+	const blogs = await getCollection("blogs");
+	return blogs.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content, headings: contentHeadings } = await render(entry);
+const headings: Heading[] = contentHeadings.map((heading) => ({
+	id: heading.slug,
+	text: heading.text,
+	level: heading.depth,
+}));
+const metadata = getBlogMetadata(entry);
+---
+
+<BaseLayout metadata={metadata}>
+	<ContentDetail entry={entry} headings={headings}>
+		<Content />
+	</ContentDetail>
+</BaseLayout>

@@ -13,12 +13,12 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
 # production
+/dist
 /build
+/.astro/
+/public/responsive-images/
+/app/.astro/
 
 # misc
 .DS_Store
@@ -38,7 +38,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # copilot instructions
 copilot-instructions.md
+
+# pi project-local state and packages
+/.pi/

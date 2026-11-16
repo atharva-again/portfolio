@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const metadata = {
+	path: "/contact",
+	title: "Contact - Atharva Verma",
+	description: "Get in touch with Atharva Verma",
+	openGraphType: "website" as const,
+};
+---
+
+<BaseLayout metadata={metadata}>
+	<main class="contact-page">
+		<h1>Contact</h1>
+		<p>
+			You can reach me at
+			<a href="mailto:atharva.verma18@gmail.com">atharva.verma18@gmail.com</a>.
+		</p>
+	</main>
+</BaseLayout>
+
+<style>
+	.contact-page {
+		min-height: 60vh;
+		padding: 2rem;
+	}
+
+	.contact-page h1 {
+		margin: 0;
+		font-size: 1.25rem;
+		font-weight: 600;
+		line-height: 1.4;
+	}
+
+	.contact-page p {
+		margin-top: 0.5rem;
+		color: var(--muted);
+		font-size: 0.875rem;
+		line-height: 1.428571;
+	}
+
+	.contact-page a {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+</style>

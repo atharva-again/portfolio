@@ -1,5 +1,19 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import { coodle1, coodle2 } from '../assets/images';
+---
+title: "Coodle"
+description: "Moodle deadline notification bot that checks for upcoming assignments and sends notifications via Telegram."
+year: "Jan 2026"
+heroImage: ../assets/images/coodle-hero.png
+tags: ["Python", "FastAPI", "HTML", "JavaScript"]
+links:
+  - type: repo
+    url: https://github.com/atharva-again/coodle
+status: active
+featured: false
+order: 7
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { coodle1, coodle2 } from "../assets/images";
 
 # Why Coodle?
 
@@ -17,11 +31,13 @@ Coodle is designed to run continuously with minimal CPU and memory usage. Its ar
 # Architecture
 
 ## Three-Service Architecture
+
 1. **API (FastAPI)**: Serves the web interface and data endpoints
 2. **Worker**: Handles Moodle polling and deadline checking
 3. **Bot**: Manages Telegram interactions and notifications
 
 ## Stack
+
 - **Language**: Python 3.11+
 - **API Framework**: FastAPI with Uvicorn
 - **Bot Framework**: Python Telegram Bot
@@ -29,6 +45,7 @@ Coodle is designed to run continuously with minimal CPU and memory usage. Its ar
 - **Scheduler**: APScheduler for periodic Moodle checks
 
 ## Features
+
 - **Automatic Polling**: Checks Moodle every 6 hours (configurable)
 - **Telegram Notifications**: Instant alerts for upcoming deadlines
 - **Multi-Course Support**: Handles multiple courses across different Moodle instances
@@ -53,7 +70,6 @@ Since building Coodle, I learned:
 
 The bot is fully functional and does what it's supposed to do, but I need to deploy it to a server for continuous operation.
 
-
 # Some Screenshots
 
 ---
@@ -63,7 +79,6 @@ The bot is fully functional and does what it's supposed to do, but I need to dep
 ---
 
 <MDXLightboxImage src={coodle2} alt="Web dashboard for configuring Moodle credentials" />
-
 
 ---
 

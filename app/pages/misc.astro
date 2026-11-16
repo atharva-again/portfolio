@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const metadata = {
+	path: "/misc",
+	title: "Misc - Atharva Verma",
+	description: "Miscellaneous notes, links, and experiments",
+	openGraphType: "website" as const,
+};
+const items = [
+	{
+		id: "notes",
+		title: "Notes",
+		description: "Short notes and snippets that do not belong elsewhere.",
+	},
+	{
+		id: "links",
+		title: "Links",
+		description: "Useful links and references I find interesting.",
+		href: "https://example.com",
+	},
+	{
+		id: "tools",
+		title: "Tools",
+		description: "Small utilities and tools I use or have built.",
+	},
+];
+---
+
+<BaseLayout metadata={metadata}>
+	<main class="page-main">
+		<div class="page-container">
+			<header class="page-header">
+				<h1 class="page-title">Misc</h1>
+				<p class="page-description">
+					A collection of things that do not fit elsewhere. Notes, links, and
+					small experiments.
+				</p>
+			</header>
+			<div class="misc-list">
+				{items.map((item) => (
+					<article class="misc-item">
+						<a
+							href={item.href ?? `/misc/${item.id}`}
+							target={item.href ? "_blank" : undefined}
+							rel={item.href ? "noopener noreferrer" : undefined}
+							class="misc-link"
+						>
+							<h2 class="misc-title">
+								{item.title}{item.href && " ↗"}
+							</h2>
+							<p class="misc-description">{item.description}</p>
+						</a>
+					</article>
+				))}
+			</div>
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.misc-list {
+		display: grid;
+		gap: 3rem;
+	}
+
+	.misc-title {
+		margin: 0;
+		font-size: 1.25rem;
+		font-weight: 500;
+		line-height: 1.4;
+	}
+
+	.misc-description {
+		margin: 0.5rem 0 0;
+		color: var(--muted);
+	}
+
+	.misc-link:hover .misc-title {
+		color: var(--muted);
+	}
+</style>

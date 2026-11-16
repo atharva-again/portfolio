@@ -1,11 +1,27 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import {alertship1, alertship2, alertship3, alertship4} from '../assets/images';
+---
+title: "AlertShip"
+description: "A super app for neighborhoods to get notified about upcoming outages and emergencies."
+year: "Jun 2025"
+heroImage: ../assets/images/alertship-hero.png
+tags: ["Next.js", "TypeScript"]
+links:
+  - type: repo
+    url: https://github.com/atharva-again/alertship
+  - type: demo
+    url: https://alertship.vercel.app/
+status: archived
+featured: false
+order: 9
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { alertship1, alertship2, alertship3, alertship4 } from "../assets/images";
 
 # Problem Statement
 
-Electricity and water outages in local neighborhoods often leave residents 
-uninformed about the situation and recovery efforts. There is a need for a 
-reliable system that allows people to check real-time outages and get timely alerts 
+Electricity and water outages in local neighborhoods often leave residents
+uninformed about the situation and recovery efforts. There is a need for a
+reliable system that allows people to check real-time outages and get timely alerts
 and updates from local authorities.
 
 Moreover, a super app is needed for communities and neighborhoods
@@ -19,7 +35,7 @@ Train) where users could report the outages they are facing and check for
 outage reports submitted by others. I made a web app to demonstrate this idea.
 
 Later, I realized that it is only a matter of time before local authorities
-start sending outage alerts and updates to residents in affected areas. So, I 
+start sending outage alerts and updates to residents in affected areas. So, I
 pivoted the idea to making AlertShip into a super app with all community-related
 information at one place.
 
@@ -29,10 +45,10 @@ for the user's location, but later scrapped it due to time constraints.
 # Features
 
 - Auth using Google or Email/Password
-- Check real-time electricity and water outage information for your area 
-    in a map or list view
+- Check real-time electricity and water outage information for your area
+  in a map or list view
 - Save your frequent addresses like Home, Office, Study for quick access
-    from the user dashboard
+  from the user dashboard
 - Get notified of upcoming scheduled outages in your area
 - Report outages faced by you to help others in your community
 - View outage reports submitted by other users in your area
@@ -51,7 +67,7 @@ The architecture is pretty simple.
 # Learnings
 
 This was my first rode into web dev. I made desings in Figma to imagine how
-the web app would look. Worked with React, Next.js, and Firebase first time 
+the web app would look. Worked with React, Next.js, and Firebase first time
 to make AlertShip a reality.
 
 # Future Vision
@@ -63,10 +79,19 @@ and build it into a full-fledged super app for communities and neighborhoods.
 
 ---
 
-<MDXLightboxImage src={alertship1} alt="An image showing a screenshot of welcome to samvaad screen from the Samvaad CLI." />
----
+<MDXLightboxImage
+  src={alertship1}
+  alt="An image showing a screenshot of welcome to samvaad screen from the Samvaad CLI."
+/>
+
 <MDXLightboxImage src={alertship2} alt="An image showing a screenshot of Samvaad CLI in use." />
----
-<MDXLightboxImage src={alertship3} alt="An image showing a screenshot of Samvaad CLI with a voice conversation." />
----
-<MDXLightboxImage src={alertship4} alt="An image showing a screenshot of Samvaad CLI with a voice conversation." />
+
+<MDXLightboxImage
+  src={alertship3}
+  alt="An image showing a screenshot of Samvaad CLI with a voice conversation."
+/>
+
+<MDXLightboxImage
+  src={alertship4}
+  alt="An image showing a screenshot of Samvaad CLI with a voice conversation."
+/>

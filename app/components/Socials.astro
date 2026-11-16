@@ -1,0 +1,258 @@
+---
+import {
+	githubHero,
+	linkedinHero,
+	mediumHero,
+	xHero,
+} from "../content/assets/images";
+import { CONTACT, type ContactPlatform } from "../lib/contact";
+import type { ImageSource } from "../lib/image";
+import PreviewPopover from "./PreviewPopover.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
+
+type Props = {
+	links?: Partial<typeof CONTACT>;
+	class?: string;
+	iconSize?: number;
+	forceEmailPlacement?: boolean;
+};
+
+const {
+	links = CONTACT,
+	class: className = "",
+	iconSize = 18,
+	forceEmailPlacement = false,
+} = Astro.props;
+
+const icons: Record<ContactPlatform, string> = {
+	github:
+		"M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12",
+	linkedin:
+		"M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z",
+	x: "M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z",
+	medium:
+		"M4.21 0A4.201 4.201 0 0 0 0 4.21v15.58A4.201 4.201 0 0 0 4.21 24h15.58A4.201 4.201 0 0 0 24 19.79v-1.093c-.137.013-.278.02-.422.02-2.577 0-4.027-2.146-4.09-4.832a7.592 7.592 0 0 1 .022-.708c.093-1.186.475-2.241 1.105-3.022a3.885 3.885 0 0 1 1.395-1.1c.468-.237 1.127-.367 1.664-.367h.023c.101 0 .202.004.303.01V4.211A4.201 4.201 0 0 0 19.79 0Zm.198 5.583h4.165l3.588 8.435 3.59-8.435h3.864v.146l-.019.004c-.705.16-1.063.397-1.063 1.254h-.003l.003 10.274c.06.676.424.885 1.063 1.03l.02.004v.145h-4.923v-.145l.019-.005c.639-.144.994-.353 1.054-1.03V7.267l-4.745 11.15h-.261L6.15 7.569v9.445c0 .857.358 1.094 1.063 1.253l.02.004v.147H4.405v-.147l.019-.004c.705-.16 1.065-.397 1.065-1.253V6.987c0-.857-.358-1.094-1.064-1.254l-.018-.004zm19.25 3.668c-1.086.023-1.733 1.323-1.813 3.124H24V9.298a1.378 1.378 0 0 0-.342-.047Zm-1.862 3.632c-.1 1.756.86 3.239 2.204 3.634v-3.634z",
+	email:
+		"M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z",
+};
+
+const viewBoxes: Record<ContactPlatform, string> = {
+	github: "0 0 24 24",
+	linkedin: "0 0 448 512",
+	x: "0 0 24 24",
+	medium: "0 0 24 24",
+	email: "0 0 24 24",
+};
+
+const previewImages: Partial<Record<ContactPlatform, ImageSource>> = {
+	github: githubHero,
+	linkedin: linkedinHero,
+	x: xHero,
+	medium: mediumHero,
+};
+---
+
+<div class:list={["social-links", className]}>
+	{
+		Object.entries(links).map(([platform, data]) => {
+			if (!data) return null;
+			const key = platform as ContactPlatform;
+			const isEmail = data.url.startsWith("mailto:");
+			const email = isEmail ? data.url.replace(/^mailto:/, "") : "";
+			const image = previewImages[key];
+			return (
+				<PreviewPopover
+					class="social-preview-wrapper"
+					placement={isEmail ? "below" : "above,below"}
+					forcePlacement={isEmail && forceEmailPlacement}
+				>
+					<a
+						slot="trigger"
+						href={data.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						title={data.title}
+						aria-label={data.title}
+						class="social-link"
+						data-social-trigger
+					>
+						<svg
+							width={iconSize}
+							height={iconSize}
+							viewBox={viewBoxes[key]}
+							fill="currentColor"
+							aria-hidden="true"
+							focusable="false"
+						>
+							<path d={icons[key]} />
+						</svg>
+					</a>
+					<div slot="preview" class="social-preview-content">
+						{image && (
+							<a
+								href={data.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="social-preview-image"
+								tabindex="-1"
+							>
+								<ResponsiveImage
+									src={image}
+									alt={data.title}
+									loadingIndicator
+									sizes="(min-width: 768px) 240px, 80vw"
+								/>
+							</a>
+						)}
+						<div class="social-preview-body">
+							<a
+								href={data.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="social-preview-description"
+								tabindex="-1"
+							>
+								{data.description}
+							</a>
+							{isEmail && (
+								<div class="social-preview-email-row">
+									<span class="social-preview-email">{email}</span>
+									<button
+										type="button"
+										class="social-preview-copy"
+										data-social-copy={email}
+										aria-label={`Copy email ${email}`}
+										title="Copy email"
+									>
+										<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+											<rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"></rect>
+											<path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="1.8"></path>
+										</svg>
+									</button>
+								</div>
+							)}
+						</div>
+					</div>
+				</PreviewPopover>
+			);
+		})
+	}
+</div>
+
+<script>
+	import "../scripts/social-previews";
+</script>
+
+<style>
+	.social-links {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.social-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem;
+		border-radius: 0.375rem;
+		color: #27272a;
+		transition: background-color 160ms ease;
+	}
+
+	.social-link:hover {
+		background: var(--surface-hover);
+	}
+
+	:global(.social-preview-wrapper) {
+		align-items: center;
+	}
+
+	.social-preview-content {
+		text-align: left;
+	}
+
+	.social-preview-image {
+		position: relative;
+		display: block;
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		overflow: hidden;
+	}
+
+	.social-preview-image :global(img) {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.social-preview-body {
+		padding: 1rem;
+	}
+
+	.social-preview-description,
+	.social-preview-email {
+		display: block;
+		color: #52525b;
+		font-size: 0.75rem;
+		line-height: 1.5;
+	}
+
+	.social-preview-email-row {
+		display: flex;
+		margin-top: 0.5rem;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.social-preview-email {
+		min-width: 0;
+		overflow-wrap: anywhere;
+	}
+
+	.social-preview-copy {
+		display: inline-flex;
+		width: 1.75rem;
+		height: 1.75rem;
+		padding: 0.25rem;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		border: 0;
+		border-radius: 0.25rem;
+		background: transparent;
+		color: #3f3f46;
+		cursor: pointer;
+		transition: background-color 160ms ease;
+	}
+
+	.social-preview-copy:hover {
+		background: #f4f4f5;
+	}
+
+	.social-preview-copy :global(svg) {
+		width: 14px;
+		height: 14px;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.social-link {
+			color: #f4f4f5;
+		}
+
+		.social-preview-description,
+		.social-preview-email {
+			color: #d4d4d8;
+		}
+
+		.social-preview-copy {
+			color: #e4e4e7;
+		}
+
+		.social-preview-copy:hover {
+			background: #27272a;
+		}
+	}
+</style>

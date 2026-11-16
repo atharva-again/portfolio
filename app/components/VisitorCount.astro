@@ -1,0 +1,28 @@
+---
+const code = import.meta.env.PUBLIC_GOATCOUNTER_CODE;
+---
+
+{
+	code && (
+		<div
+			data-visitor-count
+			data-code={code}
+			class="visitor-count"
+			aria-live="polite"
+		/>
+	)
+}
+
+<script>
+	import "../scripts/analytics";
+</script>
+
+<style>
+	.visitor-count {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--subtle);
+		font-size: 0.75rem;
+	}
+</style>

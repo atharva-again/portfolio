@@ -1,14 +1,30 @@
-import { MDXLightboxImage } from '../../components/MDXLightboxImage';
-import {samvaad1, samvaad2, samvaad3} from '../assets/images';
+---
+title: "Samvaad"
+description: "Voice-first learning/information-gathering platform. Allows users to upload their docs and have text or voice conversations with them."
+year: "Sep 2025"
+heroImage: ../assets/images/samvaad-hero.png
+tags: ["ASR", "TTS", "RAG", "Python", "Next.js", "TypeScript"]
+links:
+  - type: repo
+    url: https://git.new/samvaad
+  - type: demo
+    url: https://dub.sh/samvaad
+status: active
+featured: true
+order: 2
+---
+
+import MDXLightboxImage from "../../components/MDXLightboxImage.astro";
+import { samvaad1, samvaad2 } from "../assets/images";
 
 # Problem Statement
 
-We have all been in situations where even after reading and uploading docs 
-to LLMs and querying, some topics just don't click. In that position, we 
+We have all been in situations where even after reading and uploading docs
+to LLMs and querying, some topics just don't click. In that position, we
 often switch to asking friends, colleagues, or peers, who can explain things
 via voice-dialogues, and in our own native language.
 
-However, not everyone has access to such a support system at all times, 
+However, not everyone has access to such a support system at all times,
 and traditional search doesn't fill the gap.
 
 # Solution
@@ -24,18 +40,21 @@ Samvaad stands out with its real-time voice mode, enabling natural conversations
 # Architecture
 
 ## Backend (Python)
+
 - **Framework**: FastAPI (Asynchronous, High Performance)
 - **Database**: PostgreSQL (Supabase) with `pgvector` (Vector similarity search)
 - **Voice Framework**: [Pipecat](https://github.com/pipecat-ai/pipecat) & [Daily](https://www.daily.co/)
 - **AI/LLM**: Groq, Voyage AI (Embeddings), Deepgram (STT/TTS)
 
 ## Frontend (TypeScript)
+
 - **Framework**: Next.js 16 (App Router)
 - **Styling**: Tailwind CSS with a custom "Void" Dark Theme
 - **UI Components**: Shadcn/ui & Framer Motion
-- **Auth**: Supabase 
+- **Auth**: Supabase
 
 ## Key Components
+
 1. **Document Ingestion**: Supports PDF, Docx, Images (OCR) via LlamaParse.
 2. **Intelligent Deduplication**: Content-addressable storage (SHA-256) ensures zero-redundancy.
 3. **Real-Time Voice Mode**: Ultra-low latency using WebRTC (Daily) and Pipecat.
@@ -68,12 +87,15 @@ Since evolving Samvaad into a full-stack platform, I learned:
 ## Long-term Plans
 
 - Expand to mobile apps for Android and iOS.
-- Add cross-chat memories so agents can help you learn how you want. 
+- Add cross-chat memories so agents can help you learn how you want.
 
 # Some Screenshots
 
 ---
 
 <MDXLightboxImage src={samvaad1} alt="An image showing a screenshot of the Samvaad dashboard." />
----
-<MDXLightboxImage src={samvaad2} alt="An image showing a screenshot of document upload and ingestion in Samvaad." />
+
+<MDXLightboxImage
+  src={samvaad2}
+  alt="An image showing a screenshot of document upload and ingestion in Samvaad."
+/>

@@ -1,0 +1,112 @@
+---
+import type { ImageAspect, ImageSource } from "../lib/image";
+import { imageAspectClass } from "../lib/image";
+import PreviewPopover from "./PreviewPopover.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
+
+type Props = {
+	href: string;
+	class?: string;
+	preview?: {
+		title?: string;
+		description?: string;
+		image?: ImageSource;
+		imageAspect?: ImageAspect;
+	};
+};
+
+const { href, class: className, preview } = Astro.props;
+const external = /^https?:\/\//.test(href);
+---
+
+<PreviewPopover interactive={Boolean(preview)}>
+	<a
+		slot="trigger"
+		href={href}
+		class:list={["hover-preview-trigger", className]}
+		target={external ? "_blank" : undefined}
+		rel={external ? "noopener noreferrer" : undefined}
+	>
+		<slot />
+	</a>
+	{preview && (
+		<a
+			slot="preview"
+			href={href}
+			target={external ? "_blank" : undefined}
+			rel={external ? "noopener noreferrer" : undefined}
+			class="hover-preview-card"
+			tabindex="-1"
+		>
+			{preview.image && (
+				<span class:list={["hover-preview-image", imageAspectClass(preview.imageAspect)]}>
+					<ResponsiveImage
+						src={preview.image}
+						alt={preview.title ?? ""}
+						fill
+						loadingIndicator
+						sizes="(min-width: 768px) 240px, 80vw"
+						class="image-cover"
+					/>
+				</span>
+			)}
+			<span class="hover-preview-copy">
+				{preview.title && <span class="hover-preview-title">{preview.title}</span>}
+				{preview.description && (
+					<span class="hover-preview-description">{preview.description}</span>
+				)}
+			</span>
+		</a>
+	)}
+</PreviewPopover>
+
+<style>
+	.pink-sneaker-link {
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+	}
+
+	:global(.mdx-content) .pink-sneaker-link {
+		position: relative;
+	}
+
+	.hover-preview-card {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.hover-preview-image {
+		position: relative;
+		display: block;
+		width: 100%;
+		overflow: hidden;
+	}
+
+	.hover-preview-copy {
+		display: block;
+		padding: 1rem;
+	}
+
+	.hover-preview-title {
+		display: block;
+		font-size: 0.875rem;
+		font-weight: 600;
+		line-height: 1.25;
+	}
+
+	.hover-preview-description {
+		display: block;
+		margin-top: 0.375rem;
+		color: #52525b;
+		font-size: 0.75rem;
+		line-height: 1.5;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.hover-preview-description {
+			color: #d4d4d8;
+		}
+	}
+</style>

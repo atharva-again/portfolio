@@ -1,3 +1,16 @@
+---
+title: "A Beginner's Guide to E2E Testing (Using Playwright)"
+description: "A practical introduction to end-to-end testing with Playwright, including browser coverage, CI speed, isolation, parallelism, and flaky tests."
+date: "Jun 2026"
+heroImage: ../assets/images/playwright-e2e-hero.png
+tags: ["Tech", "Workflow"]
+links:
+  - type: medium
+    url: https://medium.com/@atharva-again/a-beginners-guide-to-e2e-testing-using-playwright-a32ab3cc3bd6
+featured: false
+order: 3
+---
+
 Imagine this: you have a note-taking app with a complex feature set like Markdown rendering, toolbar, slash menu, sharing infrastructure, etc.
 
 You opened and merged a PR that added keyboard shortcuts. You tested it thoroughly yourself and confirmed that the new shortcuts were working. The code made it to production. Now you encounter a weird bug that somehow crept in, and URLs are no longer rendering properly.
@@ -10,7 +23,7 @@ This is where Playwright comes in.
 
 ## What Is E2E Testing?
 
-E2E means end to end. It really is end to end because you are testing *everything*. It might seem like it's only testing the frontend, but it's more like *the frontend testing itself and the backend*, which is a huge gain.
+E2E means end to end. It really is end to end because you are testing _everything_. It might seem like it's only testing the frontend, but it's more like _the frontend testing itself and the backend_, which is a huge gain.
 
 For example, you can have a test which ensures that a new page is always created successfully. Or a test which ensures that when you paste a table, it renders properly.
 
@@ -20,7 +33,7 @@ E2E tests require that you run an actual server, not a mock. That's the whole po
 
 I know, you probably already know this, given that you are reading this and are in the tech space. But I will tell you what my definition of Playwright is.
 
-> *Playwright is a library which standardizes access to browser APIs so you can automate stuff without it being painful.*
+> _Playwright is a library which standardizes access to browser APIs so you can automate stuff without it being painful._
 
 It is by Microsoft, probably the only good thing they have created.
 
@@ -60,7 +73,7 @@ Not just that, some tests failed only in Firefox that never failed in Chrome, an
 
 E2E tests are non-deterministic. I once ran the same test suite, once with one worker and another time with two workers.
 
-> *Workers are basically how many threads are running your tests at the same time. More means faster, but you are competing for resources.*
+> _Workers are basically how many threads are running your tests at the same time. More means faster, but you are competing for resources._
 
 No failures with one worker. Multiple failures with two. The various reasons this could happen:
 
@@ -96,9 +109,9 @@ I personally keep the server the same and isolate the rest too. This maps nicely
 
 I already told you what workers are. But this analogy will help you understand better:
 
-> *Workers: you have multiple test files. Each test file can run in parallel.*
+> _Workers: you have multiple test files. Each test file can run in parallel._
 >
-> *Fully parallel: this is a true/false toggle. If it's true, all the tests inside a test file are also parallel; otherwise, they run sequentially.*
+> _Fully parallel: this is a true/false toggle. If it's true, all the tests inside a test file are also parallel; otherwise, they run sequentially._
 
 However, don't think that you can keep increasing workers and get a linear decrease in job time. It doesn't work like that. Keep in mind that the more workers you have, the more isolated databases and servers you need to maintain, which costs RAM and CPU. If you have fully parallel enabled on top of that, you can do the math for what that means.
 

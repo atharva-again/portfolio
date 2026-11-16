@@ -1,0 +1,235 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ResponsiveImage from "../components/ResponsiveImage.astro";
+import FeaturedContent from "../components/FeaturedContent.astro";
+import Socials from "../components/Socials.astro";
+import { CONTACT } from "../lib/contact";
+import { getBlogs, getProjects } from "../lib/content";
+import { sendkit } from "../content/assets/images";
+
+const [projects, blogs] = await Promise.all([getProjects(), getBlogs()]);
+const featuredBlogs = blogs.filter((blog) => blog.data.featured);
+const metadata = {
+	path: "/",
+	title: "Atharva Verma | Software Engineer",
+	description: "Software engineer and builder",
+	openGraphType: "website" as const,
+};
+---
+
+<BaseLayout metadata={metadata}>
+	<main class="page-main home-page">
+		<div class="home-container">
+			<section class="home-intro">
+				<h1 class="home-title">Atharva Verma</h1>
+				<p class="home-bio">
+					I am a product-first developer. What that means is in order for me to
+					commit to a project, it needs to have some kind of inherent coolness.
+					<br /><br />
+					Beyond the tech side of things, I love and advocate for good public
+					transport. I think for any city, public transport and infra is crucial.
+					My other interests are modern cinema, hip-hop and electronic music.
+				</p>
+				<div class="home-socials">
+					<Socials links={CONTACT} iconSize={18} />
+				</div>
+			</section>
+
+			<section id="work" class="home-section work-section">
+				<div class="section-heading">
+					<h2 class="work-heading">work work work work work work</h2>
+				</div>
+				<a
+					href="https://sendkit.ai"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="work-link"
+				>
+					<div class="work-image">
+						<ResponsiveImage
+							src={sendkit}
+							alt="SendKit"
+							fill
+							sizes="(min-width: 768px) 6rem, 100vw"
+							class="image-cover"
+						/>
+					</div>
+					<div class="work-copy">
+						<div class="work-copy-heading">
+							<span>
+								Product Eng Intern, <b>SendKit</b>
+							</span>
+							<span class="work-date">
+								Jun 2026 - Sep 2026
+							</span>
+						</div>
+						<p>
+							Built product observability with self-hosted SigNoz while improving
+							the experience for people through dark mode, responsive mobile
+							support, and user-requested features—and for AI agents through MCP
+							tools and more capable APIs.
+						</p>
+					</div>
+				</a>
+			</section>
+
+			<section class="home-section">
+				<div class="section-heading">
+					<h2>Selected Projects</h2>
+					<a href="/projects" class="section-link">View all →</a>
+				</div>
+				<FeaturedContent entries={projects.filter((project) => project.data.featured)} />
+			</section>
+
+			<section class="home-section">
+				<div class="section-heading">
+					<h2>Featured Writing</h2>
+					<a href="/blogs" class="section-link">View all →</a>
+				</div>
+				<FeaturedContent entries={featuredBlogs} />
+			</section>
+
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.home-container {
+		width: 100%;
+		max-width: 56rem;
+		margin: auto;
+		padding: 4rem 1.5rem;
+	}
+
+	.home-intro {
+		margin-bottom: 3rem;
+	}
+
+	.home-title {
+		margin: 0 0 1.5rem;
+		font-size: 3rem;
+		line-height: 1;
+		letter-spacing: -0.025em;
+	}
+
+	.home-bio {
+		max-width: 42rem;
+		margin: 0;
+		color: var(--muted);
+		font-size: 1.25rem;
+		line-height: 1.625;
+	}
+
+	.home-socials {
+		margin-top: 1.5rem;
+	}
+
+	.home-section {
+		margin-bottom: 6rem;
+	}
+
+	.home-section:last-child {
+		margin-bottom: 0;
+	}
+
+	.work-section {
+		margin-bottom: 4rem;
+	}
+
+	.work-section .section-heading {
+		margin-bottom: 1rem;
+	}
+
+	.section-heading {
+		display: flex;
+		margin-bottom: 2rem;
+		align-items: baseline;
+		justify-content: space-between;
+	}
+
+	.section-heading h2 {
+		margin: 0;
+		font-size: 1.5rem;
+		font-weight: 600;
+		line-height: 1.333333;
+	}
+
+	.section-link {
+		color: var(--muted);
+		font-size: 0.875rem;
+		line-height: 1.428571;
+		transition: color 160ms ease;
+	}
+
+	.section-link:hover {
+		color: var(--hover-solid);
+	}
+
+	.work-heading {
+		margin: 0 0 1rem;
+		font-size: 1.5rem;
+		font-weight: 600;
+		line-height: 1.333333;
+	}
+
+	.work-link {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.work-image {
+		position: relative;
+		width: 6rem;
+		aspect-ratio: 3 / 2;
+		flex: none;
+		overflow: hidden;
+		border-radius: 0.5rem;
+	}
+
+	.work-copy {
+		width: 100%;
+		flex: 1;
+		margin-top: 0;
+	}
+
+	.work-copy-heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		font-size: 1.125rem;
+		line-height: 1.555556;
+	}
+
+	.work-link:hover .work-copy-heading > span:first-child {
+		color: var(--hover-muted);
+	}
+
+	.work-date {
+		flex: none;
+		color: var(--subtle);
+		font-size: 0.875rem;
+		line-height: 1.428571;
+	}
+
+	.work-copy p {
+		margin: 0.25rem 0 0;
+		color: var(--muted);
+		line-height: 1.5;
+	}
+
+	@media (max-width: 767px) {
+		.work-link {
+			flex-direction: column;
+		}
+
+		.work-image {
+			width: 100%;
+		}
+
+		.work-copy {
+			margin-top: 0.5rem;
+		}
+	}
+</style>

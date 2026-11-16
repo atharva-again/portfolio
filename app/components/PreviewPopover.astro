@@ -1,0 +1,76 @@
+---
+type Props = {
+	class?: string;
+	placement?: "above,below" | "below";
+	forcePlacement?: boolean;
+	interactive?: boolean;
+};
+
+const {
+	class: className,
+	placement = "above,below",
+	forcePlacement = false,
+	interactive = true,
+} = Astro.props;
+---
+
+<span
+	class:list={["preview-wrapper", className]}
+	data-preview-wrapper={interactive ? true : undefined}
+	data-preview-placement={placement}
+	data-preview-force-placement={forcePlacement ? "true" : "false"}
+>
+	<slot name="trigger" />
+	{
+		interactive && (
+			<template data-preview-template>
+				<div class="preview-panel" data-preview-panel aria-hidden="true" hidden>
+					<slot name="preview" />
+				</div>
+			</template>
+		)
+	}
+</span>
+
+<script>
+	import "../scripts/preview-interactions";
+</script>
+
+<style is:global>
+	.preview-wrapper {
+		position: relative;
+		display: inline-flex;
+		align-items: baseline;
+	}
+
+	.preview-wrapper.is-active {
+		cursor: none;
+	}
+
+	.preview-panel[hidden] {
+		display: none;
+	}
+
+	.preview-panel {
+		position: fixed;
+		z-index: 40;
+		width: min(15rem, 80vw);
+		overflow: hidden;
+		border: 1px solid rgb(228 228 231 / 80%);
+		border-radius: 1rem;
+		background: rgb(255 255 255 / 80%);
+		box-shadow: 0 10px 15px rgb(0 0 0 / 10%);
+		color: var(--foreground);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		outline: 1px solid rgb(0 0 0 / 5%);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.preview-panel {
+			border-color: rgb(63 63 70 / 60%);
+			background: rgb(0 0 0 / 70%);
+			outline-color: rgb(255 255 255 / 10%);
+		}
+	}
+</style>
